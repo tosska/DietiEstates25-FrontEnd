@@ -1,1 +1,28 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'ngx-toastr/toastr';
+
+.toast-success {
+  @apply bg-teal-500;
+}
+.toast-error {
+  background-color: #BD362F;
+}
+.toast-info {
+  background-color: #2F96B4;
+}
+.toast-warning {
+  background-color: #F89406;
+}
+
+a.link {
+  @apply underline text-teal-600 dark:text-teal-400 hover:text-teal-700 visited:text-teal-800 dark:visited:text-amber-400
+}
+
+.form-error{
+  @apply text-red-600 dark:text-red-400 text-sm pt-2;
+}
+

@@ -1,0 +1,48 @@
+<nav class="bg-[#8BC34A] border-b-2 border-[#4CAF50] dark:bg-[#1E1E1E] p-4 shadow-md transition-shadow duration-300">
+  <div class="container mx-auto flex justify-between flex-wrap items-center">
+    <a routerLink="/home" class="flex items-center space-x-3 rtl:space-x-reverse flex-grow">
+      <span class="self-center text-xl font-bold whitespace-nowrap text-[#1B1B1B] dark:text-[#A5D6A7]">DietiEstates</span>
+    </a>
+
+    <dark-mode-toggle class="md:order-1 md:pl-4" />
+
+    <button (click)="toggle()" type="button"
+      class="inline-flex items-center p-1 w-7 h-7 justify-center text-sm text-[#2E7D32] dark:text-[#A5D6A7] rounded-lg md:hidden hover:bg-[#A5D6A7]/20 focus:outline-none focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] mx-2"
+      aria-controls="navbar-default" aria-expanded="false">
+      <span class="sr-only">Open main menu</span>
+      <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M1 1h15M1 7h15M1 13h15" />
+      </svg>
+    </button>
+
+    <div class="{{isOpen ? 'block' : 'hidden'}} w-full md:block md:w-auto" id="navbar-default">
+      <ul
+        class="font-semibold flex flex-col p-4 md:p-0 mt-4 border border-[#A5D6A7] rounded-lg bg-[#F3F3F3] md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-transparent dark:bg-[#121212] md:dark:bg-transparent dark:border-[#66BB6A]">
+        
+        <li>
+          <a (click)="handleNavigationClick()" routerLink="/home" routerLinkActive="text-[#2E7D32] dark:text-[#66BB6A]"
+            class="block py-2 px-3 text-[#1B1B1B] dark:text-[#F1F1F1] rounded md:bg-transparent hover:text-[#2E7D32] dark:hover:text-[#66BB6A] md:p-0">Home</a>
+        </li>
+
+        @if(! this.authService.isUserAuthenticated()) {
+          <li>
+            <a (click)="handleNavigationClick()" routerLink="/login" routerLinkActive="text-[#2E7D32] dark:text-[#66BB6A]"
+              class="block py-2 px-3 text-[#1B1B1B] dark:text-[#F1F1F1] rounded hover:text-[#2E7D32] dark:hover:text-[#66BB6A] md:p-0">Login</a>
+          </li>
+          <li>
+            <a (click)="handleNavigationClick()" routerLink="/signup" routerLinkActive="text-[#2E7D32] dark:text-[#66BB6A]"
+              class="block py-2 px-3 text-[#1B1B1B] dark:text-[#F1F1F1] rounded hover:text-[#2E7D32] dark:hover:text-[#66BB6A] md:p-0">Sign up</a>
+          </li>
+        } @else {
+          <li>
+            <a (click)="handleNavigationClick()" routerLink="/logout" routerLinkActive="text-[#2E7D32] dark:text-[#66BB6A]"
+              class="block py-2 px-3 text-[#1B1B1B] dark:text-[#F1F1F1] rounded hover:text-[#2E7D32] dark:hover:text-[#66BB6A] md:p-0">
+              Welcome, {{ this.authService.user() }} (log out)
+            </a>
+          </li>
+        }
+      </ul>
+    </div>
+  </div>
+</nav>

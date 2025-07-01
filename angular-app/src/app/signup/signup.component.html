@@ -1,0 +1,97 @@
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-white dark:bg-[#121212]">
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-[#1B1B1B] dark:text-[#F1F1F1]">
+      Create a new account
+    </h2>
+  </div>
+
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <form class="space-y-6" [formGroup]="signupForm" (ngSubmit)="handleSignup()">
+      <!-- Name -->
+      <div>
+        <label for="name" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Name</label>
+        <div class="mt-2">
+          <input id="name" type="text" formControlName="name" placeholder="Your name"
+            class="block w-full rounded-md border-0 py-1.5 bg-white dark:bg-[#1E1E1E] text-[#1B1B1B] dark:text-[#F1F1F1] shadow-sm ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A] placeholder:text-gray-400 focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] sm:text-sm sm:leading-6">
+          @if(submitted && signupForm.controls.name.errors){
+            @if(signupForm.controls.name.errors['required']){
+              <p class="form-error dark:text-red-300">Name is required.</p>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Surname -->
+      <div>
+        <label for="surname" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Surname</label>
+        <div class="mt-2">
+          <input id="surname" type="text" formControlName="surname" placeholder="Your surname"
+            class="block w-full rounded-md border-0 py-1.5 bg-white dark:bg-[#1E1E1E] text-[#1B1B1B] dark:text-[#F1F1F1] shadow-sm ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A] placeholder:text-gray-400 focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] sm:text-sm sm:leading-6">
+          @if(submitted && signupForm.controls.surname.errors){
+            @if(signupForm.controls.surname.errors['required']){
+              <p class="form-error dark:text-red-300">Surname is required.</p>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div>
+        <label for="phone" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Phone</label>
+        <div class="mt-2">
+          <input id="phone" type="tel" formControlName="phone" placeholder="+39 123 456 7890"
+            class="block w-full rounded-md border-0 py-1.5 bg-white dark:bg-[#1E1E1E] text-[#1B1B1B] dark:text-[#F1F1F1] shadow-sm ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A] placeholder:text-gray-400 focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] sm:text-sm sm:leading-6">
+          @if(submitted && signupForm.controls.phone.errors){
+            @if(signupForm.controls.phone.errors['required']){
+              <p class="form-error dark:text-red-300">Phone number is required.</p>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Username -->
+      <div>
+        <label for="user" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Username</label>
+        <div class="mt-2">
+          <input type="text" formControlName="user" id="user" placeholder="Your username"
+            class="block w-full rounded-md border-0 py-1.5 text-[#1B1B1B] dark:text-[#F1F1F1] bg-white dark:bg-[#1E1E1E] shadow-sm ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A] placeholder:text-gray-400 focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] sm:text-sm sm:leading-6">
+          @if(submitted && signupForm.controls.user.errors){
+            @if(signupForm.controls.user.errors['required']){
+              <p class="form-error dark:text-red-300">Username is required.</p>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div>
+        <label for="password" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Password</label>
+        <div class="mt-2">
+          <input type="password" formControlName="pass" id="pass" placeholder="••••••••"
+            class="block w-full rounded-md border-0 py-1.5 text-[#1B1B1B] dark:text-[#F1F1F1] bg-white dark:bg-[#1E1E1E] shadow-sm ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A] placeholder:text-gray-400 focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] sm:text-sm sm:leading-6">
+          @if(submitted && signupForm.controls.pass.errors){
+            @if(signupForm.controls.pass.errors['required']){
+              <p class="form-error dark:text-red-300">Password is required.</p>
+            }
+            @if(signupForm.controls.pass.errors['minlength']){
+              <p class="form-error dark:text-red-300">Password should contain at least 4 characters</p>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Submit button -->
+      <div>
+        <button type="submit"
+          class="flex w-full justify-center rounded-md bg-[#4CAF50] dark:bg-[#66BB6A] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#2E7D32] dark:hover:bg-[#388E3C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2E7D32] dark:focus-visible:outline-[#388E3C]">
+          Sign up
+        </button>
+      </div>
+    </form>
+
+    <p class="mt-10 text-center text-sm text-[#2E7D32] dark:text-[#A5D6A7]">
+      Already have an account?
+      <a routerLink="/login" class="hover:underline hover:text-[#4CAF50] dark:hover:text-[#81C784] font-semibold">Login</a>
+    </p>
+  </div>
+</div>
