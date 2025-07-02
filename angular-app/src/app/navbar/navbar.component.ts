@@ -12,6 +12,11 @@ import { AuthService } from '../_services/auth/auth.service';
 })
 export class NavbarComponent {
 
+  // navbar.component.ts
+  ngOnInit() {
+    console.log('Navbar init, isAuthenticated:', this.authService.isUserAuthenticated());
+  }
+  
   isOpen = false; //determines whether the mobile navbar is toggled or not
   isDropdownOpen = false;
   
