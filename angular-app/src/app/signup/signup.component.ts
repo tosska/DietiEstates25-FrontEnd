@@ -37,8 +37,8 @@ export class SignupComponent {
       this.toastr.error("The data you provided is invalid!", "Oops! Invalid data!");
     } else {
       this.restService.signup({
-        usr: this.signupForm.value.user as string,
-        pwd: this.signupForm.value.pass as string,
+        email: this.signupForm.value.user as string,
+        password: this.signupForm.value.pass as string,
         name: this.signupForm.value.name as string,
         surname: this.signupForm.value.surname as string,
         phone: this.signupForm.value.phone as string
