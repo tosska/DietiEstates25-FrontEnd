@@ -1,0 +1,32 @@
+<form class="max-w-4xl mx-auto bg-white p-6 rounded shadow flex flex-col md:flex-row gap-4">
+  <input
+    type="text"
+    placeholder="Inserisci città o zona"
+    class="flex-grow border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+  />
+
+  <button (click)="openFilters()" class="bg-white underline hover:text-green-900">Filtri</button>
+
+  <select
+    class="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+  >
+    <option value="">Tipo di immobile</option>
+    <option value="appartamento">Appartamento</option>
+    <option value="villa">Villa</option>
+    <option value="monolocale">Monolocale</option>
+  </select>
+  <button
+    type="submit"
+    class="bg-green-600 text-white font-bold px-6 py-2 rounded hover:bg-green-700 transition"
+  >
+    Cerca
+  </button>
+</form>
+
+
+  <!-- Filter Modal -->
+  <app-filter-modal
+  *ngIf="isFilterModalOpen"
+  (close)="closeFilters()"
+  (applyFilters)="handleApplyFilters($event)">
+</app-filter-modal>

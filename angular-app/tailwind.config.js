@@ -6,7 +6,9 @@ module.exports = {
     "./src/index.{html,ts}"
   ],
   theme: {
-    extend: {},
+    extend: { backgroundImage: {
+        'forest': "url('/assets/BackgroundForest.jpg')",},
+    }
   },
   plugins: [
     require('@tailwindcss/forms'),
