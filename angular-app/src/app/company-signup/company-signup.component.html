@@ -1,0 +1,138 @@
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-white dark:bg-[#121212]">
+  <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+    <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-[#1B1B1B] dark:text-[#F1F1F1]">
+      Register Company
+    </h2>
+  </div>
+
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+    <form class="space-y-6" [formGroup]="signupForm" (ngSubmit)="handleSignup()">
+      <!-- Email -->
+      <div>
+        <label for="email" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Email</label>
+        <div class="mt-2">
+          <input id="email" type="email" formControlName="email" placeholder="Your Email"
+            class="block w-full rounded-md border-0 py-1.5 bg-white dark:bg-[#1E1E1E] text-[#1B1B1B] dark:text-[#F1F1F1] shadow-sm ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A] placeholder:text-gray-400 focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] sm:text-sm sm:leading-6">
+          @if (submitted && signupForm.controls.email.errors) {
+            @if (signupForm.controls.email.errors['required']) {
+              <p class="form-error dark:text-red-300">Email is required.</p>
+            }
+            @if (signupForm.controls.email.errors['email']) {
+              <p class="form-error dark:text-red-300">A valid email is required.</p>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div>
+        <label for="password" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Password</label>
+        <div class="mt-2">
+          <input id="password" type="password" formControlName="password" placeholder="••••••••"
+            class="block w-full rounded-md border-0 py-1.5 bg-white dark:bg-[#1E1E1E] text-[#1B1B1B] dark:text-[#F1F1F1] shadow-sm ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A] placeholder:text-gray-400 focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] sm:text-sm sm:leading-6">
+          @if (submitted && signupForm.controls.password.errors) {
+            @if (signupForm.controls.password.errors['required']) {
+              <p class="form-error dark:text-red-300">Password is required.</p>
+            }
+            @if (signupForm.controls.password.errors['minlength']) {
+              <p class="form-error dark:text-red-300">Password should contain at least 4 characters.</p>
+            }
+            @if (signupForm.controls.password.errors['maxlength']) {
+              <p class="form-error dark:text-red-300">Password should not exceed 16 characters.</p>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div>
+        <label for="phone" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Phone</label>
+        <div class="mt-2">
+          <input id="phone" type="tel" formControlName="phone" placeholder="+39 123 456 7890"
+            class="block w-full rounded-md border-0 py-1.5 bg-white dark:bg-[#1E1E1E] text-[#1B1B1B] dark:text-[#F1F1F1] shadow-sm ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A] placeholder:text-gray-400 focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] sm:text-sm sm:leading-6">
+          @if (submitted && signupForm.controls.phone.errors) {
+            @if (signupForm.controls.phone.errors['required']) {
+              <p class="form-error dark:text-red-300">Phone number is required.</p>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div>
+        <label for="description" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Description</label>
+        <div class="mt-2">
+          <textarea id="description" formControlName="description" placeholder="Company description"
+            class="block w-full rounded-md border-0 py-1.5 bg-white dark:bg-[#1E1E1E] text-[#1B1B1B] dark:text-[#F1F1F1] shadow-sm ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A] placeholder:text-gray-400 focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] sm:text-sm sm:leading-6"></textarea>
+          @if (submitted && signupForm.controls.description.errors) {
+            @if (signupForm.controls.description.errors['required']) {
+              <p class="form-error dark:text-red-300">Description is required.</p>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- VAT Number -->
+      <div>
+        <label for="vatNumber" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">VAT Number</label>
+        <div class="mt-2">
+          <input id="vatNumber" type="text" formControlName="vatNumber" placeholder="e.g., IT12345678901"
+            class="block w-full rounded-md border-0 py-1.5 bg-white dark:bg-[#1E1E1E] text-[#1B1B1B] dark:text-[#F1F1F1] shadow-sm ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A] placeholder:text-gray-400 focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] sm:text-sm sm:leading-6">
+        </div>
+      </div>
+
+      <!-- Website -->
+      <div>
+        <label for="website" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Website</label>
+        <div class="mt-2">
+          <input id="website" type="text" formControlName="website" placeholder="e.g., http://example.com"
+            class="block w-full rounded-md border-0 py-1.5 bg-white dark:bg-[#1E1E1E] text-[#1B1B1B] dark:text-[#F1F1F1] shadow-sm ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A] placeholder:text-gray-400 focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] sm:text-sm sm:leading-6">
+        </div>
+      </div>
+
+      <!-- Manager Admin ID -->
+      <div>
+        <label for="managerAdminId" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Manager Admin ID</label>
+        <div class="mt-2">
+          <input id="managerAdminId" type="number" formControlName="managerAdminId" placeholder="e.g., 1"
+            class="block w-full rounded-md border-0 py-1.5 bg-white dark:bg-[#1E1E1E] text-[#1B1B1B] dark:text-[#F1F1F1] shadow-sm ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A] placeholder:text-gray-400 focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] sm:text-sm sm:leading-6">
+          @if (submitted && signupForm.controls.managerAdminId.errors) {
+            @if (signupForm.controls.managerAdminId.errors['required']) {
+              <p class="form-error dark:text-red-300">Manager Admin ID is required.</p>
+            }
+            @if (signupForm.controls.managerAdminId.errors['min']) {
+              <p class="form-error dark:text-red-300">Manager Admin ID must be at least 1.</p>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Address ID -->
+      <div>
+        <label for="addressId" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Address ID</label>
+        <div class="mt-2">
+          <input id="addressId" type="number" formControlName="addressId" placeholder="e.g., 1"
+            class="block w-full rounded-md border-0 py-1.5 bg-white dark:bg-[#1E1E1E] text-[#1B1B1B] dark:text-[#F1F1F1] shadow-sm ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A] placeholder:text-gray-400 focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] sm:text-sm sm:leading-6">
+          @if (submitted && signupForm.controls.addressId.errors) {
+            @if (signupForm.controls.addressId.errors['required']) {
+              <p class="form-error dark:text-red-300">Address ID is required.</p>
+            }
+            @if (signupForm.controls.addressId.errors['min']) {
+              <p class="form-error dark:text-red-300">Address ID must be at least 1.</p>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Submit button -->
+      <div>
+        <button type="submit"
+          class="flex w-full justify-center rounded-md bg-[#4CAF50] dark:bg-[#66BB6A] px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#2E7D32] dark:hover:bg-[#388E3C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2E7D32] dark:focus-visible:outline-[#388E3C]">
+          Register
+        </button>
+      </div>
+    </form>
+
+    
+  </div>
+</div>

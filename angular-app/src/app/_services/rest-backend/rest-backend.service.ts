@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
   import { Observable } from 'rxjs';
   import { map, catchError } from 'rxjs/operators';
   import { throwError } from 'rxjs';
+import { AgencySignupRequest } from './agency-signup-request.type';
 
   @Injectable({
     providedIn: 'root'
@@ -46,5 +47,11 @@ import { Injectable } from '@angular/core';
           return throwError(() => new Error(error.message || 'Errore nella richiesta di signup'));
         })
       );
+    }
+
+    signupCompany(companySignupRequest: AgencySignupRequest): Observable<any> {
+      const url = `${this.url}/signup/company`; // Per le aziende
+      console.log('Signup request (company):', companySignupRequest);
+      return this.http.post<any>(url, companySignupRequest, this.httpOptions);
     }
   }
