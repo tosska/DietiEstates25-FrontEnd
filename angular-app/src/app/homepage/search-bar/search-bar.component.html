@@ -1,32 +1,39 @@
-<form class="max-w-4xl mx-auto bg-white p-6 rounded shadow flex flex-col md:flex-row gap-4">
+<form
+  class="w-full bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg flex flex-col sm:flex-row gap-4 ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A]"
+  
+>
   <input
     type="text"
-    placeholder="Inserisci città o zona"
-    class="flex-grow border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+    placeholder="Dove vuoi cercare? (es. città, zona)"
+    class="flex-grow rounded-full px-4 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A] placeholder:text-gray-400 focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] text-sm leading-6"
   />
-
-  <button (click)="openFilters()" class="bg-white underline hover:text-green-900">Filtri</button>
-
   <select
-    class="border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+    class="w-full sm:w-40 rounded-full px-4 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A] placeholder:text-gray-400 focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] text-sm leading-6"
   >
-    <option value="">Tipo di immobile</option>
+    <option value="">Tipo immobile</option>
     <option value="appartamento">Appartamento</option>
     <option value="villa">Villa</option>
     <option value="monolocale">Monolocale</option>
   </select>
   <button
+    type="button"
+    (click)="openFilters()"
+    class="w-full sm:w-auto bg-[#4CAF50] dark:bg-[#66BB6A] text-white font-semibold px-4 py-2 rounded-full hover:bg-[#2E7D32] dark:hover:bg-[#388E3C] focus:outline-none focus:ring-2 focus:ring-[#2E7D32] dark:focus:ring-[#388E3C] transition"
+  >
+    Filtri
+  </button>
+  <button
     type="submit"
-    class="bg-green-600 text-white font-bold px-6 py-2 rounded hover:bg-green-700 transition"
+    class="w-full sm:w-auto bg-[#4CAF50] dark:bg-[#66BB6A] text-white font-bold px-6 py-2 rounded-full hover:bg-[#2E7D32] dark:hover:bg-[#388E3C] focus:outline-none focus:ring-2 focus:ring-[#2E7D32] dark:focus:ring-[#388E3C] transition"
   >
     Cerca
   </button>
 </form>
 
-
-  <!-- Filter Modal -->
-  <app-filter-modal
+<!-- Filter Modal (placeholder) -->
+<app-filter-modal
   *ngIf="isFilterModalOpen"
   (close)="closeFilters()"
-  (applyFilters)="handleApplyFilters($event)">
-</app-filter-modal>
+  (applyFilters)="handleApplyFilters($event)"
+  class="bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+></app-filter-modal>

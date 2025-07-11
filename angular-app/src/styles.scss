@@ -26,3 +26,10 @@ a.link {
   @apply text-red-600 dark:text-red-400 text-sm pt-2;
 }
 
+
+@layer utilities {
+  .shadow-white {
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5);
+  }
+}
+

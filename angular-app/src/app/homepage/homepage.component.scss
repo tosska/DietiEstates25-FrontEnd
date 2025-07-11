@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+section {
+  position: relative;
+  width: 100vw;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+section .absolute {
+  @apply absolute inset-0 bg-forest bg-cover bg-center z-0 opacity-50;
+}
+
+h1,
+app-search-bar {
+  @apply shadow-md;
+}
+
+.dark h1,
+.dark app-search-bar {
+  @apply shadow-white;
+}
