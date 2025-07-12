@@ -41,6 +41,7 @@ import { Component, inject } from '@angular/core';
             console.log('Token ricevuto:', token);
             this.authService.updateToken(token);
             this.toastr.success(`Succesfully logged in`, `Welcome ${this.loginForm.value.user}!`);
+            this.router.navigate(['/homepage']);
           },
           error: (err) => {
             console.error('Errore login:', err);
