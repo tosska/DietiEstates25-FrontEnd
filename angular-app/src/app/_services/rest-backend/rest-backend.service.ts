@@ -50,10 +50,19 @@ export class RestBackendService {
     );
   }
 
-  signupCompany(companySignupRequest: AgencySignupRequest): Observable<any> {
-    const url = `${this.authServiceUrl}/signup/company`; 
-    console.log('Signup request (company):', companySignupRequest);
-    return this.http.post<any>(url, companySignupRequest, this.httpOptions);
+  registerAgency(data: any): Observable<any> { 
+    const url = `${this.authServiceUrl}/register/agency`;
+    console.log('Invio dati registrazione agenzia:', data);
+    return this.http.post<any>(url, data, this.httpOptions).pipe(
+      map((response) => {
+        console.log('Risposta registrazione agenzia:', response);
+        return response;
+      }),
+      catchError((error) => {
+        console.error('Errore registrazione agenzia:', error);
+        return throwError(() => new Error(error.message || 'Errore nella registrazione'));
+      })
+    );
   }
 
   getCustomerById(userId: string): Observable<any> {

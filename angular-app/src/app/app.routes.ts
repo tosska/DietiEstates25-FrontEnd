@@ -3,7 +3,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { LogoutComponent } from './logout/logout.component';
 import { HomepageComponent } from './homepage/homepage.component';
-import { CompanySignupComponent } from './company-signup/company-signup.component';
+import { SignupAgencyComponent } from './signup-agency/signup-agency.component';
 
 export const routes: Routes = [
     {
@@ -16,7 +16,7 @@ export const routes: Routes = [
         title: "Sign up | DietiEstates Angular App"
     }, {
         path: "signup-agency",
-        component: CompanySignupComponent,
+        component: SignupAgencyComponent,
         title: "Sign up - Agency | DietiEstates Angular App"
     }, {
         path: "logout",

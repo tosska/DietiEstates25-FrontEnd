@@ -11,10 +11,6 @@ section {
   margin-right: -50vw;
 }
 
-section .absolute {
-  @apply absolute inset-0 bg-forest bg-cover bg-center z-0 opacity-50;
-}
-
 h1,
 app-search-bar {
   @apply shadow-md;
