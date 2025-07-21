@@ -1,17 +1,38 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FilterModalComponent } from '../filter-modal/filter-modal.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { GeoMapComponent } from '../../geo-map/geo-map.component';
+import { GeocoderAutocomplete } from '@geoapify/geocoder-autocomplete';
+import { GeoService } from '../../_services/geo-service/geo.service';
 
 @Component({
   selector: 'app-search-bar',
   standalone: true,
-  imports: [FilterModalComponent, FormsModule, CommonModule],
+  imports: [FilterModalComponent, FormsModule, CommonModule, ReactiveFormsModule, GeoMapComponent],
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.scss'
 })
 export class SearchBarComponent {
+
+  
   isFilterModalOpen = false;
+  isGeoModalOpen = false;
+  dropdownVisible = false;
+  geoService = inject(GeoService);
+
+  suggestions: string[] = [];
+  dropdownVisibleSuggestions = false;
+
+  constructor() { }
+
+  onInput(event: any) {
+    this.geoService.fetchSuggestions(event.target.value).subscribe( {       
+      next: (suggestions) => {
+        this.suggestions = suggestions as string[];  
+        this.dropdownVisibleSuggestions = true;
+      }})
+  }
 
   openFilters() {
     console.log('Apro il modal');
@@ -25,6 +46,24 @@ export class SearchBarComponent {
   handleApplyFilters(filters: any) {
     console.log('Filtri ricevuti dal modal:', filters);
     this.closeFilters();
-    // Puoi inviarli al genitore, fare fetch, ecc.
+
   }
+
+  hideDropdownWithDelay() {
+    setTimeout(() => {
+      this.dropdownVisible = false;
+    }, 200); // evita che il blur chiuda prima del click sul bottone
+  }
+
+  onMapSearchClick() {
+    console.log('Apertura mappa interattiva...');
+    this.dropdownVisible = false;
+    this.isGeoModalOpen = true;
+  }
+
+  closeMap() {
+    this.isGeoModalOpen = false;
+  }
+
+
 }

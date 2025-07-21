@@ -4,6 +4,8 @@ import { SignupComponent } from './signup/signup.component';
 import { LogoutComponent } from './logout/logout.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { SignupAgencyComponent } from './signup-agency/signup-agency.component';
+import { ListingsPageComponent } from './listings-page/listings-page.component';
+import { GeoMapComponent } from './geo-map/geo-map.component';
 
 export const routes: Routes = [
     {
@@ -30,6 +32,13 @@ export const routes: Routes = [
         path: "homepage",
         component: HomepageComponent,
         title: "Homepage | DietiEstates Angular App"
+    }, {
+        path: "listings-page",
+        component: ListingsPageComponent,
+        title: "Listing"
+    },  {
+        path: "geo-map",
+        component: GeoMapComponent,
+        title: "Geo Map | DietiEstates Angular App"
     }
-
 ];

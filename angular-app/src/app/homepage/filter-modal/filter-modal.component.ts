@@ -1,52 +1,51 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { SearchBackendService } from '../../_services/search-backend/search-backend.service';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { SearchRequest } from '../../_services/search-backend/search-request';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-filter-modal',
   standalone: true,
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule],
   templateUrl: './filter-modal.component.html',
   styleUrl: './filter-modal.component.scss'
 })
 export class FilterModalComponent {
-  @Output() close = new EventEmitter<void>();
-  @Output() applyFilters = new EventEmitter<any>();
+  searchService = inject(SearchBackendService);
+  private router = inject(Router);
+  searchForm = new FormGroup({
+    listing_type: new FormControl(''),
+    number_rooms: new FormControl(1, [Validators.min(1)]),
+    min_area: new FormControl(1, [Validators.min(1)]),
+    max_area: new FormControl(0, [Validators.min(1)]),
+    min_price: new FormControl(0, [Validators.min(0)]),
+    max_price: new FormControl(0, [Validators.min(0)]),
+    construction_year_after: new FormControl(1900, [Validators.min(1900)]),
+    construction_year_before: new FormControl(new Date().getFullYear(), [Validators.min(1900)]),
+    energyClass: new FormControl(null),
+    city: new FormControl(null),
+    state: new FormControl(null),
+  });
+ 
 
-  // Campi collegati ai ngModel
-  listing_type?: string;
-  number_rooms?: number;
-  min_area?: number;
-  max_area?: number;
-  min_price?: number;
-  max_price?: number;
-  construction_year_before?: number;
-  construction_year_after?: number;
-  energyClass?: string;
-  city?: string;
-  state?: string;
-  isActive?: boolean;
 
+  handleSearch() {
+    console.log('Form values:', this.searchForm.value);
+    if (this.searchForm.valid) {
+      console.log('Form is valid, proceeding with search...');
+      const filters = this.searchForm.value;
 
-  onApply() {
-    this.applyFilters.emit({
-      listing_type: this.listing_type,
-      number_rooms: this.number_rooms,
-      min_area: this.min_area,
-      max_area: this.max_area,
-      min_price: this.min_price,
-      max_price: this.max_price,
-      construction_year_before: this.construction_year_before,
-      construction_year_after: this.construction_year_after,
-      energyClass: this.energyClass,
-      city: this.city,
-      state: this.state,
-      isActive: this.isActive
-    });
-    this.close.emit(); //Emissione dell'evento chiusura 
-  }
+      this.router.navigate(['/listings-page'], {
+        queryParams: filters
+      });
+    }
+  }  
 
-  onClose() {
-    this.close.emit();
+  close() {
+    // Logica per chiudere il modal
   }
 
 }

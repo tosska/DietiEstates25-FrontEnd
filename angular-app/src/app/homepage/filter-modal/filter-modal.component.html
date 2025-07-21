@@ -1,100 +1,97 @@
-<div class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-  <div class="bg-white rounded-lg p-6 w-full max-w-2xl shadow-lg relative">
-    <h2 class="text-xl font-bold mb-4 text-green-800">Filtri di ricerca</h2>
+<form [formGroup]="searchForm" (ngSubmit)="handleSearch()">
+  <div class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 w-full max-w-2xl shadow-lg relative">
+      <h2 class="text-xl font-bold mb-4 text-green-800">Filtri di ricerca</h2>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <!-- Tipo di annuncio -->
-      <div>
-        <label class="block mb-1 text-sm font-medium text-gray-700">Tipo annuncio</label>
-        <select [(ngModel)]="listing_type" class="w-full border px-3 py-2 rounded">
-          <option value="">Qualsiasi</option>
-          <option value="vendita">Vendita</option>
-          <option value="affitto">Affitto</option>
-        </select>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+        <!-- Tipo di annuncio -->
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-700">Tipo annuncio</label>
+          <select formControlName="listing_type" class="w-full border px-3 py-2 rounded">
+            <option value="">Qualsiasi</option>
+            <option value="Sale">sale</option>
+            <option value="rent">rent</option>
+          </select>
+        </div>
+
+        <!-- Numero camere -->
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-700">Numero camere</label>
+          <input type="number" formControlName="number_rooms" class="w-full border px-3 py-2 rounded" />
+        </div>
+
+        <!-- Superficie minima -->
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-700">Superficie minima (m²)</label>
+          <input type="number" formControlName="min_area" class="w-full border px-3 py-2 rounded" />
+        </div>
+
+        <!-- Superficie massima -->
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-700">Superficie massima (m²)</label>
+          <input type="number" formControlName="max_area" class="w-full border px-3 py-2 rounded" />
+        </div>
+
+        <!-- Prezzo minimo -->
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-700">Prezzo minimo (€)</label>
+          <input type="number" formControlName="min_price" class="w-full border px-3 py-2 rounded" />
+        </div>
+
+        <!-- Prezzo massimo -->
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-700">Prezzo massimo (€)</label>
+          <input type="number" formControlName="max_price" class="w-full border px-3 py-2 rounded" />
+        </div>
+
+        <!-- Anno costruzione da -->
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-700">Anno costruzione da</label>
+          <input type="number" formControlName="construction_year_after" class="w-full border px-3 py-2 rounded" />
+        </div>
+
+        <!-- Anno costruzione fino a -->
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-700">Anno costruzione fino a</label>
+          <input type="number" formControlName="construction_year_before" class="w-full border px-3 py-2 rounded" />
+        </div>
+
+        <!-- Classe energetica -->
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-700">Classe energetica</label>
+          <select formControlName="energyClass" class="w-full border px-3 py-2 rounded">
+            <option value="">Qualsiasi</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+            <option value="E">E</option>
+            <option value="F">F</option>
+            <option value="G">G</option>
+          </select>
+        </div>
+
+        <!-- Città -->
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-700">Città</label>
+          <input type="text" formControlName="city" class="w-full border px-3 py-2 rounded" />
+        </div>
+
+        <!-- Regione -->
+        <div>
+          <label class="block mb-1 text-sm font-medium text-gray-700">Regione</label>
+          <input type="text" formControlName="state" class="w-full border px-3 py-2 rounded" />
+        </div>
+
+
       </div>
 
-      <!-- Numero camere -->
-      <div>
-        <label class="block mb-1 text-sm font-medium text-gray-700">Numero camere</label>
-        <input type="number" [(ngModel)]="number_rooms" class="w-full border px-3 py-2 rounded" />
+      <!-- Azioni -->
+      <div class="mt-6 flex justify-end gap-3">
+        <button type="button" (click)="close()" class="px-4 py-2 rounded border text-gray-700 hover:bg-gray-100">Annulla</button>
+        <button type="submit" class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">Applica</button>
       </div>
-
-      <!-- Superficie minima -->
-      <div>
-        <label class="block mb-1 text-sm font-medium text-gray-700">Superficie minima (m²)</label>
-        <input type="number" [(ngModel)]="min_area" class="w-full border px-3 py-2 rounded" />
-      </div>
-
-      <!-- Superficie massima -->
-      <div>
-        <label class="block mb-1 text-sm font-medium text-gray-700">Superficie massima (m²)</label>
-        <input type="number" [(ngModel)]="max_area" class="w-full border px-3 py-2 rounded" />
-      </div>
-
-      <!-- Prezzo minimo -->
-      <div>
-        <label class="block mb-1 text-sm font-medium text-gray-700">Prezzo minimo (€)</label>
-        <input type="number" [(ngModel)]="min_price" class="w-full border px-3 py-2 rounded" />
-      </div>
-
-      <!-- Prezzo massimo -->
-      <div>
-        <label class="block mb-1 text-sm font-medium text-gray-700">Prezzo massimo (€)</label>
-        <input type="number" [(ngModel)]="max_price" class="w-full border px-3 py-2 rounded" />
-      </div>
-
-      <!-- Anno costruzione da -->
-      <div>
-        <label class="block mb-1 text-sm font-medium text-gray-700">Anno costruzione da</label>
-        <input type="number" [(ngModel)]="construction_year_after" class="w-full border px-3 py-2 rounded" />
-      </div>
-
-      <!-- Anno costruzione fino a -->
-      <div>
-        <label class="block mb-1 text-sm font-medium text-gray-700">Anno costruzione fino a</label>
-        <input type="number" [(ngModel)]="construction_year_before" class="w-full border px-3 py-2 rounded" />
-      </div>
-
-      <!-- Classe energetica -->
-      <div>
-        <label class="block mb-1 text-sm font-medium text-gray-700">Classe energetica</label>
-        <select [(ngModel)]="energyClass" class="w-full border px-3 py-2 rounded">
-          <option value="">Qualsiasi</option>
-          <option value="A">A</option>
-          <option value="B">B</option>
-          <option value="C">C</option>
-          <option value="D">D</option>
-          <option value="E">E</option>
-          <option value="F">F</option>
-          <option value="G">G</option>
-        </select>
-      </div>
-
-      <!-- Città -->
-      <div>
-        <label class="block mb-1 text-sm font-medium text-gray-700">Città</label>
-        <input type="text" [(ngModel)]="city" class="w-full border px-3 py-2 rounded" />
-      </div>
-
-      <!-- Regione -->
-      <div>
-        <label class="block mb-1 text-sm font-medium text-gray-700">Regione</label>
-        <input type="text" [(ngModel)]="state" class="w-full border px-3 py-2 rounded" />
-      </div>
-
-      <!-- Solo attivi -->
-      <div class="flex items-center">
-        <input type="checkbox" id="active" [(ngModel)]="isActive" class="mr-2" />
-        <label for="active" class="text-sm font-medium text-gray-700">Solo annunci attivi</label>
-      </div>
-    </div>
-
-    <!-- Azioni -->
-    <div class="mt-6 flex justify-end gap-3">
-      <button (click)="close.emit()" class="px-4 py-2 rounded border text-gray-700 hover:bg-gray-100">Annulla</button>
-      <button  class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">Applica</button>
     </div>
   </div>
-</div>
-
-<!-- (click)="apply()"-->>
+</form>
