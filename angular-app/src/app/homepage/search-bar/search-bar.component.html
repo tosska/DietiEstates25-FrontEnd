@@ -1,4 +1,5 @@
 <form
+  (ngSubmit)="handleSearch()"
   class="w-full bg-white dark:bg-gray-800 p-4 rounded-lg shadow-lg flex flex-col sm:flex-row gap-4 ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A]"
 >
   <!-- Input wrapper -->
@@ -7,7 +8,9 @@
       type="text"
       placeholder="Dove vuoi cercare? (es. città, zona)"
       class="w-full rounded-full px-4 py-2 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm ring-1 ring-inset ring-[#A5D6A7] dark:ring-[#66BB6A] placeholder:text-gray-400 focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] text-sm leading-6"
+      name="searchQuery"
       (focus)="dropdownVisible = true"
+      [(ngModel)]="searchQuery"
       (blur)="hideDropdownWithDelay()"
       (input)="onInput($event)"
     />
@@ -16,31 +19,19 @@
       <div
         class="absolute left-0 right-0 mt-2 bg-white dark:bg-gray-700 border border-[#A5D6A7] dark:border-[#66BB6A] rounded-lg shadow-lg z-10"
       >
-        @for (suggestion of suggestions; track $index) {
+        @for (suggestion of suggestedAddresses; track $index) {
           <button
             type="button"
-
+            (click)="onSelectAddress(suggestion)"
             class="w-full text-left px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-[#E8F5E9] dark:hover:bg-[#2E7D32] rounded-t-lg"
           >
-            {{ suggestion }}
+            {{ suggestion.formatted }}
           </button>
         }
       </div>
     }
 
-    @if (dropdownVisible) {
-    <div
-      class="absolute left-0 right-0 mt-2 bg-white dark:bg-gray-700 border border-[#A5D6A7] dark:border-[#66BB6A] rounded-lg shadow-lg z-10"
-    >
-      <button
-        type="button"
-        (mousedown)="onMapSearchClick()"
-        class="w-full text-left px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-[#E8F5E9] dark:hover:bg-[#2E7D32] rounded-t-lg"
-      >
-        🔍 Ricerca su mappa interattiva
-      </button>
-    </div>
-  }
+  
 
 
   </div>

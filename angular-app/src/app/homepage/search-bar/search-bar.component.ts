@@ -6,6 +6,10 @@ import { GeoMapComponent } from '../../geo-map/geo-map.component';
 import { GeocoderAutocomplete } from '@geoapify/geocoder-autocomplete';
 import { GeoService } from '../../_services/geo-service/geo.service';
 import { GeoModalComponent } from "../geo-modal/geo-modal.component";
+import { Address } from '../../_services/geo-service/address';
+import { SearchBackendService } from '../../_services/search-backend/search-backend.service';
+import { routes } from '../../app.routes';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-search-bar',
@@ -16,23 +20,51 @@ import { GeoModalComponent } from "../geo-modal/geo-modal.component";
 })
 export class SearchBarComponent {
 
-  
+  private router = inject(Router);
   isFilterModalOpen = false;
   isGeoModalOpen = false;
   dropdownVisible = false;
   geoService = inject(GeoService);
+  searchService = inject(SearchBackendService);
 
-  suggestions: string[] = [];
+  suggestedAddresses: Address[] = [];
   dropdownVisibleSuggestions = false;
+
+
+  selectedAddress: Address | null = null;
+  searchQuery: string | null = '';
 
   constructor() { }
 
   onInput(event: any) {
-    this.geoService.fetchSuggestions(event.target.value).subscribe( {       
-      next: (suggestions) => {
-        this.suggestions = suggestions as string[];  
+    this.geoService.fetchSuggestions(event.target.value, false).subscribe( {       
+      next: (suggestionsResponse) => {
+        this.suggestedAddresses = suggestionsResponse as Address[];  
+        console.log('Suggerimenti ricevuti:', this.suggestedAddresses);
+      },
+      error: (error) => {console.error('Errore durante il recupero dei suggerimenti:', error)},
+      complete: () => {
         this.dropdownVisibleSuggestions = true;
-      }})
+      }
+    });
+  }
+
+  onSelectAddress(address: Address) {
+    this.selectedAddress = address;
+    this.searchQuery = address.formatted;
+    this.dropdownVisibleSuggestions = false;
+    console.log('Indirizzo selezionato:', this.selectedAddress);
+  }
+
+  handleSearch() {
+    if (this.selectedAddress) {
+      const { formatted, ...pureAddress } = this.selectedAddress;
+      this.router.navigate(['/listings-page'], {
+        queryParams: pureAddress
+      });
+    } else {
+      console.warn('Nessun indirizzo selezionato per la ricerca.');
+    }
   }
 
   openFilters() {
