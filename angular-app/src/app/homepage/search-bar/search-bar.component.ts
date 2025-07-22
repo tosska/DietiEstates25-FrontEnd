@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { GeoMapComponent } from '../../geo-map/geo-map.component';
 import { GeocoderAutocomplete } from '@geoapify/geocoder-autocomplete';
 import { GeoService } from '../../_services/geo-service/geo.service';
+import { GeoModalComponent } from "../geo-modal/geo-modal.component";
 
 @Component({
   selector: 'app-search-bar',
   standalone: true,
-  imports: [FilterModalComponent, FormsModule, CommonModule, ReactiveFormsModule, GeoMapComponent],
+  imports: [FilterModalComponent, FormsModule, CommonModule, ReactiveFormsModule, GeoModalComponent],
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.scss'
 })

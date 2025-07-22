@@ -10,7 +10,6 @@ import * as L from 'leaflet';
 })
 export class GeoMapComponent {
   private map!: L.Map;
-  @Output() close = new EventEmitter<void>();
    
 
   ngOnInit() {
@@ -25,10 +24,7 @@ export class GeoMapComponent {
   }
 
 
-  onClose() {
-    this.map.remove(); // cleanup
-    this.close.emit();
-  }
+
 
   
 
