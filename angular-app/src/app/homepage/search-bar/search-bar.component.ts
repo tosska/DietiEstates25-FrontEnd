@@ -23,7 +23,7 @@ export class SearchBarComponent {
   private router = inject(Router);
   isFilterModalOpen = false;
   isGeoModalOpen = false;
-  dropdownVisible = false;
+  dropdownVisibleMap = false;
   geoService = inject(GeoService);
   searchService = inject(SearchBackendService);
 
@@ -36,7 +36,29 @@ export class SearchBarComponent {
 
   constructor() { }
 
+
+  onFocus(event: any) {
+    if (event.target.value === '' || event.target.value === null) {
+      console.log('Sono focusato');
+      this.dropdownVisibleMap = true;
+      this.dropdownVisibleSuggestions = false;
+    } else {
+      this.dropdownVisibleMap = false;
+    }
+    console.log('Focus event:', event);
+  }
+
   onInput(event: any) {
+
+    if(!event.target.value || event.target.value.trim() === '') {
+      console.log('Input vuoto, chiudo il dropdown dei suggerimenti');
+      this.dropdownVisibleSuggestions = false;
+      this.dropdownVisibleMap = true;
+      return;
+    }
+
+    this.dropdownVisibleMap = false;
+
     this.geoService.fetchSuggestions(event.target.value, false).subscribe( {       
       next: (suggestionsResponse) => {
         this.suggestedAddresses = suggestionsResponse as Address[];  
@@ -84,13 +106,13 @@ export class SearchBarComponent {
 
   hideDropdownWithDelay() {
     setTimeout(() => {
-      this.dropdownVisible = false;
+      this.dropdownVisibleMap = false;
     }, 200); // evita che il blur chiuda prima del click sul bottone
   }
 
   onMapSearchClick() {
     console.log('Apertura mappa interattiva...');
-    this.dropdownVisible = false;
+    this.dropdownVisibleMap = false;
     this.isGeoModalOpen = true;
   }
 
