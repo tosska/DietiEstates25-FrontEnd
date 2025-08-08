@@ -27,59 +27,71 @@
 
     <div class="{{isOpen ? 'block' : 'hidden'}} w-full md:block md:w-auto" id="navbar-default">
       <ul
-        class="font-semibold flex flex-col p-4 md:p-0 mt-4 border border-[#A5D6A7] rounded-lg bg-[#F3F3F3] md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-transparent dark:bg-[#121212] md:dark:bg-transparent dark:border-[#66BB6A]"
+        class="font-semibold flex flex-col p-4 md:p-0 mt-4 border border-[#A5D6A7] rounded-lg bg-[#F3F3F3] md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-transparent dark:bg-[#121212] md:dark:bg-transparent dark:border-[#66BB6A] items-center"
       >
-        <li>
+        <li class="md:my-0 my-2">
           <a
             (click)="handleNavigationClick()"
             routerLink="/homepage"
             routerLinkActive="text-[#2E7D32] dark:text-[#81C784]"
-            class="block py-2 px-3 text-[#1B1B1B] dark:text-[#F1F1F1] rounded md:bg-transparent hover:text-[#2E7D32] dark:hover:text-[#81C784] md:p-0"
+            class="block py-2 px-3 text-[#1B1B1B] dark:text-[#F1F1F1] rounded md:bg-transparent hover:text-[#2E7D32] dark:hover:text-[#81C784] md:p-0 flex items-center h-10"
           >
             Home
           </a>
         </li>
 
         @if (!this.authService.isUserAuthenticated()) {
-          <li>
+          <li class="md:my-0 my-2">
             <a
               (click)="handleNavigationClick()"
               routerLink="/login"
               routerLinkActive="text-[#2E7D32] dark:text-[#81C784]"
-              class="block py-2 px-3 text-[#1B1B1B] dark:text-[#F1F1F1] rounded hover:text-[#2E7D32] dark:hover:text-[#81C784] md:p-0"
+              class="block py-2 px-3 text-[#1B1B1B] dark:text-[#F1F1F1] rounded hover:text-[#2E7D32] dark:hover:text-[#81C784] md:p-0 flex items-center h-10"
             >
               Login
             </a>
           </li>
-          <li>
+          <li class="md:my-0 my-2">
             <a
               (click)="handleNavigationClick()"
               routerLink="/signup"
               routerLinkActive="text-[#2E7D32] dark:text-[#81C784]"
-              class="block py-2 px-3 text-[#1B1B1B] dark:text-[#F1F1F1] rounded hover:text-[#2E7D32] dark:hover:text-[#81C784] md:p-0"
+              class="block py-2 px-3 text-[#1B1B1B] dark:text-[#F1F1F1] rounded hover:text-[#2E7D32] dark:hover:text-[#81C784] md:p-0 flex items-center h-10"
             >
               Sign up
             </a>
           </li>
-          <li>
+          <li class="md:my-0 my-2">
             <a
               (click)="handleNavigationClick()"
               routerLink="/signup-agency"
               routerLinkActive="text-[#2E7D32] dark:text-[#81C784]"
-              class="block py-2 px-3 text-[#1B1B1B] dark:text-[#F1F1F1] rounded hover:text-[#2E7D32] dark:hover:text-[#81C784] md:p-0"
+              class="block py-2 px-3 text-[#1B1B1B] dark:text-[#F1F1F1] rounded hover:text-[#2E7D32] dark:hover:text-[#81C784] md:p-0 flex items-center h-10"
             >
               Sign up agency
             </a>
           </li>
         } @else {
-          <li>
+          <li class="md:my-0 my-2">
             <a
               (click)="handleNavigationClick(); authService.logout()"
               routerLink="/logout"
               routerLinkActive="text-[#2E7D32] dark:text-[#81C784]"
-              class="block py-2 px-3 text-[#1B1B1B] dark:text-[#F1F1F1] rounded hover:text-[#2E7D32] dark:hover:text-[#81C784] md:p-0"
+              class="block py-2 px-3 text-[#1B1B1B] dark:text-[#F1F1F1] rounded hover:text-[#2E7D32] dark:hover:text-[#81C784] md:p-0 flex items-center h-10"
             >
               Welcome, {{ this.authService.user() }} (log out)
+            </a>
+          </li>
+          <li class="md:my-0 my-2">
+            <a
+              (click)="handleNavigationClick();"
+              routerLink="/user-area"
+              class="block py-2 px-3 rounded-full w-10 h-10 bg-[#8BC34A] dark:bg-[#1E1E1E] flex items-center justify-center hover:bg-[#A5D6A7]/80 dark:hover:bg-[#2E2E2E] focus:outline-none focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] md:p-0"
+              aria-label="User Profile"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-[#2E7D32] dark:text-[#A5D6A7]">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
             </a>
           </li>
         }

@@ -6,6 +6,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { SignupAgencyComponent } from './signup-agency/signup-agency.component';
 import { ListingsPageComponent } from './listings-page/listings-page.component';
 import { GeoMapComponent } from './geo-map/geo-map.component';
+import { UserAreaComponent } from './user-area/user-area.component';
 
 export const routes: Routes = [
     {
@@ -16,6 +17,10 @@ export const routes: Routes = [
         path: "signup",
         component: SignupComponent,
         title: "Sign up | DietiEstates Angular App"
+    }, {
+        path: "user-area",
+        component: UserAreaComponent,
+        title: "User area | DietiEstates Angular App"
     }, {
         path: "signup-agency",
         component: SignupAgencyComponent,
