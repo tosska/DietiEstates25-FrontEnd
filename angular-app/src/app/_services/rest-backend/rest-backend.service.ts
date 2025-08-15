@@ -93,6 +93,58 @@ export class RestBackendService {
     );
   }
 
+  updateCustomer(userId: string, data: any): Observable<any> {
+    const url = `${this.clientServiceUrl}/customers/${userId}`;
+    const token = this.getToken();
+    if (!token) {
+      console.error('Nessun token trovato in localStorage');
+      throw new Error('Token mancante');
+    }
+    const authHeaders = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      })
+    };
+    console.log('Richiesta updateCustomer per ID:', userId, 'con dati:', data);
+    return this.http.put(url, data, authHeaders).pipe(
+      map((response: any) => {
+        console.log('Risposta updateCustomer:', response);
+        return response;
+      }),
+      catchError((error) => {
+        console.error('Errore updateCustomer:', error);
+        return throwError(() => new Error(error.message || 'Errore nell\'aggiornamento del profilo'));
+      })
+    );
+  }
+
+  deleteCustomer(userId: string): Observable<any> {
+    const url = `${this.clientServiceUrl}/customers/${userId}`;
+    const token = this.getToken();
+    if (!token) {
+      console.error('Nessun token trovato in localStorage');
+      throw new Error('Token mancante');
+    }
+    const authHeaders = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      })
+    };
+    console.log('Richiesta deleteCustomer per ID:', userId);
+    return this.http.delete(url, authHeaders).pipe(
+      map((response: any) => {
+        console.log('Risposta deleteCustomer:', response);
+        return response;
+      }),
+      catchError((error) => {
+        console.error('Errore deleteCustomer:', error);
+        return throwError(() => new Error(error.message || 'Errore nell\'eliminazione del profilo'));
+      })
+    );
+  }
+
   private getToken(): string | null {
     return localStorage.getItem("token");
   }

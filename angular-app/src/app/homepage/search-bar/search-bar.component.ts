@@ -3,7 +3,6 @@ import { FilterModalComponent } from '../filter-modal/filter-modal.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { GeoMapComponent } from '../../geo-map/geo-map.component';
-import { GeocoderAutocomplete } from '@geoapify/geocoder-autocomplete';
 import { GeoService } from '../../_services/geo-service/geo.service';
 import { GeoModalComponent } from "../geo-modal/geo-modal.component";
 import { Address } from '../../_services/geo-service/address';
