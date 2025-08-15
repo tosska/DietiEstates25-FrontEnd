@@ -23,7 +23,7 @@ export class GeoService {
    //se geometry è false significa che non voglio le coordinate
   fetchSuggestions(query: string, isGeometry: boolean = true) {
   
-    const uri = `${this.url}/geocode/autocomplete?text=${encodeURIComponent(query)}&lang=it&typefilter=address&filter=countrycode:it&limit=5&apiKey=${this.apiKey}`;
+    const uri = `${this.url}/geocode/autocomplete?text=${encodeURIComponent(query)}&lang=it&typefilter=locality&filter=countrycode:it&limit=5&apiKey=${this.apiKey}`;
     return this.http.get(uri).pipe( 
       map((response: any) => {
         return response.features.map((feature: any) => {
@@ -43,7 +43,6 @@ export class GeoService {
       
     return {
       formatted: properties.formatted,
-      street: properties.street,
       city: properties.city,
       postalCode: properties.postcode,
       state: properties.county,

@@ -23,7 +23,7 @@
         @for (suggestion of suggestedAddresses; track $index) {
           <button
             type="button"
-            (click)="onSelectAddress(suggestion)"
+            (click)="onSelectLocation(suggestion)"
             class="w-full text-left px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-[#E8F5E9] dark:hover:bg-[#2E7D32] rounded-t-lg"
           >
             {{ suggestion.formatted }}
@@ -85,7 +85,8 @@
 
 @if(isGeoModalOpen) {
 <app-geo-modal
-  (close)="closeMap()">
+  (close)="closeMap()"
+  (confirmLocationEvent)="onSelectLocation($event)">
 </app-geo-modal>
 }
 

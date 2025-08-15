@@ -19,15 +19,13 @@ export class FilterModalComponent {
   searchForm = new FormGroup({
     listing_type: new FormControl(''),
     number_rooms: new FormControl(1, [Validators.min(1)]),
-    min_area: new FormControl(1, [Validators.min(1)]),
-    max_area: new FormControl(0, [Validators.min(1)]),
-    min_price: new FormControl(0, [Validators.min(0)]),
-    max_price: new FormControl(0, [Validators.min(0)]),
+    min_area: new FormControl('', [Validators.min(1)]),
+    max_area: new FormControl('', [Validators.min(1)]),
+    min_price: new FormControl('', [Validators.min(0)]),
+    max_price: new FormControl('', [Validators.min(0)]),
     construction_year_after: new FormControl(1900, [Validators.min(1900)]),
     construction_year_before: new FormControl(new Date().getFullYear(), [Validators.min(1900)]),
-    energyClass: new FormControl(null),
-    city: new FormControl(null),
-    state: new FormControl(null),
+    energyClass: new FormControl(null)
   });
  
 

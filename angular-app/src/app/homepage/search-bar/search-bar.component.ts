@@ -31,8 +31,8 @@ export class SearchBarComponent {
   dropdownVisibleSuggestions = false;
 
 
-  selectedAddress: Address | null = null;
-  searchQuery: string | null = '';
+  selectedLocation: Address | null = null;
+  searchQuery: string | null  = '';
 
   constructor() { }
 
@@ -71,16 +71,16 @@ export class SearchBarComponent {
     });
   }
 
-  onSelectAddress(address: Address) {
-    this.selectedAddress = address;
+  onSelectLocation(address: Address) {
+    this.selectedLocation = address;
     this.searchQuery = address.formatted;
     this.dropdownVisibleSuggestions = false;
-    console.log('Indirizzo selezionato:', this.selectedAddress);
+    console.log('Indirizzo selezionato:', this.selectedLocation);
   }
 
   handleSearch() {
-    if (this.selectedAddress) {
-      const { formatted, ...pureAddress } = this.selectedAddress;
+    if (this.selectedLocation) {
+      const { formatted, ...pureAddress } = this.selectedLocation;
       this.router.navigate(['/listings-page'], {
         queryParams: pureAddress
       });
@@ -120,5 +120,6 @@ export class SearchBarComponent {
     this.isGeoModalOpen = false;
   }
 
+ 
 
 }

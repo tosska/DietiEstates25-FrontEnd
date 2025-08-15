@@ -35,6 +35,7 @@ import { FormsModule } from '@angular/forms';
 export class GeoModalComponent {
 
   @Output() close = new EventEmitter<void>();
+  @Output() confirmLocationEvent = new EventEmitter<Address>();
   selectedLocationFromMap: Address | null = null;
   selectedRadius: number=1;
   
@@ -44,11 +45,29 @@ export class GeoModalComponent {
 
   setLocation(location: Address) {
     this.selectedLocationFromMap = location;
+    this.selectedLocationFromMap.radiusKm=this.selectedRadius
   }
 
   onRadiusChange() {
 
+    if(this.selectedLocationFromMap)
+      this.selectedLocationFromMap.radiusKm = this.selectedRadius;
 
+
+  }
+
+  onConfirmLocation(){
+    //mi servono solo latitudine e longitudine. Le informazioni sulla località sono solo per il feedback all'utente
+    if(this.selectedLocationFromMap) {
+      const location: Address = this.selectedLocationFromMap;
+
+      this.confirmLocationEvent.emit({
+        formatted: location.formatted,
+        latitude: location?.latitude, 
+        longitude: location?.longitude, 
+        radiusKm: location?.radiusKm});
+      this.close.emit();
+    }
 
   }
 
