@@ -1,0 +1,71 @@
+<div class="max-w-7xl mx-auto p-4">
+  <!-- Galleria immagini -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+    <div class="md:col-span-2">
+      <img src="https://via.placeholder.com/800x500" alt="Foto principale" class="rounded-xl w-full object-cover shadow-lg">
+    </div>
+    <div class="grid grid-rows-3 gap-2">
+      <img src="https://via.placeholder.com/400x150" alt="Foto" class="rounded-xl object-cover shadow">
+      <img src="https://via.placeholder.com/400x150" alt="Foto" class="rounded-xl object-cover shadow">
+      <img src="https://via.placeholder.com/400x150" alt="Foto" class="rounded-xl object-cover shadow">
+    </div>
+  </div>
+
+  <!-- Titolo e prezzo -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+    <h1 class="text-3xl font-bold text-green-700">Appartamento Trilocale in Centro</h1>
+    <span class="text-2xl font-semibold text-green-600">€ 250.000</span>
+  </div>
+
+  <!-- Dettagli principali -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div class="bg-green-50 p-4 rounded-xl shadow">
+      <p class="text-sm text-green-800">Superficie</p>
+      <p class="text-lg font-bold text-green-700">85 m²</p>
+    </div>
+    <div class="bg-green-50 p-4 rounded-xl shadow">
+      <p class="text-sm text-green-800">Locali</p>
+      <p class="text-lg font-bold text-green-700">3</p>
+    </div>
+    <div class="bg-green-50 p-4 rounded-xl shadow">
+      <p class="text-sm text-green-800">Bagni</p>
+      <p class="text-lg font-bold text-green-700">2</p>
+    </div>
+    <div class="bg-green-50 p-4 rounded-xl shadow">
+      <p class="text-sm text-green-800">Piano</p>
+      <p class="text-lg font-bold text-green-700">2°</p>
+    </div>
+  </div>
+
+  <!-- Descrizione -->
+  <div class="mb-6">
+    <h2 class="text-xl font-semibold text-green-700 mb-2">Descrizione</h2>
+    <p class="text-gray-700 leading-relaxed">
+      Appartamento luminoso situato nel cuore della città, a pochi passi da negozi e trasporti pubblici.
+      Completamente ristrutturato con finiture di pregio, include cucina abitabile, ampio soggiorno,
+      due camere da letto e due bagni moderni.
+    </p>
+  </div>
+
+  <!-- Mappa -->
+  <div class="mb-6">
+    <h2 class="text-xl font-semibold text-green-700 mb-2">Posizione</h2>
+    <div class="w-full h-64 bg-gray-200 rounded-xl shadow">
+      <!-- Qui potresti integrare un iframe Google Maps -->
+      <iframe class="w-full h-full rounded-xl" src="https://maps.google.com/maps?q=Milano&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+    </div>
+  </div>
+
+  <!-- Contatti -->
+  <div class="bg-green-100 p-6 rounded-xl shadow-md">
+    <h2 class="text-xl font-semibold text-green-700 mb-4">Contatta l'agenzia</h2>
+    <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <input type="text" placeholder="Nome" class="p-3 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+      <input type="email" placeholder="Email" class="p-3 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500">
+      <textarea placeholder="Messaggio" rows="4" class="p-3 rounded-lg border border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500 md:col-span-2"></textarea>
+      <button type="submit" class="bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg md:col-span-2 font-semibold shadow">
+        Invia richiesta
+      </button>
+    </form>
+  </div>
+</div>

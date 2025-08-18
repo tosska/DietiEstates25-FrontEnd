@@ -7,6 +7,7 @@ import { SignupAgencyComponent } from './signup-agency/signup-agency.component';
 import { ListingsPageComponent } from './listings-page/listings-page.component';
 import { GeoMapComponent } from './geo-map/geo-map.component';
 import { UserAreaComponent } from './user-area/user-area.component';
+import { ListingPageComponent } from './listing-page/listing-page.component';
 
 export const routes: Routes = [
     {
@@ -45,5 +46,8 @@ export const routes: Routes = [
         path: "geo-map",
         component: GeoMapComponent,
         title: "Geo Map | DietiEstates Angular App"
+    }, {
+        path: 'listing/:id', 
+        component: ListingPageComponent 
     }
 ];
