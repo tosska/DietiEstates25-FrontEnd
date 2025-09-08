@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import * as L from 'leaflet';
-import { Address } from '../_services/geo-service/address';
+import { Address } from '../_services/geo-service/address-request';
 import { GeoService } from '../_services/geo-service/geo.service';
 
 @Component({
@@ -15,20 +15,21 @@ export class GeoMapComponent {
   @Input() width: string = '100%';
   @Input() height: string = '400px';
   @Input() circleRadiusKm: number = 1;
+  @Input() isResearch: boolean = true;
+  @Input() elementsToMark: any[] = [];
+  @Input() focusOn: any = null;
+
 
   private map!: L.Map;
 
 
+
   selectedLocation : Address | null = null;
   @Output() selectedLocationEvent = new EventEmitter<Address>();
-
   geoService = inject(GeoService);
-
   private currentMarker: L.Marker | null = null;
-
   private currentCircleZone: L.Circle | null = null;
 
-   
 
   ngOnInit() {
 
@@ -40,13 +41,19 @@ export class GeoMapComponent {
       maxZoom: 20
     }).addTo(this.map);
 
+
     // Aggiungi l'evento di clic sulla mappa
     this.map.on('click', (e: L.LeafletMouseEvent) => {
-      this.onMapClick(e);
+
+      if(this.isResearch) {
+        this.setSearchRadius(e);
+      }
     });
   }
 
   ngOnChanges(){
+
+    this.setMarkFromElements();
     
     const location = this.selectedLocation;
 
@@ -58,7 +65,19 @@ export class GeoMapComponent {
 
   }
 
-  onMapClick(event: L.LeafletMouseEvent) {
+  setMarkFromElements() {
+    
+    if(this.elementsToMark && this.elementsToMark.length>0) {
+      this.elementsToMark.forEach( (elem) => {
+        if(elem.latitude && elem.longitude) {
+          this.createMarker(elem.latitude, elem.longitude, elem);
+        }})
+    
+    }
+  }
+
+
+  setSearchRadius(event: L.LeafletMouseEvent) {
     const lat = event.latlng.lat;
     const lng = event.latlng.lng;
         
@@ -78,7 +97,7 @@ export class GeoMapComponent {
   }
 
 
-  private createCurrentMarker(lat: number, lng: number): void {
+  private createMarker(lat: number, lng: number, elem?: any): void {
     this.currentMarker = L.marker([lat, lng], {
       icon: L.icon({
         iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
@@ -90,6 +109,16 @@ export class GeoMapComponent {
       })
     });
 
+    if (elem) {
+      const popupContent = `
+        <div style="width:150px">
+          <img src="${elem.imageUrl}" alt="immobile" style="width:100%; border-radius:8px; margin-bottom:5px"/>
+          <strong>${elem.title ?? 'Immobile'}</strong><br>
+          <span>${elem.price ? elem.price + ' €' : ''}</span>
+        </div>`;
+
+        this.currentMarker.bindPopup(popupContent);
+    }
     this.currentMarker.addTo(this.map);
   }
 
@@ -102,7 +131,7 @@ export class GeoMapComponent {
   }
 
   private createCircleZone(lat: number, lng: number, radiusKm: number) : void{
-    this.createCurrentMarker(lat, lng);
+    this.createMarker(lat, lng);
 
     const radiusMeters = radiusKm*1000;
 

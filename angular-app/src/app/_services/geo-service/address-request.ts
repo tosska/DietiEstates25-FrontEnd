@@ -12,3 +12,5 @@ export interface Address{
     radiusKm?: number;
 
 }
+
+//cambiare nome in modo da non confondere con address.ts di listing-backend

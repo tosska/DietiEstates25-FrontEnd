@@ -78,7 +78,8 @@
 
 @if (isFilterModalOpen) {
 <app-filter-modal
-  (close)="closeFilters()"
+  [selectedLocation]="selectedLocation"
+  (closeFilters)="closeFilters()"
   (applyFilters)="handleApplyFilters($event)">
 </app-filter-modal>
 }

@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ListingBackendService } from '../_services/listing-backend/listing-backend.service';
+import { Listing } from '../_services/listing-backend/listing';
 
 @Component({
   selector: 'app-listing-page',
@@ -12,7 +13,7 @@ import { ListingBackendService } from '../_services/listing-backend/listing-back
 export class ListingPageComponent {
 
   id: number | null = null;
-  currentListing: any; //aggiungere il tipo Listing in listing-backend.service.ts quando disponibile
+  currentListing: Listing | null  = null; //aggiungere il tipo Listing in listing-backend.service.ts quando disponibile
   listingService = inject(ListingBackendService);
 
   constructor(private route: ActivatedRoute) {}
@@ -22,7 +23,7 @@ export class ListingPageComponent {
     this.listingService.getListingById(this.id).subscribe({
       next: (listing) => {
         console.log("Listing received:", listing);
-        this.currentListing = listing;
+        this.currentListing = listing as Listing;
       }
     })
   }

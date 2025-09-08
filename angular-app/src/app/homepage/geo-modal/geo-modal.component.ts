@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { GeoMapComponent } from '../../geo-map/geo-map.component';
-import { Address } from '../../_services/geo-service/address';
+import { Address } from '../../_services/geo-service/address-request';
 import {
   trigger,
   state,

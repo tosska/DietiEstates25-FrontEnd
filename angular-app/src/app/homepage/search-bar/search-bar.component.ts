@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { GeoMapComponent } from '../../geo-map/geo-map.component';
 import { GeoService } from '../../_services/geo-service/geo.service';
 import { GeoModalComponent } from "../geo-modal/geo-modal.component";
-import { Address } from '../../_services/geo-service/address';
+import { Address } from '../../_services/geo-service/address-request';
 import { SearchBackendService } from '../../_services/search-backend/search-backend.service';
 import { routes } from '../../app.routes';
 import { Router } from '@angular/router';
@@ -78,6 +78,10 @@ export class SearchBarComponent {
   }
 
   handleSearch() {
+    if(!this.selectedLocation && this.suggestedAddresses && this.searchQuery) {
+      this.selectedLocation = this.suggestedAddresses[0];
+    }
+
     if (this.selectedLocation) {
       const { formatted, ...pureAddress } = this.selectedLocation;
       this.router.navigate(['/listings-page'], {
