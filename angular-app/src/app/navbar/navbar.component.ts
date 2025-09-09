@@ -1,16 +1,18 @@
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { CommonModule } from '@angular/common'; 
 import { DarkModeToggleComponent } from './dark-mode-toggle/dark-mode-toggle.component';
 import { AuthService } from '../_services/auth/auth.service';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [RouterLink, RouterLinkActive, DarkModeToggleComponent],
+  imports: [CommonModule, RouterLink, RouterLinkActive, DarkModeToggleComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
+  routerLinkActive: any;
   ngOnInit() {
     console.log('Navbar init, isAuthenticated:', this.authService.isUserAuthenticated());
   }
