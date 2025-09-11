@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import * as L from 'leaflet';
-import { Address } from '../_services/geo-service/address-request';
+import { LocationRequest } from '../_services/geo-service/location-request';
 import { GeoService } from '../_services/geo-service/geo.service';
 
 @Component({
@@ -24,8 +24,8 @@ export class GeoMapComponent {
 
 
 
-  selectedLocation : Address | null = null;
-  @Output() selectedLocationEvent = new EventEmitter<Address>();
+  selectedLocation : LocationRequest | null = null;
+  @Output() selectedLocationEvent = new EventEmitter<LocationRequest>();
   geoService = inject(GeoService);
   private currentMarker: L.Marker | null = null;
   private currentCircleZone: L.Circle | null = null;
@@ -85,7 +85,7 @@ export class GeoMapComponent {
     this.createCircleZone(lat, lng, this.circleRadiusKm);
 
     this.geoService.reverseGeocode(lat, lng).subscribe({
-      next: (address: Address) => {
+      next: (address: LocationRequest) => {
         this.selectedLocation = address;
 
         this.selectedLocationEvent.emit(this.selectedLocation);

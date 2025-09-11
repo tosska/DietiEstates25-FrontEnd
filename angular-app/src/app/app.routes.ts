@@ -8,6 +8,9 @@ import { ListingsPageComponent } from './listings-page/listings-page.component';
 import { GeoMapComponent } from './geo-map/geo-map.component';
 import { UserAreaComponent } from './user-area/user-area.component';
 import { ListingPageComponent } from './listing-page/listing-page.component';
+import { CreateListingPageComponent } from './create-listing-page/create-listing-page.component';
+import { roleGuard } from './_guards/role.guard';
+import { UnauthorizedComponent } from './_error-components/unauthorized/unauthorized.component';
 
 export const routes: Routes = [
     {
@@ -49,5 +52,14 @@ export const routes: Routes = [
     }, {
         path: 'listing/:id', 
         component: ListingPageComponent 
+    }, {
+        path: 'create-listing', 
+        component: CreateListingPageComponent,
+        canActivate: [roleGuard],
+        data: { roles: ['agent'] }
+    }, {
+        path: 'unauthorized', 
+        component: UnauthorizedComponent,
+        title: "Unauthorized | DietiEstates Angular App"
     }
 ];

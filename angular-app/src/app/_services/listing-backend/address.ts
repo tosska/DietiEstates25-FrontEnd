@@ -1,6 +1,7 @@
 export interface Address {
-  id: number;
+  id?: number;
   street: string;
+  houseNumber: string;
   city: string;
   state: string;      // provincia / stato interno
   country: string;

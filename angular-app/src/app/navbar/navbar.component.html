@@ -29,6 +29,19 @@
       <ul
         class="font-semibold flex flex-col p-4 md:p-0 mt-4 border border-[#A5D6A7] rounded-lg bg-[#F3F3F3] md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-transparent dark:bg-[#121212] md:dark:bg-transparent dark:border-[#66BB6A] items-center"
       >
+        @if(this.authService.isUserAuthenticated() && this.authService.role() === 'agent') {
+        <li class="md:my-0 my-2">
+          <a
+            (click)="handleNavigationClick()"
+            routerLink="/create-listing"
+            routerLinkActive="text-[#2E7D32] dark:text-[#81C784]"
+            class="block py-2 px-3 text-[#1B1B1B] dark:text-[#F1F1F1] rounded md:bg-transparent hover:text-[#2E7D32] dark:hover:text-[#81C784] md:p-0 flex items-center h-10"
+          >
+            Aggiungi un annuncio
+          </a>
+        </li>
+      }
+
         <li class="md:my-0 my-2">
           <a
             (click)="handleNavigationClick()"
@@ -79,7 +92,7 @@
               routerLinkActive="text-[#2E7D32] dark:text-[#81C784]"
               class="block py-2 px-3 text-[#1B1B1B] dark:text-[#F1F1F1] rounded hover:text-[#2E7D32] dark:hover:text-[#81C784] md:p-0 flex items-center h-10"
             >
-              Welcome, {{ this.authService.user() }} (log out)
+              Welcome, {{ this.authService.user() }} [{{this.authService.role()}}] (log out)
             </a>
           </li>
           <li class="md:my-0 my-2">

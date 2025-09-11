@@ -4,7 +4,7 @@ import { SearchBackendService } from '../../_services/search-backend/search-back
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SearchRequest } from '../../_services/search-backend/search-request';
 import { Router } from '@angular/router';
-import { Address } from '../../_services/geo-service/address-request';
+import { LocationRequest } from '../../_services/geo-service/location-request';
 
 
 @Component({
@@ -17,7 +17,7 @@ import { Address } from '../../_services/geo-service/address-request';
 export class FilterModalComponent {
   searchService = inject(SearchBackendService);
   private router = inject(Router);
-  @Input() selectedLocation: Address | null = null;
+  @Input() selectedLocation: LocationRequest | null = null;
   @Output() closeFilters = new EventEmitter<void>();
 
   searchForm = new FormGroup({

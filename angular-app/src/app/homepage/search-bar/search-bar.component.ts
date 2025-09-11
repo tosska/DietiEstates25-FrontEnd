@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { GeoMapComponent } from '../../geo-map/geo-map.component';
 import { GeoService } from '../../_services/geo-service/geo.service';
 import { GeoModalComponent } from "../geo-modal/geo-modal.component";
-import { Address } from '../../_services/geo-service/address-request';
+import { LocationRequest } from '../../_services/geo-service/location-request';
 import { SearchBackendService } from '../../_services/search-backend/search-backend.service';
 import { routes } from '../../app.routes';
 import { Router } from '@angular/router';
@@ -26,11 +26,11 @@ export class SearchBarComponent {
   geoService = inject(GeoService);
   searchService = inject(SearchBackendService);
 
-  suggestedAddresses: Address[] = [];
+  suggestedAddresses: LocationRequest[] = [];
   dropdownVisibleSuggestions = false;
 
 
-  selectedLocation: Address | null = null;
+  selectedLocation: LocationRequest | null = null;
   searchQuery: string | null  = '';
 
   constructor() { }
@@ -58,9 +58,9 @@ export class SearchBarComponent {
 
     this.dropdownVisibleMap = false;
 
-    this.geoService.fetchSuggestions(event.target.value, false).subscribe( {       
+    this.geoService.fetchSuggestions(event.target.value, 'city',false).subscribe( {       
       next: (suggestionsResponse) => {
-        this.suggestedAddresses = suggestionsResponse as Address[];  
+        this.suggestedAddresses = suggestionsResponse as LocationRequest[];  
         console.log('Suggerimenti ricevuti:', this.suggestedAddresses);
       },
       error: (error) => {console.error('Errore durante il recupero dei suggerimenti:', error)},
@@ -70,7 +70,7 @@ export class SearchBarComponent {
     });
   }
 
-  onSelectLocation(address: Address) {
+  onSelectLocation(address: LocationRequest) {
     this.selectedLocation = address;
     this.searchQuery = address.formatted;
     this.dropdownVisibleSuggestions = false;
