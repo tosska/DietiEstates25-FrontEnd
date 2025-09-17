@@ -17,5 +17,14 @@ export class ListingBackendService {
     return this.http.post(`${this.url}/listing`, listingData);
   }
 
-  
+  getActiveListingsForAgent() {
+    return this.http.get<Listing[]>(`${this.url}/agent/listings/active`);
+  }
+
+  getLatestListings(limit: number = 4) {
+
+    return this.http.get<Listing[]>(`${this.url}/listings/latest?limit=${limit}`);
+  }
+
+
 }

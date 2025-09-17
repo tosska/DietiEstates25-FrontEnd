@@ -111,7 +111,6 @@ export class GeoService {
       unitDetail: properties.unit_detail,
       longitude: geometryData?.coordinates[0],
       latitude: geometryData?.coordinates[1],
-      idPlace: properties.place_id
     };
 
   }

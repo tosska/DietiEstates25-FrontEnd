@@ -11,28 +11,30 @@ import { ListingPageComponent } from './listing-page/listing-page.component';
 import { CreateListingPageComponent } from './create-listing-page/create-listing-page.component';
 import { roleGuard } from './_guards/role.guard';
 import { UnauthorizedComponent } from './_error-components/unauthorized/unauthorized.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ActiveListingsComponent } from './dashboard/active-listings/active-listings.component';
 
 export const routes: Routes = [
     {
         path: "login",
         component: LoginComponent,
-        title: "Login | DietiEstates Angular App"
+        title: "Login | DietiEstates App"
     }, {
         path: "signup",
         component: SignupComponent,
-        title: "Sign up | DietiEstates Angular App"
+        title: "Sign up | DietiEstates App"
     }, {
         path: "user-area",
         component: UserAreaComponent,
-        title: "User area | DietiEstates Angular App"
+        title: "User area | DietiEstates App"
     }, {
         path: "signup-agency",
         component: SignupAgencyComponent,
-        title: "Sign up - Agency | DietiEstates Angular App"
+        title: "Sign up - Agency | DietiEstates App"
     }, {
         path: "logout",
         component: LogoutComponent,
-        title: "Log out | DietiEstates Angular App"
+        title: "Log out | DietiEstates App"
     }, {
         path: "",
         redirectTo: "/homepage",
@@ -40,7 +42,7 @@ export const routes: Routes = [
     }, {
         path: "homepage",
         component: HomepageComponent,
-        title: "Homepage | DietiEstates Angular App"
+        title: "Homepage | DietiEstates App"
     }, {
         path: "listings-page",
         component: ListingsPageComponent,
@@ -48,7 +50,7 @@ export const routes: Routes = [
     },  {
         path: "geo-map",
         component: GeoMapComponent,
-        title: "Geo Map | DietiEstates Angular App"
+        title: "Geo Map | DietiEstates App"
     }, {
         path: 'listing/:id', 
         component: ListingPageComponent 
@@ -58,8 +60,20 @@ export const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ['agent'] }
     }, {
+        path: 'dashboard-agent', 
+        component: DashboardComponent,
+        title: "Dashboard | DietiEstates App",
+        canActivate: [roleGuard],
+        data: { roles: ['agent'] },
+        children: [
+              { path: 'active-listings', 
+                component: ActiveListingsComponent,
+                title: "Active Listings | DietiEstates App"
+               }
+        ]
+    },{
         path: 'unauthorized', 
         component: UnauthorizedComponent,
-        title: "Unauthorized | DietiEstates Angular App"
+        title: "Unauthorized | DietiEstates App"
     }
 ];

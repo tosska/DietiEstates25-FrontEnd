@@ -16,5 +16,5 @@ export interface Listing {
   energyClass?: string;
   agencyId: number;
   agentId: number;
-  address: Address;
+  Address: Address;
 }

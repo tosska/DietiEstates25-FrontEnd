@@ -33,6 +33,8 @@ export class CreateListingPageComponent {
 
   listingForm!: FormGroup;
 
+    images: { file: File, url: string }[] = []; 
+
   ngOnInit(): void {
     this.listingForm = new FormGroup({
       // Campi di Listing
@@ -195,6 +197,13 @@ export class CreateListingPageComponent {
       this.toastr.error('Compila tutti i campi obbligatori.', 'Errore!');
       this.listingForm.markAllAsTouched(); // Rende tutti i controlli touched per mostrare gli errori
     }
+  }
+
+  removeImage(index: number) {
+  }
+
+
+  onFileSelected(event: any) {
   }
 
 

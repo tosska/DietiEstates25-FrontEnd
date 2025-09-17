@@ -94,16 +94,16 @@
     <div class="mb-8">
       <h2 class="text-xl font-semibold text-green-700 mb-2">Posizione</h2>
       <p class="text-gray-700 mb-2">
-        {{ currentListing.address.street }},
-        {{ currentListing.address.city }} ({{ currentListing.address.state }})
+        {{ currentListing.Address.street }},
+        {{ currentListing.Address.city }} ({{ currentListing.Address.state }})
         <br />
-        {{ currentListing.address.postalCode }},
-        {{ currentListing.address.country }}
+        {{ currentListing.Address.postalCode }},
+        {{ currentListing.Address.country }}
       </p>
       <div class="w-full h-64 bg-gray-200 rounded-xl shadow">
         <iframe
           class="w-full h-full rounded-xl"
-          [src]="'https://maps.google.com/maps?q=' + currentListing.address.latitude + ',' + currentListing.address.longitude + '&z=15&output=embed'"
+          [src]="'https://maps.google.com/maps?q=' + currentListing.Address.latitude + ',' + currentListing.Address.longitude + '&z=15&output=embed'"
         ></iframe>
       </div>
     </div>
