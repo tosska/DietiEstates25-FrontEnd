@@ -1,14 +1,9 @@
-<div class="flex flex-col min-h-screen bg-white dark:bg-[#121212] text-[#1B1B1B] dark:text-[#F1F1F1]">
-  <div class="area flex flex-col flex-grow">
-    <!-- Navbar (già sticky) -->
-    <app-navbar class="mynav sticky top-0 z-50" />
-    
-    <!-- Contenuto principale -->
-    <main class="mx-auto flex-grow w-full px-4 sm:px-6 lg:px-8">
-      <router-outlet></router-outlet>
-    </main>
-  </div>
+<div class="flex flex-col min-h-screen bg-white dark:bg-gray-900 text-[#1B1B1B] dark:text-[#F1F1F1]">
+  <app-navbar class="mynav sticky top-0 z-50" />
+  
+  <main class="flex-grow w-full">
+    <router-outlet></router-outlet>
+  </main>
 
-  <!-- Footer -->
   <app-footer />
 </div>
