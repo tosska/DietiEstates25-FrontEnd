@@ -33,7 +33,8 @@ export class CreateListingPageComponent {
 
   listingForm!: FormGroup;
 
-    images: { file: File, url: string }[] = []; 
+  images: File[] = []; 
+  urlPreview: string [] = [];
 
   ngOnInit(): void {
     this.listingForm = new FormGroup({
@@ -169,13 +170,44 @@ export class CreateListingPageComponent {
 
   }
 
+  removeImage(index: number) {
+      if (index > -1 && index < this.urlPreview.length) {
+        this.urlPreview.splice(index, 1);
+    }
+  }
+
+
+  onFileSelected(event: any): void {
+    const files = event.target.files;
+    if (files) {
+      for (const file of files) {
+        // Controlla se il limite massimo di 5 immagini è stato raggiunto
+        if (this.images.length < 5) {
+          const reader = new FileReader();
+          reader.onload = (e: any) => {
+            // Aggiungi l'immagine all'array con il file e l'URL di anteprima
+            this.images.push(file);
+            this.urlPreview.push(e.target.result );
+          };
+          reader.readAsDataURL(file); // Legge l'immagine come url
+        } else {
+          // Opzionale: notifica l'utente che il limite è stato raggiunto
+          console.warn('Limite massimo di 5 immagini raggiunto.');
+  
+        }
+      }
+      // Resetta il valore dell'input per permettere il ricaricamento degli stessi file
+      event.target.value = ''; 
+    }
+  
+
+  }
+
 
 
   onSubmit(): void {
     if (this.listingForm.valid) {
-      console.log('Dati del form validi:', this.listingForm.value);
-      this.toastr.success('Annuncio creato con successo!', 'Successo!');
-
+      
       let listing = this.listingForm.value;
 
       listing.address = this.geoService.convertLocationToAddress(this.selectedLocation!);
@@ -184,10 +216,13 @@ export class CreateListingPageComponent {
 
       console.log('Listing da inviare:', listing);
       
-      this.listingService.createListing(listing).subscribe({
+      this.listingService.createListing(listing, this.images).subscribe({
         next: (listingId) => {
-          console.log('Listing created successfully:', listingId);
-            this.router.navigate(['/listing', listingId]);; // Naviga alla pagina delle listings dopo la creazione
+          this.toastr.success('Annuncio creato con successo!', 'Successo!');
+          this.router.navigate(['/listing', listingId]); // Naviga alla pagina delle listings dopo la creazione
+        },
+        error: (error) => { 
+          this.toastr.error("Si è verificato un errore nella creazione dell'annuncio");
         }
       });
         
@@ -199,12 +234,7 @@ export class CreateListingPageComponent {
     }
   }
 
-  removeImage(index: number) {
-  }
-
-
-  onFileSelected(event: any) {
-  }
+  
 
 
 }

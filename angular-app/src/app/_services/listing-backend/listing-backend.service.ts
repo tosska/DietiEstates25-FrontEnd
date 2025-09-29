@@ -13,8 +13,18 @@ export class ListingBackendService {
     return this.http.get(`${this.url}/listing/${id}`);
   }
 
-  createListing(listingData: Listing) {
-    return this.http.post(`${this.url}/listing`, listingData);
+  createListing(listingData: Listing, photos: File[]) {
+    const formData = new FormData();
+
+    // Aggiungo i dati dell'annuncio come stringa (deve essere JSON)
+    formData.append("listingData", JSON.stringify(listingData));
+
+    // Aggiungo ogni file usando lo stesso nome "photos"
+    photos.forEach((photo) => {
+      formData.append("photos", photo); // <-- stesso nome, multer lo raggruppa
+    });
+
+    return this.http.post(`${this.url}/listing`, formData);
   }
 
   getActiveListingsForAgent() {
@@ -22,7 +32,6 @@ export class ListingBackendService {
   }
 
   getLatestListings(limit: number = 4) {
-
     return this.http.get<Listing[]>(`${this.url}/listings/latest?limit=${limit}`);
   }
 

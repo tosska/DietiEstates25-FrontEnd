@@ -3,12 +3,34 @@
     <!-- Sezione principale: immagini + contatta -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
       <!-- Foto annuncio -->
-      <div
-        class="md:col-span-2 bg-gray-100 rounded-xl h-96 flex items-center justify-center shadow"
-      >
-        <!-- Qui in futuro la galleria -->
-        <span class="text-gray-500">Galleria immagini</span>
+  <div class="md:col-span-2 bg-gray-100 rounded-xl h-96 flex flex-col justify-between p-4 shadow">
+    @if (currentListing.Photos && currentListing.Photos.length > 0) {
+      <div class="flex-grow flex items-center justify-center relative overflow-hidden rounded-lg mb-4">
+        <img 
+          [src]="currentListing.Photos[0].url" 
+          alt="Immagine principale dell'annuncio" 
+          class="w-full h-full object-cover transition-opacity duration-300"
+        />
       </div>
+
+    <div class="flex gap-2 overflow-x-auto pb-2">
+      @for (photo of currentListing.Photos; track photo; let i = $index) {
+        <img
+          [src]="photo.url"
+          alt="Miniatura foto {{ i + 1 }}"
+          (click)="selectPhoto(photo.url)"
+          [class.ring-2]="(selectedPhoto || currentListing.Photos[0].url) === photo.url"
+          [class.ring-green-700]="(selectedPhoto || currentListing.Photos[0]) === photo.url"
+          class="w-20 h-20 object-cover rounded-lg shadow-sm cursor-pointer border-2 border-transparent hover:border-green-500 transition-colors"
+        />
+      }
+    </div>
+  } @else {
+    <div class="flex-grow flex items-center justify-center text-gray-500">
+      <span class="text-gray-500">Nessuna immagine disponibile per questo annuncio.</span>
+    </div>
+  }
+</div>
 
       <!-- Card contatta inserzionista -->
       <div
@@ -35,6 +57,7 @@
         <!-- Pulsante fai un'offerta -->
         <button
           type="button"
+          (click)="openOfferModal()"
           class="bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-lg font-semibold shadow transition"
         >
           Fai un’offerta
@@ -101,11 +124,24 @@
         {{ currentListing.Address.country }}
       </p>
       <div class="w-full h-64 bg-gray-200 rounded-xl shadow">
-        <iframe
-          class="w-full h-full rounded-xl"
-          [src]="'https://maps.google.com/maps?q=' + currentListing.Address.latitude + ',' + currentListing.Address.longitude + '&z=15&output=embed'"
-        ></iframe>
+          <app-geo-map 
+            [isResearch]="false" 
+            [startLatitude]="currentListing.Address.latitude!" 
+            [startLongitude]="currentListing.Address.longitude!"
+            [elementsToMark]="currentListing.Address">
+        </app-geo-map>
       </div>
     </div>
   }
+
+  @if(isOfferModalVisible){
+  <app-offer-modal (close)="closeOfferModal()" 
+    [amountFromListing]="currentListing!.price" 
+    [listingId]="currentListing!.id"
+    [agentId]="currentListing!.agentId"
+    >
+  </app-offer-modal>
+  }
 </div>
+
+

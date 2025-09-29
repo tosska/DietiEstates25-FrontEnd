@@ -11,8 +11,8 @@ import { AgencySignupRequest } from './agency-signup-request.type';
   providedIn: 'root'
 })
 export class RestBackendService {
-  authServiceUrl = "http://localhost:3001";
-  clientServiceUrl = "http://localhost:3002";
+  authServiceUrl = "http://localhost:8000/auth-service";
+  clientServiceUrl = "http://localhost:8000/customer-service";
 
   constructor(private http: HttpClient) {}
 
