@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { GeoMapComponent } from '../../geo-map/geo-map.component';
-import { Address } from '../../_services/geo-service/address-request';
+import { LocationRequest } from '../../_services/geo-service/location-request';
 import {
   trigger,
   state,
@@ -35,15 +35,15 @@ import { FormsModule } from '@angular/forms';
 export class GeoModalComponent {
 
   @Output() close = new EventEmitter<void>();
-  @Output() confirmLocationEvent = new EventEmitter<Address>();
-  selectedLocationFromMap: Address | null = null;
+  @Output() confirmLocationEvent = new EventEmitter<LocationRequest>();
+  selectedLocationFromMap: LocationRequest | null = null;
   selectedRadius: number=1;
   
   onClose() {
     this.close.emit();
   }
 
-  setLocation(location: Address) {
+  setLocation(location: LocationRequest) {
     this.selectedLocationFromMap = location;
     this.selectedLocationFromMap.radiusKm=this.selectedRadius
   }
@@ -59,7 +59,7 @@ export class GeoModalComponent {
   onConfirmLocation(){
     //mi servono solo latitudine e longitudine. Le informazioni sulla località sono solo per il feedback all'utente
     if(this.selectedLocationFromMap) {
-      const location: Address = this.selectedLocationFromMap;
+      const location: LocationRequest = this.selectedLocationFromMap;
 
       this.confirmLocationEvent.emit({
         formatted: location.formatted,

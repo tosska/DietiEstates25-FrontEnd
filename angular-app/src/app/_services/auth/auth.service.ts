@@ -8,28 +8,36 @@ import { RestBackendService } from '../rest-backend/rest-backend.service';
 })
 export class AuthService {
   authState: WritableSignal<AuthState> = signal<AuthState>({
-    user: this.getUser(),
+    id: this.getUserId(),
+    role: this.getRole(),
     token: this.getToken(),
     isAuthenticated: this.verifyToken(this.getToken())
   });
 
-  user = computed(() => this.authState().user);
+  user = computed(() => this.authState().id);
+  role = computed(() => this.authState().role);
   token = computed(() => this.authState().token);
   isAuthenticated = computed(() => this.authState().isAuthenticated);
 
   constructor(private restService: RestBackendService) {
     effect(() => {
       const token = this.authState().token;
-      const user = this.authState().user;
+      const id = this.authState().id;
+      const role = this.authState().role;
       if (token !== null) {
         localStorage.setItem("token", token);
       } else {
         localStorage.removeItem("token");
       }
-      if (user !== null) {
-        localStorage.setItem("user", user);
+      if (id !== null) {
+        localStorage.setItem("id", id.toString());
       } else {
-        localStorage.removeItem("user");
+        localStorage.removeItem("id");
+      }
+      if (role !== null) {
+        localStorage.setItem("role", role);
+      } else {
+        localStorage.removeItem("role");
       }
       console.log('authState aggiornato:', this.authState());
     });
@@ -40,19 +48,21 @@ export class AuthService {
       const decodedToken: any = jwtDecode(token);
       console.log('Token decodificato in updateToken:', decodedToken); // Debug
       const userId = decodedToken.userId;
-      const role = decodedToken.role;
+      //const role = decodedToken.role;
+      const role = "agent"; // Temporaneo, da rimuovere dopo debug
       console.log('User ID estratto:', userId, 'Role:', role);
       const isValid = this.verifyToken(token);
       localStorage.setItem("token", token); // Salva il token
       this.authState.set({
-        user: userId,
+        id: userId,
+        role: role,
         token: token,
         isAuthenticated: isValid
       });
       if (userId) this.fetchUserName(userId);
     } catch (error) {
       console.error('Errore decodifica token:', error);
-      this.authState.set({ user: null, token: null, isAuthenticated: false });
+      this.authState.set({ id: null, role: null, token: null, isAuthenticated: false });
     }
   }
   
@@ -77,9 +87,14 @@ export class AuthService {
       }
     });
   }
+  //andrebbe cambiato nome del metodo
+  getUserId(): number | null {
+    const id = localStorage.getItem("id");
+    return id ? Number(id) : null;
+  }
 
-  getUser(): string | null {
-    return localStorage.getItem("user");
+  getRole(): string | null {
+    return localStorage.getItem("role");
   }
 
   verifyToken(token: string | null): boolean {
@@ -107,7 +122,8 @@ export class AuthService {
 
   logout() {
     this.authState.set({
-      user: null,
+      id: null,
+      role: null,
       token: null,
       isAuthenticated: false
     });

@@ -1,7 +1,8 @@
-export interface Address{
+export interface LocationRequest{
 
     formatted: string;
     street?: string;
+    housenumber?: string;
     city?: string;
     state?: string;
     postalCode?: string;
@@ -10,6 +11,7 @@ export interface Address{
     longitude?: number;
     latitude?: number;
     radiusKm?: number;
+    idPlace?: string;
 
 }
 

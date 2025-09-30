@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Listing } from './listing';
 
 @Injectable({
   providedIn: 'root'
@@ -12,5 +13,18 @@ export class ListingBackendService {
     return this.http.get(`${this.url}/listing/${id}`);
   }
 
-  
+  createListing(listingData: Listing) {
+    return this.http.post(`${this.url}/listing`, listingData);
+  }
+
+  getActiveListingsForAgent() {
+    return this.http.get<Listing[]>(`${this.url}/agent/listings/active`);
+  }
+
+  getLatestListings(limit: number = 4) {
+
+    return this.http.get<Listing[]>(`${this.url}/listings/latest?limit=${limit}`);
+  }
+
+
 }

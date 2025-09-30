@@ -1,0 +1,265 @@
+<div class="min-h-screen bg-gray-100 text-gray-800 p-8 sm:p-12 lg:p-16">
+<div class="max-w-7xl mx-auto">
+<h2 class="text-5xl font-extrabold mb-10 text-center tracking-tight text-green-600">
+Crea un Nuovo Annuncio
+</h2>
+
+<form [formGroup]="listingForm" (ngSubmit)="onSubmit()" class="space-y-8">
+  
+  <div class="p-10 rounded-2xl bg-white shadow-xl border border-green-100">
+    <h3 class="text-3xl font-semibold mb-8 text-green-600">Informazioni Annuncio</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+
+      <div>
+        <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Titolo</label>
+        <input id="title" type="text" formControlName="title"
+               class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
+                      focus:border-green-600 focus:ring-green-600 sm:text-lg px-5 py-3 transition-colors duration-200">
+        @if (listingForm.get('title')?.invalid && (listingForm.get('title')?.dirty || listingForm.get('title')?.touched)) {
+          <div class="text-red-500 text-xs mt-1">Il titolo è obbligatorio.</div>
+        }
+      </div>
+
+      <div>
+        <label for="price" class="block text-sm font-medium text-gray-700 mb-2">Prezzo (€)</label>
+        <input id="price" type="number" formControlName="price"
+               class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
+                      focus:border-green-600 focus:ring-green-600 sm:text-lg px-5 py-3 transition-colors duration-200">
+        @if (listingForm.get('price')?.invalid && (listingForm.get('price')?.dirty || listingForm.get('price')?.touched)) {
+          <div class="text-red-500 text-xs mt-1">Il prezzo è obbligatorio.</div>
+        }
+      </div>
+
+      <div>
+        <label for="listingType" class="block text-sm font-medium text-gray-700 mb-2">Tipo Annuncio</label>
+        <select id="listingType" formControlName="listingType"
+                class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
+                       focus:border-green-600 focus:ring-green-600 sm:text-lg px-5 py-3 transition-colors duration-200">
+          <option value="Sale">Vendita</option>
+          <option value="Rent">Affitto</option>
+        </select>
+        @if (listingForm.get('listingType')?.invalid && (listingForm.get('listingType')?.dirty || listingForm.get('listingType')?.touched)) {
+          <div class="text-red-500 text-xs mt-1">Il tipo di annuncio è obbligatorio.</div>
+        }
+      </div>
+
+      <div>
+        <label for="endPublicationDate" class="block text-sm font-medium text-gray-700 mb-2">Data Fine Pubblicazione</label>
+        <input id="endPublicationDate" type="date" formControlName="endPublicationDate"
+               class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
+                      focus:border-green-600 focus:ring-green-600 sm:text-lg px-5 py-3 transition-colors duration-200">
+        @if (listingForm.get('endPublicationDate')?.invalid && (listingForm.get('endPublicationDate')?.dirty || listingForm.get('endPublicationDate')?.touched)) {
+          <div class="text-red-500 text-xs mt-1">La data di fine pubblicazione è obbligatoria.</div>
+        }
+      </div>
+    </div>
+
+    <div class="mt-8">
+      <label for="description" class="block text-sm font-medium text-gray-700 mb-2">Descrizione</label>
+      <textarea id="description" rows="4" formControlName="description"
+                class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
+                       focus:border-green-600 focus:ring-green-600 sm:text-lg px-5 py-3 transition-colors duration-200"></textarea>
+      @if (listingForm.get('description')?.invalid && (listingForm.get('description')?.dirty || listingForm.get('description')?.touched)) {
+        <div class="text-red-500 text-xs mt-1">La descrizione è obbligatoria.</div>
+      }
+    </div>
+  </div>
+
+  <div class="p-10 rounded-2xl bg-white shadow-xl border border-green-100">
+  <h3 class="text-3xl font-semibold mb-8 text-green-600">Carica Immagini</h3>
+  <div class="space-y-6">
+    <input type="file" #fileInput multiple accept="image/*" class="hidden" (change)="onFileSelected($event)">
+    
+    <button type="button" (click)="fileInput.click()"
+            class="w-full inline-flex justify-center rounded-lg border-2 border-dashed border-green-300
+                   py-6 px-4 text-base font-semibold text-green-600 hover:border-green-500
+                   hover:text-green-800 transition-colors duration-200"
+            [disabled]="images.length >= 5">
+      Carica fino a 5 Immagini 📸
+    </button>
+    @if (images.length >= 5) {
+      <div class="text-sm text-center text-gray-500 mt-2">
+        Hai raggiunto il limite massimo di 5 immagini.
+      </div>
+    }
+
+    @if (images.length > 0) {
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mt-6">
+        @for (image of images; track $index) {
+          <div class="relative group">
+            <img [src]="image.url" [alt]="'Anteprima immagine ' + ($index + 1)" 
+                 class="w-full h-32 object-cover rounded-lg shadow-md border border-gray-200">
+            <button type="button" (click)="removeImage($index)" 
+                    class="absolute top-2 right-2 p-1 bg-red-600 text-white rounded-full 
+                           opacity-0 group-hover:opacity-100 transition-opacity duration-200
+                           hover:bg-red-700">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>
+  
+  <div class="p-10 rounded-2xl bg-white shadow-xl border border-green-100">
+    <h3 class="text-3xl font-semibold mb-8 text-green-600">Dettagli Immobile</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+      
+      <div>
+        <label for="propertyType" class="block text-sm font-medium text-gray-700 mb-2">Tipo Immobile</label>
+        <input id="propertyType" type="text" formControlName="propertyType"
+               class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
+                      focus:border-green-600 focus:ring-green-600 sm:text-lg px-5 py-3 transition-colors duration-200">
+        @if (listingForm.get('propertyType')?.invalid && (listingForm.get('propertyType')?.dirty || listingForm.get('propertyType')?.touched)) {
+          <div class="text-red-500 text-xs mt-1">Il tipo di immobile è obbligatorio.</div>
+        }
+      </div>
+
+      <div>
+        <label for="area" class="block text-sm font-medium text-gray-700 mb-2">Area (mq)</label>
+        <input id="area" type="number" formControlName="area"
+               class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
+                      focus:border-green-600 focus:ring-green-600 sm:text-lg px-5 py-3 transition-colors duration-200">
+        @if (listingForm.get('area')?.invalid && (listingForm.get('area')?.dirty || listingForm.get('area')?.touched)) {
+          <div class="text-red-500 text-xs mt-1">L'area è obbligatoria.</div>
+        }
+      </div>
+
+      <div>
+        <label for="numberRooms" class="block text-sm font-medium text-gray-700 mb-2">Numero Camere</label>
+        <input id="numberRooms" type="number" formControlName="numberRooms"
+               class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
+                      focus:border-green-600 focus:ring-green-600 sm:text-lg px-5 py-3 transition-colors duration-200">
+        @if (listingForm.get('numberRooms')?.invalid && (listingForm.get('numberRooms')?.dirty || listingForm.get('numberRooms')?.touched)) {
+          <div class="text-red-500 text-xs mt-1">Il numero di camere è obbligatorio.</div>
+        }
+      </div>
+
+      <div>
+        <label for="constructionYear" class="block text-sm font-medium text-gray-700 mb-2">Anno Costruzione</label>
+        <input id="constructionYear" type="number" formControlName="constructionYear"
+               class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
+                      focus:border-green-600 focus:ring-green-600 sm:text-lg px-5 py-3 transition-colors duration-200">
+        @if (listingForm.get('constructionYear')?.invalid && (listingForm.get('constructionYear')?.dirty || listingForm.get('constructionYear')?.touched)) {
+          <div class="text-red-500 text-xs mt-1">L'anno di costruzione è obbligatorio.</div>
+        }
+      </div>
+
+      <div>
+        <label for="energyClass" class="block text-sm font-medium text-gray-700 mb-2">Classe Energetica</label>
+        <select id="energyClass" formControlName="energyClass"
+                class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
+                       focus:border-green-600 focus:ring-green-600 sm:text-lg px-5 py-3 transition-colors duration-200">
+          <option value="">Seleziona</option>
+          <option value="A4">A4</option>
+          <option value="A3">A3</option>
+          <option value="A2">A2</option>
+          <option value="A1">A1</option>
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C">C</option>
+          <option value="D">D</option>
+          <option value="E">E</option>
+          <option value="F">F</option>
+          <option value="G">G</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="p-10 rounded-2xl bg-white shadow-xl border border-green-100" formGroupName="address">
+    <h3 class="text-3xl font-semibold mb-8 text-green-600">Dettagli Indirizzo</h3>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-x-12 gap-y-8 mb-8 relative">
+      <div class="col-span-2">
+        <label for="street" class="block text-sm font-medium text-gray-700 mb-2">Via</label>
+        <input id="street" type="text" autocomplete="off" (blur)="closeSuggestionList()" formControlName="street"
+               class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
+                      focus:border-green-600 focus:ring-green-600 sm:text-lg px-5 py-3 transition-colors duration-200">
+        @if (listingForm.get('address.street')?.invalid && (listingForm.get('address.street')?.dirty || listingForm.get('address.street')?.touched)) {
+          <div class="text-red-500 text-xs mt-1">La via è obbligatoria.</div>
+        }
+
+        @if (streetSuggestions.length > 0) {
+          <ul class="absolute z-10 bg-white border border-green-200 rounded-lg shadow-2xl mt-2 w-full max-h-48 overflow-y-auto">
+            @for (sug of streetSuggestions; track $index) {
+              <li (mousedown)="selectSuggestionStreet(sug)"
+                  class="px-5 py-3 hover:bg-green-100 cursor-pointer text-sm transition-colors duration-200">
+                {{ sug.formatted }}
+              </li>
+            }
+          </ul>
+        }
+      </div>
+
+      <div>
+        <label for="houseNumber" class="block text-sm font-medium text-gray-700 mb-2">N. Civico</label>
+        <input id="houseNumber" type="text" formControlName="houseNumber"
+               class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
+                      focus:border-green-600 focus:ring-green-600 sm:text-lg px-5 py-3 transition-colors duration-200">
+      </div>
+    </div>
+
+    <div class="mb-8">
+      <label for="addressDetail" class="block text-sm font-medium text-gray-700 mb-2">Dettagli Indirizzo</label>
+      <input id="addressDetail" type="text" formControlName="unitDetail"
+             class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
+                    focus:border-green-600 focus:ring-green-600 sm:text-lg px-5 py-3 transition-colors duration-200">
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 mb-8 relative">
+      <div>
+        <label for="city" class="block text-sm font-medium text-gray-700 mb-2">Città</label>
+        <input id="city" type="text" autocomplete="off" (blur)="closeSuggestionList()" formControlName="city"
+               class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
+                      focus:border-green-600 focus:ring-green-600 sm:text-lg px-5 py-3 transition-colors duration-200">
+        @if (listingForm.get('address.city')?.invalid && (listingForm.get('address.city')?.dirty || listingForm.get('address.city')?.touched)) {
+          <div class="text-red-500 text-xs mt-1">La città è obbligatoria.</div>
+        }
+
+        @if (citySuggestions.length > 0) {
+          <ul class="absolute z-10 bg-white border border-green-200 rounded-lg shadow-2xl mt-2 w-full max-h-48 overflow-y-auto">
+            @for (sug of citySuggestions; track $index) {
+              <li (mousedown)="selectSuggestionCity(sug)"
+                  class="px-5 py-3 hover:bg-green-100 cursor-pointer text-sm transition-colors duration-200">
+                {{ sug.formatted }}
+              </li>
+            }
+          </ul>
+        }
+      </div>
+
+      <div>
+        <label for="postalCode" class="block text-sm font-medium text-gray-700 mb-2">CAP</label>
+        <input id="postalCode" type="text" formControlName="postalCode"
+               class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
+                      focus:border-green-600 focus:ring-green-600 sm:text-lg px-5 py-3 transition-colors duration-200">
+      </div>
+    </div>
+
+    <div class="flex justify-end pt-4">
+      <button type="button" (click)="verifyAddress()"
+              class="inline-flex justify-center rounded-lg border border-transparent
+                     bg-blue-600 py-3 px-8 text-base font-semibold text-white shadow-md
+                     hover:bg-blue-700 focus:outline-none focus:ring-2
+                     focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-gray-100 transition-colors duration-200">
+        Verifica Indirizzo
+      </button>
+    </div>
+  </div>
+
+  <div class="flex justify-center pt-8">
+    <button type="submit" [disabled]="listingForm.invalid"
+            class="w-full max-w-sm inline-flex justify-center rounded-lg border border-transparent 
+                   bg-green-600 py-4 px-10 text-xl font-bold text-white shadow-lg 
+                   hover:bg-green-700 focus:outline-none focus:ring-2 
+                   focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-gray-100 disabled:bg-gray-400 transition-colors duration-200">
+      Crea Annuncio
+    </button>
+  </div>
+</form>
+</div>
+</div>

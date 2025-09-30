@@ -17,6 +17,37 @@
       (blur)="hideDropdownWithDelay()"
       (keyup)="onInput($event)"
     />
+
+    @if(dropdownVisibleSuggestions) {
+      <div
+        class="absolute left-0 right-0 mt-2 bg-white dark:bg-gray-700 border border-[#A5D6A7] dark:border-[#66BB6A] rounded-lg shadow-lg z-10"
+      >
+        @for (suggestion of suggestedAddresses; track $index) {
+          <button
+            type="button"
+            (click)="onSelectLocation(suggestion)"
+            class="w-full text-left px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-[#E8F5E9] dark:hover:bg-[#2E7D32] rounded-t-lg"
+          >
+            {{ suggestion.formatted }}
+          </button>
+        }
+      </div>
+    }
+
+    @if (dropdownVisibleMap) {
+      <div
+      class="absolute left-0 right-0 mt-2 bg-white dark:bg-gray-700 border border-[#A5D6A7] dark:border-[#66BB6A] rounded-lg shadow-lg z-10"
+      >
+      <button
+        type="button"
+        (mousedown)="onMapSearchClick()"
+        class="w-full text-left px-4 py-2 text-sm text-gray-900 dark:text-gray-100 hover:bg-[#E8F5E9] dark:hover:bg-[#2E7D32] rounded-t-lg"
+      >
+        🔍 Ricerca su mappa interattiva
+      </button>
+      </div>
+    }
+
   </div>
 
   <div class="flex items-center gap-4 w-full sm:w-auto">
@@ -47,3 +78,19 @@
     </button>
   </div>
 </form>
+
+
+@if (isFilterModalOpen) {
+<app-filter-modal
+  [selectedLocation]="selectedLocation"
+  (closeFilters)="closeFilters()"
+  (applyFilters)="handleApplyFilters($event)">
+</app-filter-modal>
+}
+
+@if(isGeoModalOpen) {
+<app-geo-modal
+  (close)="closeMap()"
+  (confirmLocationEvent)="onSelectLocation($event)">
+</app-geo-modal>
+}
