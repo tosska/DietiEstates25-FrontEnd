@@ -13,6 +13,7 @@ import { roleGuard } from './_guards/role.guard';
 import { UnauthorizedComponent } from './_error-components/unauthorized/unauthorized.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ActiveListingsComponent } from './dashboard/active-listings/active-listings.component';
+import { OffersReceivedComponent } from './dashboard/offers-received/offers-received.component';
 
 export const routes: Routes = [
     {
@@ -69,6 +70,11 @@ export const routes: Routes = [
               { path: 'active-listings', 
                 component: ActiveListingsComponent,
                 title: "Active Listings | DietiEstates App"
+               },
+               {
+                path: 'offers-received',
+                component: OffersReceivedComponent,
+                title: "Offers Received | DietiEstates App" 
                }
         ]
     },{

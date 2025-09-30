@@ -7,6 +7,6 @@ export interface Address {
   country: string;
   unitDetail: string;
   postalCode: string;
-  longitude?: number | null;
-  latitude?: number | null;
+  longitude: number | null;
+  latitude: number | null;
 }

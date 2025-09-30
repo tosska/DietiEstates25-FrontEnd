@@ -1,0 +1,62 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900 bg-opacity-75" (click)="closeModal()">
+  <div class="w-full max-w-lg p-6 bg-white rounded-xl shadow-2xl transition-transform transform scale-100 opacity-100 duration-300 ease-out"
+       (click)="$event.stopPropagation()">
+
+    <div class="flex items-center justify-between pb-4 border-b border-gray-200">
+      <h2 class="text-2xl font-bold text-gray-800">Fai un’offerta</h2>
+      <button (click)="closeModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="py-6">
+      <p class="mb-6 text-gray-600">
+        Inserisci la tua offerta e un messaggio per l’inserzionista.
+      </p>
+      
+      <form [formGroup]="offerForm" (ngSubmit)="onSubmitForm()">
+        <!-- Importo offerta migliorato -->
+        <div class="mb-4">
+          <label for="offer" class="block text-sm font-medium text-gray-700">
+            Importo dell'offerta
+          </label>
+          <div class="relative mt-1">
+            <span class="absolute inset-y-0 left-3 flex items-center text-gray-500 font-medium">€</span>
+            <input type="text" id="amount"
+                   class="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+                   placeholder="Esempio: 250.000"
+                   [value]="formattedOffer"
+                   (input)="onOfferInput($event)">
+          </div>
+
+          @if (offerForm.get('amount')?.touched && offerForm.get('amount')?.invalid) {
+            <div class="mt-1 text-sm text-red-600">
+              @if (offerForm.get('amount')?.hasError('required')) {
+                <span>L'importo è obbligatorio.</span>
+              }
+              @if (offerForm.get('amount')?.hasError('min')) {
+                <span>L'importo deve essere maggiore di 0.</span>
+              }
+            </div>
+          }
+        </div>
+
+        <!-- Messaggio -->
+        <div class="mb-6">
+          <label for="message" class="block text-sm font-medium text-gray-700">Messaggio</label>
+          <textarea id="message" formControlName="message" rows="4"
+                    class="w-full px-4 py-2 mt-1 border border-gray-300 rounded-lg focus:ring-green-500 focus:border-green-500"
+                    placeholder="Scrivi qui il tuo messaggio..."></textarea>
+        </div>
+        
+        <!-- Pulsante invio -->
+        <button type="submit" [disabled]="offerForm.invalid"
+                class="w-full py-3 text-white transition-colors bg-green-600 rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 disabled:opacity-50">
+          Invia Offerta
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

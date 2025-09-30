@@ -2,6 +2,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import * as L from 'leaflet';
 import { LocationRequest } from '../_services/geo-service/location-request';
 import { GeoService } from '../_services/geo-service/geo.service';
+import { Listing } from '../_services/listing-backend/listing';
 
 @Component({
   selector: 'app-geo-map',
@@ -16,14 +17,13 @@ export class GeoMapComponent {
   @Input() height: string = '400px';
   @Input() circleRadiusKm: number = 1;
   @Input() isResearch: boolean = true;
-  @Input() elementsToMark: any[] = [];
+  @Input() elementsToMark: any[] | any | null= [];
   @Input() focusOn: any = null;
+  @Input() startLatitude: number = 45.4642;
+  @Input() startLongitude: number = 9.1900;
 
 
   private map!: L.Map;
-
-
-
   selectedLocation : LocationRequest | null = null;
   @Output() selectedLocationEvent = new EventEmitter<LocationRequest>();
   geoService = inject(GeoService);
@@ -33,7 +33,8 @@ export class GeoMapComponent {
 
   ngOnInit() {
 
-    this.map = L.map('modal-map').setView([45.4642, 9.1900], 13); // Milano
+    this.setCurrentPosition();
+    this.map = L.map('modal-map').setView([this.startLatitude, this.startLongitude], 13); // Milano
 
     L.tileLayer(`https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=8b73f3e3576c4ff489b1f97f34475ed9`, {
       attribution:
@@ -49,11 +50,28 @@ export class GeoMapComponent {
         this.setSearchRadius(e);
       }
     });
+
+    console.log(this.elementsToMark)
+    if(this.elementsToMark) {
+      this.setMarkFromElements();
+    }
+
+  }
+
+  private setCurrentPosition(): void{
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+      this.startLatitude = position.coords.latitude;
+      this.startLongitude = position.coords.longitude;
+    })};
+
   }
 
   ngOnChanges(){
 
-    this.setMarkFromElements();
+    if(this.map) {
+      this.setMarkFromElements();
+    }
     
     const location = this.selectedLocation;
 
@@ -67,12 +85,19 @@ export class GeoMapComponent {
 
   setMarkFromElements() {
     
-    if(this.elementsToMark && this.elementsToMark.length>0) {
-      this.elementsToMark.forEach( (elem) => {
+    if(this.elementsToMark) {
+
+      // Normalizzo: se è un singolo oggetto, lo trasformo in array
+      const elementsArray = Array.isArray(this.elementsToMark)
+      ? this.elementsToMark
+      : [this.elementsToMark];
+
+      
+      elementsArray.forEach( (elem : any) => {
         if(elem.latitude && elem.longitude) {
           this.createMarker(elem.latitude, elem.longitude, elem);
         }})
-    
+
     }
   }
 
@@ -108,7 +133,7 @@ export class GeoMapComponent {
         shadowSize: [41, 41]
       })
     });
-
+    /*
     if (elem) {
       const popupContent = `
         <div style="width:150px">
@@ -118,7 +143,9 @@ export class GeoMapComponent {
         </div>`;
 
         this.currentMarker.bindPopup(popupContent);
-    }
+    }*/
+
+
     this.currentMarker.addTo(this.map);
   }
 
