@@ -63,7 +63,7 @@
             </div>
 
             @if (listingIdsWithCount[$index].count > 0) {
-              <button class="view-offers-btn primary-green-btn">
+              <button (click)="openOffersPage(listing.id)" class="view-offers-btn primary-green-btn">
                 Gestisci Offerte
               </button>
             } @else {

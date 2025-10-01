@@ -17,8 +17,16 @@ export class OfferBackendService {
     return this.http.post(`${this.url}/offer`, offerData);
   }
 
-  getCountOfActiveOffersGroupListing() {
-    return this.http.get(`${this.url}/offers/count-by-listing`);
+  getCountOfPendingOffersGroupListing() {
+    return this.http.get(`${this.url}/offers/pending/count-by-listing`);
 
+  }
+
+  getAllPendingOffersByListingId(listingId: number) {
+    return this.http.get(`${this.url}/offers/pending/listing/${listingId}`);
+  }
+
+  responseToOffer(offerId: number, response: string) {
+    return this.http.put(`${this.url}/offer/${offerId}/response`, { response });
   }
 }
