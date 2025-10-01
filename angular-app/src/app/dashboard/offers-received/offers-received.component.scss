@@ -1,0 +1,244 @@
+/* Variabili per coerenza cromatica: Bianco e Verde */
+$primary-green: #4caf50;    // Verde principale
+$primary-dark-green: #388e3c; // Verde scuro per hover
+$primary-light: #e8f5e9;  // Sfondo verde molto chiaro
+$white: #ffffff;          // Bianco
+$text-dark: #333333;      // Testo scuro
+$text-light: #757575;     // Testo secondario
+$danger-red: #f44336;     // Rosso per stato Chiuso
+$bg-light: #fafafa;       // Sfondo pagina
+$border-light: #e0e0e0;   // Bordi leggeri
+
+.received-offers-container {
+  padding: 20px;
+  max-width: 1300px;
+  margin: 0 auto;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  h2 {
+    color: $primary-green;
+    margin-bottom: 30px;
+    padding-bottom: 10px;
+    font-weight: 300;
+  }
+}
+
+.loading-message, .no-listings, .filter-empty-message {
+  text-align: center;
+  padding: 40px;
+  border: 1px dashed $primary-green;
+  background-color: $primary-light;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.primary-green-btn {
+  background-color: $primary-green;
+  color: $white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    background-color: $primary-dark-green;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+.add-listing-btn {
+  @extend .primary-green-btn;
+  margin-top: 15px;
+}
+
+.listings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+// Stile della CARD ORIZZONTALE
+.listing-card.horizontal {
+  display: flex;
+  background-color: $white;
+  border: 1px solid $border-light;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s, box-shadow 0.3s;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  &.listing-closed {
+    opacity: 0.7;
+    background-color: $bg-light;
+  }
+
+  // Sezione Immagine Placeholder
+  .card-image-placeholder {
+    width: 200px; // Larghezza fissa per l'immagine
+    min-width: 200px;
+    background: linear-gradient(135deg, $primary-light, $border-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: $text-light;
+    font-size: 0.9rem;
+    overflow: hidden;
+    
+    .image-text {
+        padding: 10px;
+        background-color: rgba($primary-green, 0.1);
+        border: 1px dashed rgba($primary-green, 0.5);
+        border-radius: 5px;
+    }
+  }
+
+  // Contenuto principale (titolo, dettagli, footer)
+  .card-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 20px;
+  }
+  
+  // Riassetto delle sezioni interne
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 0; // Rimosso padding interno
+    border-bottom: none;
+    margin-bottom: 5px;
+
+    .title {
+      font-size: 1.3rem;
+      color: $text-dark;
+      margin: 0;
+      font-weight: 600;
+    }
+  }
+
+  .card-body {
+    padding: 0;
+    flex-grow: 1;
+    margin-bottom: 10px;
+    
+    .price-display {
+      font-size: 1.6rem;
+      color: $primary-dark-green;
+      margin: 5px 0 10px 0;
+      
+      strong {
+        font-weight: 700;
+      }
+      .type-label {
+        font-size: 0.9rem;
+        color: $text-light;
+      }
+    }
+    
+    .info-group {
+      gap: 20px;
+      font-size: 0.95rem;
+      
+      .info-item {
+        color: $text-light;
+        .icon-area::before { color: $primary-green; content: "🏠"; margin-right: 5px; }
+        .icon-rooms::before { color: $primary-green; content: "🔑"; margin-right: 5px; }
+      }
+      .property-type {
+          font-weight: bold;
+      }
+    }
+  }
+
+  .card-footer {
+    padding: 10px 0 0 0;
+    background-color: transparent;
+    border-top: 1px dashed $border-light;
+    
+    .dates {
+        font-size: 0.8rem;
+        color: $text-light;
+    }
+  }
+
+  // Sezione Contatore e Azioni (Verticale a destra)
+  .card-actions-summary {
+    width: 150px;
+    min-width: 150px;
+    background-color: $primary-light;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around; // Centra verticalmente gli elementi
+    align-items: center;
+    text-align: center;
+    border-left: 1px solid $border-light;
+    
+    .offer-count-pill {
+      display: block; // Rimosso flex per layout verticale
+      margin-bottom: 20px;
+      padding: 10px;
+      border-radius: 8px;
+      background-color: $white;
+      color: $primary-dark-green;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      &.highlight {
+        background-color: $primary-green;
+        color: $white;
+      }
+
+      .count {
+        display: block;
+        font-size: 2.2rem;
+        font-weight: 700;
+        line-height: 1;
+        margin-right: 0;
+      }
+      .label {
+        display: block;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        font-weight: 500;
+      }
+    }
+
+    .view-offers-btn {
+      @extend .primary-green-btn;
+      width: 100%;
+    }
+
+    .no-offers-text {
+      font-style: italic;
+      color: $text-light;
+      font-size: 0.85rem;
+    }
+  }
+}
+
+// Stile per i badge di stato
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: $white;
+    text-transform: uppercase;
+
+    &[data-status='active'] {
+      background-color: $primary-green;
+    }
+    &[data-status='closed'] {
+      background-color: $danger-red;
+    }
+    &[data-status='unknown'] {
+      background-color: $text-light;
+    }
+}

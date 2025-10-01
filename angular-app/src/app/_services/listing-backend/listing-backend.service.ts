@@ -35,5 +35,9 @@ export class ListingBackendService {
     return this.http.get<Listing[]>(`${this.url}/listings/latest?limit=${limit}`);
   }
 
+  getListingsByIds(listingIds: number[]) {
+    return this.http.post<Listing[]>(`${this.url}/listings/by-ids`, { listingIds: listingIds });
+  }
+
 
 }

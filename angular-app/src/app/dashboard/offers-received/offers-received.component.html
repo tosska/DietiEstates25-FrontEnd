@@ -1,0 +1,82 @@
+<div class="received-offers-container">
+  <h2>Offerte Ricevute sugli Annunci 🟢</h2>
+
+  @if (isLoading) {
+    <div class="loading-message">
+      <div class="spinner"></div>
+      <p>Caricamento annunci in corso...</p>
+    </div>
+  } @else if (listingPures.length === 0) {
+    <div class="no-listings">
+      <p>Non hai annunci attivi con offerte ricevute.</p>
+      <button class="add-listing-btn">Crea Nuovo Annuncio</button>
+    </div>
+  } @else {
+    <div class="listings-list">
+      @for (listing of listingPures; track $index) {
+        <article class="listing-card horizontal" [class.listing-closed]="listing.status === 'Closed'">
+          
+          <div class="card-image-placeholder">
+            <span class="image-text">Foto Placeholder</span>
+          </div>
+
+          <div class="card-content">
+            <header class="card-header">
+              <h3 class="title">{{ listing.title | slice:0:40 }}{{ listing.title.length > 40 ? '...' : '' }}</h3>
+
+              <div class="status-badge" [attr.data-status]="(listing.status) | lowercase">
+                {{ listing.status }}
+              </div>
+            </header>
+
+            <section class="card-body">
+              <p class="price-display">
+                Prezzo: <strong>{{ listing.price | currency:'EUR':'symbol':'1.0-2' }}</strong>
+                <span class="type-label">({{ listing.listingType }})</span>
+              </p>
+
+              <div class="info-group">
+                <span class="info-item">
+                  <i class="icon-area"></i> {{ listing.area }} m²
+                </span>
+                <span class="info-item">
+                  <i class="icon-rooms"></i> {{ listing.numberRooms }} Vani
+                </span>
+                <span class="info-item property-type">
+                  Tipo: {{ listing.propertyType }}
+                </span>
+              </div>
+            </section>
+
+            <footer class="card-footer">
+              <div class="dates">
+                <span class="date-item">Pubblicato: {{ listing.publicationDate | date:'shortDate' }}</span>
+                <span class="date-item date-end">Scadenza: {{ listing.endPublicationDate | date:'shortDate' }}</span>
+              </div>
+            </footer>
+          </div>
+          
+          <div class="card-actions-summary">
+            <div class="offer-count-pill" [class.highlight]="listingIdsWithCount[$index].count > 0">
+              <span class="count">{{ listingIdsWithCount[$index].count }}</span>
+              <span class="label">Offerte Ricevute</span>
+            </div>
+
+            @if (listingIdsWithCount[$index].count > 0) {
+              <button class="view-offers-btn primary-green-btn">
+                Gestisci Offerte
+              </button>
+            } @else {
+              <span class="no-offers-text">Nessuna offerta in attesa.</span>
+            }
+          </div>
+          
+        </article>
+      }
+
+      @empty {
+        <p class="filter-empty-message">Nessun annuncio trovato con i filtri correnti.</p>
+      }
+    </div>
+  }
+</div>
