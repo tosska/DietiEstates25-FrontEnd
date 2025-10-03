@@ -14,6 +14,7 @@ import { UnauthorizedComponent } from './_error-components/unauthorized/unauthor
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ActiveListingsComponent } from './dashboard/active-listings/active-listings.component';
 import { OffersReceivedComponent } from './dashboard/offers-received/offers-received.component';
+import { OffersByListingComponent } from './dashboard/offers-received/offers-by-listing/offers-by-listing.component';
 
 export const routes: Routes = [
     {
@@ -74,7 +75,17 @@ export const routes: Routes = [
                {
                 path: 'offers-received',
                 component: OffersReceivedComponent,
-                title: "Offers Received | DietiEstates App" 
+                title: "Offers Received | DietiEstates App",
+                children: [
+    
+                ]
+               }, {
+
+                 path: 'offers-received/listing/:id',
+                    component: OffersByListingComponent,
+                      title: "Offers by Listing | DietiEstates App"
+                    
+
                }
         ]
     },{

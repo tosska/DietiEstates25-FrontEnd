@@ -42,35 +42,39 @@ export class OffersReceivedComponent {
     this.fetchOffersCountAndListings();
   }
   
-private fetchOffersCountAndListings(): void {
-  this.isLoading = true;
+  private fetchOffersCountAndListings(): void {
+    this.isLoading = true;
 
-  this.offerService.getCountOfActiveOffersGroupListing().subscribe({
-    next: (offerCounts) => {
-      this.listingIdsWithCount = offerCounts as ListingIdWithCount[];
-      console.log('Listing IDs with offer counts:', this.listingIdsWithCount);
-      const listingIds = this.listingIdsWithCount.map(item => item.listing_id); 
-      console.log('Extracted listing IDs:', listingIds);
-      this.fetchListingsByIds(listingIds);
-      this.isLoading = false;
-    },
-    error: (error) => { 
-      console.error('Errore nel recupero del conteggio delle offerte:', error);
-    }
-  });
-}
+    this.offerService.getCountOfPendingOffersGroupListing().subscribe({
+      next: (offerCounts) => {
+        this.listingIdsWithCount = offerCounts as ListingIdWithCount[];
+        console.log('Listing IDs with offer counts:', this.listingIdsWithCount);
+        const listingIds = this.listingIdsWithCount.map(item => item.listing_id); 
+        console.log('Extracted listing IDs:', listingIds);
+        this.fetchListingsByIds(listingIds);
+        this.isLoading = false;
+      },
+      error: (error) => { 
+        console.error('Errore nel recupero del conteggio delle offerte:', error);
+      }
+    });
+  }
 
-private fetchListingsByIds(listingIds: number[]): void {
-  this.listingService.getListingsByIds(listingIds).subscribe({
-    next: (listings) => { 
-      this.listingPures = listings as Listing[];
-      console.log('Listings fetched by IDs:', this.listingPures);
-    },
-    error: (error) => { 
-      console.error('Errore nel recupero degli annunci:', error);
-    }
-  });
+  private fetchListingsByIds(listingIds: number[]): void {
+    this.listingService.getListingsByIds(listingIds).subscribe({
+      next: (listings) => { 
+        this.listingPures = listings as Listing[];
+        console.log('Listings fetched by IDs:', this.listingPures);
+      },
+      error: (error) => { 
+        console.error('Errore nel recupero degli annunci:', error);
+      }
+    });
 
+  }
+
+  openOffersPage(listingId: number): void {
+    this.router.navigate(['/dashboard-agent/offers-received/listing', listingId]);
   }
 
 

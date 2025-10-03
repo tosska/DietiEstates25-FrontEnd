@@ -1,0 +1,84 @@
+<div class="offers-detail-wrapper">
+  <header class="header">
+    <button class="back-btn" (click)="goBack()">
+      <i class="icon-arrow-left"></i> Torna agli annunci
+    </button>
+    <div class="header-content">
+      <h2>Offerte per: <span class="listing-title">{{ listingSelected!.title }}</span></h2>
+      <p class="listing-price">Prezzo Richiesto: <strong>{{ listingSelected!.price | currency:'EUR':'symbol':'1.0-2' }}</strong></p>
+    </div>
+  </header>
+
+  <section class="offers-section">
+    <div class="section-header">
+      <h3>Offerte Ricevute ({{ offers.length }})</h3>
+    </div>
+
+    @if (offers.length === 0) {
+      <div class="no-offers-card">
+        <p>Nessuna offerta registrata per questo annuncio.</p>
+      </div>
+    } @else {
+      <div class="offers-grid">
+        @for (offer of offers; track offer.id) {
+          <article class="offer-card" [ngClass]="offer.status | lowercase">
+            <div class="offer-content">
+              <div class="offer-detail">
+                <span class="label">Importo</span>
+                <strong>{{ offer.amount | currency:'EUR':'symbol':'1.0-2' }}</strong>
+              </div>
+              <div class="offer-detail">
+                <span class="label">Stato</span>
+                <span class="status-badge" [ngClass]="offer.status | lowercase">{{ offer.status }}</span>
+              </div>
+              <div class="offer-detail">
+                <span class="label">Data Offerta</span>
+                <span>{{ offer.offer_Date | date:'shortDate' }}</span>
+              </div>
+              <div class="offer-detail">
+                <span class="label">Cliente</span>
+                <span>Cliente #{{ offer.customer_id }}</span>
+              </div>
+              <div class="offer-detail">
+                <span class="label">Controfferta</span>
+                <span [ngClass]="offer.counteroffer ? 'counter-yes' : 'counter-no'">
+                  {{ offer.counteroffer ? 'SÌ' : 'NO' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="offer-actions">
+              @switch (offer.status) {
+                @case ('Pending') {
+                  <button class="action-btn accept-btn" (click)="responseOffer(offer.id, 'Accepted')">Accetta</button>
+                  <button class="action-btn reject-btn" (click)="responseOffer(offer.id, 'Rejected')">Rifiuta</button>
+                  <button class="action-btn counter-btn" (click)="responseOffer(offer.id, '')">Controfferta</button>
+                }
+                @case ('Accepted') {
+                  <span class="action-info accepted-text">Finalizzata il {{ offer.response_Date | date:'shortDate' }}</span>
+                }
+                @case ('Rejected') {
+                  <span class="action-info rejected-text">Rifiutata</span>
+                }
+                @default {
+                  <span class="action-info">Stato Sconosciuto</span>
+                }
+              }
+            </div>
+
+            @if (offer.message) {
+              <div class="offer-message">
+                <i class="icon-message"></i>
+                <span>Messaggio: {{ offer.message }}</span>
+              </div>
+            }
+          </article>
+        }
+
+        @empty {
+          <div class="no-offers-card">Nessuna offerta corrisponde ai criteri di filtro.</div>
+        }
+      </div>
+    }
+  </section>
+</div>
