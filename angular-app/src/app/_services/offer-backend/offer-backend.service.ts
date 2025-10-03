@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { OfferRequest } from './offer-request';
+import { Offer } from './offer';
 
 @Injectable({
   providedIn: 'root'
@@ -28,5 +29,9 @@ export class OfferBackendService {
 
   responseToOffer(offerId: number, response: string) {
     return this.http.put(`${this.url}/offer/${offerId}/response`, { response });
+  }
+
+  createCounterOffer(originalOfferId: number, offerData: OfferRequest ) {
+    return this.http.post(`${this.url}/offer/${originalOfferId}/counteroffer`, offerData);
   }
 }

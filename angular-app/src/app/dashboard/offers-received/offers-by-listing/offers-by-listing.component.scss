@@ -4,6 +4,13 @@ $white: #ffffff;
 $text-dark: #1f2a44;
 $text-light: #6b7280;
 $border-color: #e5e7eb;
+$primary-color: #007bff;
+$success-color: #28a745;
+$danger-color: #dc3545;
+$warning-color: #ffc107;
+$neutral-light: #f8f9fa;
+$neutral-dark: #343a40;
+$border-color: #e9ecef;
 $shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
 .offers-detail-wrapper {
@@ -302,5 +309,128 @@ $shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 
   .offers-section .section-header h3 {
     font-size: 18px;
+  }
+}
+
+
+/* ==================================== */
+/* STILI MODAL */
+/* ==================================== */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Sfondo scuro semi-trasparente */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000; /* Assicura che sia sopra tutto */
+}
+
+.modal-content {
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 500px;
+  transform: scale(1);
+  transition: transform 0.3s ease-out;
+
+  h4 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    border-bottom: 1px solid $border-color;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+
+  p {
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Stili generici per i pulsanti all'interno del modal */
+.btn {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s;
+  
+  &-secondary {
+    background-color: #6c757d;
+    color: white;
+    &:hover { background-color: darken(#6c757d, 5%); }
+  }
+  &-primary-success {
+    background-color: $success-color;
+    color: white;
+    &:hover { background-color: darken($success-color, 5%); }
+  }
+  &-primary-danger {
+    background-color: $danger-color;
+    color: white;
+    &:hover { background-color: darken($danger-color, 5%); }
+  }
+  &-primary-warning {
+    background-color: $warning-color;
+    color: $neutral-dark;
+    &:hover { background-color: darken($warning-color, 5%); }
+    &:disabled { opacity: 0.6; cursor: not-allowed; }
+  }
+}
+
+.text-success { color: $success-color; font-weight: bold; }
+.text-danger { color: $danger-color; font-weight: bold; }
+
+
+/* --- Stili specifici per il modal Controfferta --- */
+.counter-modal {
+  .form-group {
+    margin-bottom: 15px;
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    input[type="number"], textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid $border-color;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 1rem;
+    }
+    textarea {
+      resize: vertical;
+    }
+    small {
+      display: block;
+      margin-top: 5px;
+      color: #6c757d;
+      font-size: 0.85rem;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .modal-actions {
+    flex-direction: column-reverse;
+    .btn {
+      width: 100%;
+    }
   }
 }

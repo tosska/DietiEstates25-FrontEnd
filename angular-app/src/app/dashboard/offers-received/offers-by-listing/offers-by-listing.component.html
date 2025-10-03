@@ -1,6 +1,6 @@
 <div class="offers-detail-wrapper">
   <header class="header">
-    <button class="back-btn" (click)="goBack()">
+    <button class="back-btn" routerLink="/dashboard-agent/offers-received">
       <i class="icon-arrow-left"></i> Torna agli annunci
     </button>
     <div class="header-content">
@@ -50,9 +50,9 @@
             <div class="offer-actions">
               @switch (offer.status) {
                 @case ('Pending') {
-                  <button class="action-btn accept-btn" (click)="responseOffer(offer.id, 'Accepted')">Accetta</button>
-                  <button class="action-btn reject-btn" (click)="responseOffer(offer.id, 'Rejected')">Rifiuta</button>
-                  <button class="action-btn counter-btn" (click)="responseOffer(offer.id, '')">Controfferta</button>
+                  <button class="action-btn accept-btn" (click)="openModal('accept', offer)">Accetta</button>
+                  <button class="action-btn reject-btn" (click)="openModal('reject', offer)">Rifiuta</button>
+                  <button class="action-btn counter-btn" (click)="openModal('counter', offer)">Controfferta</button>
                 }
                 @case ('Accepted') {
                   <span class="action-info accepted-text">Finalizzata il {{ offer.response_Date | date:'shortDate' }}</span>
@@ -81,4 +81,45 @@
       </div>
     }
   </section>
+
+ @if (isAcceptModalOpen) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal-content accept-modal" (click)="$event.stopPropagation()">
+        <h4>Accetta Offerta</h4>
+        <p>Sei sicuro di voler **accettare** l'offerta di <strong class="text-success">{{ offerToRespond!.amount | currency:'EUR':'symbol':'1.0-2' }}</strong> da Cliente #{{ offerToRespond!.customer_id }}?</p>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" (click)="closeModal()">Annulla</button>
+          <button class="btn btn-primary-success" (click)="responseOffer(offerToRespond!.id, 'Accepted')">Conferma Accettazione</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (isRejectModalOpen) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal-content reject-modal" (click)="$event.stopPropagation()">
+        <h4>Rifiuta Offerta</h4>
+        <p>Sei sicuro di voler **rifiutare** l'offerta di <strong class="text-danger">{{ offerToRespond!.amount | currency:'EUR':'symbol':'1.0-2' }}</strong>?</p>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" (click)="closeModal()">Annulla</button>
+          <button class="btn btn-primary-danger" (click)="responseOffer(offerToRespond!.id, 'Rejected')">Conferma Rifiuto</button>
+        </div>
+      </div>
+    </div>
+  }
+
+  @if (isCounterModalOpen) {
+    <app-offer-modal
+      [isCounterOffer]="true"
+      [listingId]="listingSelected?.id || 0"
+      [userTarget]="offerToRespond?.customer_id || null"
+      [offerId]="offerToRespond?.id || null"
+      [initialAmount]="listingSelected?.price || 0"
+      [modalMessage]="'Inserisci l\'importo della controfferta da inviare al cliente.'"
+      (close)="closeModal()"
+      (submitted)="closeModal(); loadOfferData()"
+    >
+    </app-offer-modal>
+  }
+
 </div>

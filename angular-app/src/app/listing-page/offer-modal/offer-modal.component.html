@@ -13,7 +13,7 @@
 
     <div class="py-6">
       <p class="mb-6 text-gray-600">
-        Inserisci la tua offerta e un messaggio per l’inserzionista.
+        {{ modalMessage }}
       </p>
       
       <form [formGroup]="offerForm" (ngSubmit)="onSubmitForm()">

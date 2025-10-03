@@ -21,7 +21,7 @@ export class LogoutComponent {
       this.toastr.warning("You are not currently logged in!");
       this.router.navigateByUrl("/"); //go to homepage
     } else {
-      this.toastr.warning(`Come back soon, ${this.authService.user()}!`, "You have been logged out");
+      this.toastr.warning(`Come back soon, ${this.authService.userId()}!`, "You have been logged out");
       this.authService.logout();
       this.router.navigateByUrl("/"); //go to homepage
     }
