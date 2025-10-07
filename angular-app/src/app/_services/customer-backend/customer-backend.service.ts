@@ -9,6 +9,10 @@ export class CustomerBackendService {
   url: string = 'http://localhost:8000/customer-service'; 
   constructor(private http: HttpClient) { }
 
+  getCustomerById(id: number) {
+    return this.http.get(`${this.url}/customer/${id}`);
+  }
+
 
 
   

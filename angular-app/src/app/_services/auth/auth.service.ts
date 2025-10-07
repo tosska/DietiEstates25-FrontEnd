@@ -58,8 +58,8 @@ export class AuthService {
       console.log('Token decodificato in updateToken:', decodedToken); // Debug
       const authId = decodedToken.authId;
       const userId = decodedToken.userId;
-      //const role = decodedToken.role;
-      const role = "agent"; // Temporaneo, da rimuovere dopo debug
+      const role = decodedToken.role;
+      //const role = "agent"; // Temporaneo, da rimuovere dopo debug
       console.log('User ID estratto:', userId, 'Role:', role);
       const isValid = this.verifyToken(token);
       localStorage.setItem("token", token); // Salva il token

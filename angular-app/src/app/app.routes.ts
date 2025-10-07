@@ -81,9 +81,9 @@ export const routes: Routes = [
                 ]
                }, {
 
-                 path: 'offers-received/listing/:id',
-                    component: OffersByListingComponent,
-                      title: "Offers by Listing | DietiEstates App"
+                path: 'offers-received/listing/:id',
+                component: OffersByListingComponent,
+                title: "Offers by Listing | DietiEstates App"
                     
 
                }
@@ -92,5 +92,5 @@ export const routes: Routes = [
         path: 'unauthorized', 
         component: UnauthorizedComponent,
         title: "Unauthorized | DietiEstates App"
-    }
+    },
 ];

@@ -30,13 +30,15 @@ export class GeoMapComponent {
   private currentMarker: L.Marker | null = null;
   private currentCircleZone: L.Circle | null = null;
 
+  private urlapiKey: string = '8b73f3e3576c4ff489b1f97f34475ed9';
+
 
   ngOnInit() {
 
     this.setCurrentPosition();
-    this.map = L.map('modal-map').setView([this.startLatitude, this.startLongitude], 13); // Milano
+    this.map = L.map('geo-map').setView([this.startLatitude, this.startLongitude], 13); // Milano
 
-    L.tileLayer(`https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=8b73f3e3576c4ff489b1f97f34475ed9`, {
+    L.tileLayer(`https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=${this.urlapiKey}`, {
       attribution:
         '© <a href="https://www.geoapify.com/">Geoapify</a>, © OpenMapTiles © OpenStreetMap contributors',
       maxZoom: 20

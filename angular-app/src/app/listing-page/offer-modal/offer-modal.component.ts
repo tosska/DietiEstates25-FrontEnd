@@ -89,7 +89,6 @@ export class OfferModalComponent {
         if(!this.isCounterOffer) {
           this.createOffer(offerData);
         } else {
-          console.log("controfferta");
           this.createCounteroffer(offerData);
         }
       }
