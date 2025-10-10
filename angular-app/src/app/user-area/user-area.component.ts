@@ -27,9 +27,9 @@ export class UserAreaComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.userProfileForm = this.fb.group({
-      name: ['', Validators.required], // Usa Name dal modello
-      surname: ['', Validators.required], // Usa Surname dal modello
-      phone: ['', Validators.required], // Usa Phone dal modello
+      name: ['', Validators.required], 
+      surname: ['', Validators.required], 
+      phone: ['', Validators.required], 
     });
   }
 
@@ -52,9 +52,9 @@ export class UserAreaComponent implements OnInit, OnDestroy {
         next: (customer) => {
           this.userData = customer;
           this.userProfileForm.patchValue({
-            name: customer.Name || '',
-            surname: customer.Surname || '',
-            phone: customer.Phone || ''
+            name: customer.name || '',
+            surname: customer.surname || '',
+            phone: customer.phone || ''
           });
         },
         error: (err) => {

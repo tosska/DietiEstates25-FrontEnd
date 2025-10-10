@@ -66,7 +66,7 @@ export class RestBackendService {
   }
 
   getCustomerById(userId: string): Observable<any> {
-    const url = `${this.clientServiceUrl}/customers/${userId}`;
+    const url = `${this.clientServiceUrl}/customer/${userId}`;
     const token = this.getToken();
     console.log('Token recuperato da localStorage:', token); // Debug
     if (!token) {
