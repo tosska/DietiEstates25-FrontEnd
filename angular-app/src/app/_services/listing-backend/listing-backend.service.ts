@@ -6,7 +6,8 @@ import { Listing } from './listing';
   providedIn: 'root'
 })
 export class ListingBackendService {
-  url = 'http://localhost:3003'; 
+  url = 'http://localhost:8000/listing-service'; 
+  publicUrl = 'http://localhost:8000/listing-public'; 
   constructor(private http: HttpClient) { }
 
   getListingById(id: number) {
@@ -39,5 +40,12 @@ export class ListingBackendService {
     return this.http.post<Listing[]>(`${this.url}/listings/by-ids`, { listingIds: listingIds });
   }
 
+
+  public craftListingImageUrl(relativePath: string): string{
+
+    relativePath = relativePath.replace('\\', '/');
+    return `${this.publicUrl}/${relativePath}`;
+
+  }
 
 }

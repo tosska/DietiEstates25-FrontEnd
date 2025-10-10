@@ -12,4 +12,13 @@ export class UtilsService {
     // Formatta con separatore migliaia (es: "250000" -> "250.000")
     return value.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
+
+  public craftListingImageUrl(relativePath: string): string{
+
+    relativePath = relativePath.replace('\\', '/');
+    return `http://localhost:8000/listing-public/${relativePath}`;
+
+  }
+
+
 }

@@ -44,5 +44,16 @@ export class ActiveListingsComponent {
     this.router.navigate(['/listing', id]);
   }
 
+  urlPhoto(listing: Listing){
+
+    const photos=listing.Photos;
+    if(photos){
+      return this.listingService.craftListingImageUrl(photos[0].url);
+    }
+
+    return "https://via.placeholder.com/600x400";
+
+  }
+
 
 }

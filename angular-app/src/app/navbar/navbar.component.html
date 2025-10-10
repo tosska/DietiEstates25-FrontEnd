@@ -10,16 +10,6 @@
     <div class="flex items-center space-x-6">
       <div class="hidden md:block">
         <ul class="font-medium flex space-x-8 items-center">
-          <li>
-            <a
-              routerLink="/homepage"
-              routerLinkActive="text-green-600 dark:text-green-500 font-bold"
-              [ngClass]="{'text-gray-900 dark:text-gray-100': !routerLinkActive}"
-              class="hover:text-green-500 dark:hover:text-green-400 transition-colors duration-200"
-            >
-              Home
-            </a>
-          </li>
 
           @if (!this.authService.isUserAuthenticated()) {
             <li>
@@ -45,7 +35,7 @@
           } @else {
             <li>
               @if(this.activeUser) {
-              <span class="text-gray-500 dark:text-gray-400">Benvenuto, {{ this.activeUser!.name }}</span>
+              <span class="text-gray-500 dark:text-gray-400">Benvenuto, {{ this.activeUser!.name }} ({{this.authService.role()}})</span>
               }
             </li>
             <li>

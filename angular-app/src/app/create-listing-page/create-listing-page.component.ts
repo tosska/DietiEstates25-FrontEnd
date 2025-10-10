@@ -210,9 +210,7 @@ export class CreateListingPageComponent {
       
       let listing = this.listingForm.value;
 
-      listing.address = this.geoService.convertLocationToAddress(this.selectedLocation!);
-      listing.agencyId = 1; // Imposta un agencyId fisso per ora
-      listing.agentId = this.authService.getUserId(); 
+      listing.address = this.geoService.convertLocationToAddress(this.selectedLocation!); 
 
       console.log('Listing da inviare:', listing);
       

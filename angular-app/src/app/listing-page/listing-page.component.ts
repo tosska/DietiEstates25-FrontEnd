@@ -6,6 +6,7 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { GeoMapComponent } from '../geo-map/geo-map.component';
 import { OfferModalComponent } from './offer-modal/offer-modal.component';
 import { AuthService } from '../_services/auth/auth.service';
+import { UtilsService } from '../_services/utils/utils.service';
 
 @Component({
   selector: 'app-listing-page',
@@ -21,6 +22,7 @@ export class ListingPageComponent {
   
   authService = inject(AuthService);  
   listingService = inject(ListingBackendService);
+  utilsService = inject(UtilsService);
 
   selectedPhoto: string | undefined;
   isOfferModalVisible: boolean=false;

@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Listing } from '../_services/listing-backend/listing';
 import { ListingBackendService } from '../_services/listing-backend/listing-backend.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
@@ -19,6 +20,7 @@ export class HomepageComponent {
 
   latestListings: Listing[] = [];
   listingService = inject(ListingBackendService);
+  private router = inject(Router);
 
   ngOnInit() {
     this.listingService.getLatestListings(4).subscribe({
@@ -31,6 +33,11 @@ export class HomepageComponent {
       }
     });
 
+  }
+
+  openListing(id: number) {
+    console.log("sesso")
+    this.router.navigate(['/listing', id]);
   }
 
 }

@@ -7,7 +7,7 @@
     @if (currentListing.Photos && currentListing.Photos.length > 0) {
       <div class="flex-grow flex items-center justify-center relative overflow-hidden rounded-lg mb-4">
         <img 
-          [src]="currentListing.Photos[0].url" 
+          [src]="listingService.craftListingImageUrl(currentListing.Photos[0].url)"
           alt="Immagine principale dell'annuncio" 
           class="w-full h-full object-cover transition-opacity duration-300"
         />
@@ -16,7 +16,7 @@
     <div class="flex gap-2 overflow-x-auto pb-2">
       @for (photo of currentListing.Photos; track photo; let i = $index) {
         <img
-          [src]="photo.url"
+          [src]="listingService.craftListingImageUrl(currentListing.Photos[0].url)"
           alt="Miniatura foto {{ i + 1 }}"
           (click)="selectPhoto(photo.url)"
           [class.ring-2]="(selectedPhoto || currentListing.Photos[0].url) === photo.url"

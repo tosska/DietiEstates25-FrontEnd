@@ -49,47 +49,49 @@ export const routes: Routes = [
         path: "listings-page",
         component: ListingsPageComponent,
         title: "Listing"
-    },  {
+    }, {
         path: "geo-map",
         component: GeoMapComponent,
         title: "Geo Map | DietiEstates App"
     }, {
-        path: 'listing/:id', 
-        component: ListingPageComponent 
+        path: 'listing/:id',
+        component: ListingPageComponent
     }, {
-        path: 'create-listing', 
-        component: CreateListingPageComponent,
-        canActivate: [roleGuard],
-        data: { roles: ['agent'] }
-    }, {
-        path: 'dashboard-agent', 
+        path: 'dashboard-agent',
         component: DashboardComponent,
         title: "Dashboard | DietiEstates App",
         canActivate: [roleGuard],
         data: { roles: ['agent'] },
         children: [
-              { path: 'active-listings', 
+
+            {
+                path: 'create-listing',
+                component: CreateListingPageComponent,
+                title: "Create Listing | DietiEstates App"
+            },
+            {
+                path: 'active-listings',
                 component: ActiveListingsComponent,
                 title: "Active Listings | DietiEstates App"
-               },
-               {
+            },
+            {
                 path: 'offers-received',
                 component: OffersReceivedComponent,
                 title: "Offers Received | DietiEstates App",
                 children: [
-    
+
                 ]
-               }, {
+            }, {
 
                 path: 'offers-received/listing/:id',
                 component: OffersByListingComponent,
                 title: "Offers by Listing | DietiEstates App"
-                    
 
-               }
+
+            }
         ]
-    },{
-        path: 'unauthorized', 
+    }, {
+        path: 'unauthorized',
         component: UnauthorizedComponent,
         title: "Unauthorized | DietiEstates App"
     },

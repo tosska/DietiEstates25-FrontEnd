@@ -33,7 +33,7 @@
       <div>
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transform hover:scale-105 transition duration-300">
           <div class="relative">
-            <img class="w-full h-48 object-cover" src="https://via.placeholder.com/600x400" alt="Immagine placeholder dell'immobile">
+            <img class="w-full h-48 object-cover" [src]="urlPhoto(listing)" alt="Immagine placeholder dell'immobile">
             <div class="absolute top-2 right-2 px-3 py-1 bg-[#4CAF50] text-white text-xs font-bold rounded-full">{{listing.listingType}}</div>
           </div>
           <div class="p-4">
