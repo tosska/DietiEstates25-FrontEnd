@@ -34,7 +34,7 @@
             </li>
           } @else {
             <li>
-              @if(this.activeUser) {
+              @if(this.authService.authId()) {
               <span class="text-gray-500 dark:text-gray-400">Benvenuto, {{ this.activeUser!.name }} ({{this.authService.role()}})</span>
               }
             </li>

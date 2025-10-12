@@ -11,7 +11,7 @@ export class ListingBackendService {
   constructor(private http: HttpClient) { }
 
   getListingById(id: number) {
-    return this.http.get(`${this.url}/listing/${id}`);
+    return this.http.get(`${this.publicUrl}/listing/${id}`);
   }
 
   createListing(listingData: Listing, photos: File[]) {
@@ -33,7 +33,7 @@ export class ListingBackendService {
   }
 
   getLatestListings(limit: number = 4) {
-    return this.http.get<Listing[]>(`${this.url}/listings/latest?limit=${limit}`);
+    return this.http.get<Listing[]>(`${this.publicUrl}/listings/latest?limit=${limit}`);
   }
 
   getListingsByIds(listingIds: number[]) {
