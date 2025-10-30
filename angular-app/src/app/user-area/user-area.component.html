@@ -1,96 +1,120 @@
-<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-white dark:bg-gray-900">
-  <div class="w-full max-w-lg mx-auto p-6">
+<div class="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto py-10 px-4 sm:px-6 lg:px-8 grid lg:grid-cols-4 lg:gap-8">
 
-    <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8">
-      <div class="space-y-6">
-        <div class="flex items-center space-x-4">
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-6 h-6 text-green-500 dark:text-green-400">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <div>
-            <h2 class="text-xl font-bold text-gray-800 dark:text-white">Il mio profilo</h2>
-            <p class="text-gray-500 dark:text-gray-400">Gestisci i tuoi dettagli personali.</p>
-          </div>
-        </div>
+        <aside class="lg:col-span-1 mb-8 lg:mb-0">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sticky top-10">
+                <h3 class="text-lg font-bold text-gray-900 dark:text-white mb-4 border-b pb-2 border-gray-200 dark:border-gray-700">
+                    Impostazioni Account
+                </h3>
+                <nav class="space-y-2">
+                    <a href="#" class="flex items-center space-x-3 p-3 rounded-lg text-white font-medium bg-[#4CAF50] hover:bg-[#388E3C] transition-colors duration-150 shadow-md">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <span>Il tuo Profilo</span> </a>
 
-        @if (!isEditing) {
-          <div class="space-y-4 pt-4">
-            <div class="flex items-center space-x-2">
-              <span class="text-gray-600 dark:text-gray-300">
-                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-              </span>
-              <p class="text-gray-800 dark:text-gray-200"><strong class="font-medium">Nome:</strong> {{ userData.name || 'Non specificato' }}</p>
-            </div>
-            <div class="flex items-center space-x-2">
-              <span class="text-gray-600 dark:text-gray-300">
-                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-              </span>
-              <p class="text-gray-800 dark:text-gray-200"><strong class="font-medium">Cognome:</strong> {{ userData.surname || 'Non specificato' }}</p>
-            </div>
-            <div class="flex items-center space-x-2">
-              <span class="text-gray-600 dark:text-gray-300">
-                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                </svg>
-              </span>
-              <p class="text-gray-800 dark:text-gray-200"><strong class="font-medium">Telefono:</strong> {{ userData.phone || 'Non specificato' }}</p>
-            </div>
-            <div class="pt-6">
-              <button (click)="toggleEdit()" class="w-full bg-[#4CAF50] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#2E7D32] dark:bg-[#66BB6A] dark:hover:bg-[#4CAF50] transition-colors duration-200 shadow-lg">
-                Modifica Profilo
-              </button>
-            </div>
-          </div>
-        } @else {
-          <form [formGroup]="userProfileForm" (ngSubmit)="saveProfile()" class="space-y-6">
-            <div>
-              <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nome</label>
-              <input id="name" formControlName="name" type="text" placeholder="Nome"
-                class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50 transition-colors duration-200">
-            </div>
-            <div>
-              <label for="surname" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cognome</label>
-              <input id="surname" formControlName="surname" type="text" placeholder="Cognome"
-                class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50 transition-colors duration-200">
-            </div>
-            <div>
-              <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Telefono</label>
-              <input id="phone" formControlName="phone" type="tel" placeholder="Telefono"
-                class="w-full rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-100 shadow-sm focus:border-[#4CAF50] focus:ring focus:ring-[#4CAF50] focus:ring-opacity-50 transition-colors duration-200">
-            </div>
-            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 pt-4">
-              <button type="submit" [disabled]="userProfileForm.invalid"
-                class="w-full sm:w-auto bg-[#4CAF50] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#2E7D32] dark:bg-[#66BB6A] dark:hover:bg-[#4CAF50] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg">
-                Salva
-              </button>
-              <button (click)="toggleEdit()" type="button"
-                class="w-full sm:w-auto bg-gray-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-600 transition-colors duration-200 shadow-lg">
-                Annulla
-              </button>
-            </div>
-          </form>
-        }
-      </div>
+                    <a href="#" class="flex items-center space-x-3 p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-150">
+                         <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+                        <span>I miei Annunci</span>
+                    </a>
+                    
+                    <a href="#" class="flex items-center space-x-3 p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-150">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                        <span>Richieste & Preferiti</span>
+                    </a>
+                    
+                    <a href="#" class="flex items-center space-x-3 p-3 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-150">
+                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" /></svg>
+                        <span>Messaggi e Chat</span>
+                    </a>
 
-      <div class="mt-8 space-y-4">
-        <h3 class="text-lg font-semibold text-gray-800 dark:text-white">Gestione Account</h3>
-        <button (click)="logout()" class="w-full bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200 px-6 py-3 rounded-lg font-semibold hover:bg-gray-300 dark:hover:bg-[#3E3E3E] transition-colors duration-200 shadow">
-          <svg class="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-          </svg>
-          Logout
-        </button>
-        <button (click)="deleteProfile()" class="w-full bg-red-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-600 transition-colors duration-200 shadow">
-          <svg class="h-5 w-5 inline-block mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-          </svg>
-          Elimina Profilo
-        </button>
-      </div>
+
+                </nav>
+            </div>
+        </aside>
+
+        <main class="lg:col-span-3">
+            <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+                
+                <div class="mb-8 pb-4 border-b border-gray-200 dark:border-gray-700">
+                    <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white">Il mio profilo</h2>
+                    <p class="text-gray-500 dark:text-gray-400 mt-1">Gestisci i tuoi dettagli personali e le informazioni di contatto.</p>
+                </div>
+                
+                <div class="space-y-6">
+                    @if (!isEditing) {
+                        <div class="space-y-4 pt-4">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700">
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400 sm:w-1/4">Nome:</p>
+                                <p class="text-gray-800 dark:text-gray-200 font-semibold sm:w-3/4 mt-1 sm:mt-0">{{ userData.name || 'Non specificato' }}</p>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between py-3 border-b border-gray-100 dark:border-gray-700">
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400 sm:w-1/4">Cognome:</p>
+                                <p class="text-gray-800 dark:text-gray-200 font-semibold sm:w-3/4 mt-1 sm:mt-0">{{ userData.surname || 'Non specificato' }}</p>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between py-3">
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400 sm:w-1/4">Telefono:</p>
+                                <p class="text-gray-800 dark:text-gray-200 font-semibold sm:w-3/4 mt-1 sm:mt-0">{{ userData.phone || 'Non specificato' }}</p>
+                            </div>
+
+                            <div class="pt-6">
+                                <button (click)="toggleEdit()" class="w-full sm:w-auto bg-[#4CAF50] text-white px-8 py-3 rounded-xl font-bold hover:bg-[#2E7D32] dark:bg-[#66BB6A] dark:hover:bg-[#4CAF50] transition-colors duration-200 shadow-xl transform hover:scale-[1.01]">
+                                    Modifica Profilo
+                                </button>
+                            </div>
+                        </div>
+                    } @else {
+                        <form [formGroup]="userProfileForm" (ngSubmit)="saveProfile()" class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Nome</label>
+                                <input id="name" formControlName="name" type="text" placeholder="Nome"
+                                    class="w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 shadow-sm focus:border-[#4CAF50] focus:ring-2 focus:ring-[#4CAF50] focus:ring-opacity-50 transition-colors duration-200 p-3">
+                            </div>
+                            <div>
+                                <label for="surname" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Cognome</label>
+                                <input id="surname" formControlName="surname" type="text" placeholder="Cognome"
+                                    class="w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 shadow-sm focus:border-[#4CAF50] focus:ring-2 focus:ring-[#4CAF50] focus:ring-opacity-50 transition-colors duration-200 p-3">
+                            </div>
+                            <div>
+                                <label for="phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Telefono</label>
+                                <input id="phone" formControlName="phone" type="tel" placeholder="Telefono"
+                                    class="w-full rounded-lg border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 shadow-sm focus:border-[#4CAF50] focus:ring-2 focus:ring-[#4CAF50] focus:ring-opacity-50 transition-colors duration-200 p-3">
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 pt-4">
+                                <button type="submit" [disabled]="userProfileForm.invalid"
+                                    class="w-full sm:w-auto bg-[#4CAF50] text-white px-8 py-3 rounded-xl font-bold hover:bg-[#2E7D32] dark:bg-[#66BB6A] dark:hover:bg-[#4CAF50] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-xl">
+                                    Salva Modifiche
+                                </button>
+                                <button (click)="toggleEdit()" type="button"
+                                    class="w-full sm:w-auto bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300 px-8 py-3 rounded-xl font-bold hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors duration-200 shadow-lg">
+                                    Annulla
+                                </button>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+            
+            <div class="mt-10 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8">
+                <div class="space-y-4">
+                    <button (click)="logout()" class="w-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200 px-6 py-3 rounded-xl font-semibold hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors duration-200 flex items-center justify-center">
+                        <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                        </svg>
+                        Logout dall'Account
+                    </button>
+                    
+                    <button (click)="deleteProfile()" class="w-full bg-red-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-red-700 transition-colors duration-200 shadow-lg flex items-center justify-center">
+                        <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 2 0116.138 21H7.862a2 2 2 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        Elimina Account (Azione definitiva)
+                    </button>
+                </div>
+            </div>
+        </main>
     </div>
-  </div>
 </div>
