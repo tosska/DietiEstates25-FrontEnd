@@ -6,11 +6,12 @@ import { CurrencyPipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { Offer } from '../../_services/offer-backend/offer';
 import { ListingSummaryCardComponent } from '../../listing-summary-card/listing-summary-card.component';
+import { AddOfferModalComponent } from './add-offer-modal/add-offer-modal.component';
 
 @Component({
   selector: 'app-listing-tracking',
   standalone: true,
-  imports: [CurrencyPipe, CommonModule, ListingSummaryCardComponent],
+  imports: [CurrencyPipe, CommonModule, ListingSummaryCardComponent, AddOfferModalComponent],
   templateUrl: './listing-tracking.component.html',
   styleUrl: './listing-tracking.component.scss'
 })
@@ -21,6 +22,8 @@ export class ListingTrackingComponent {
   authService = inject(AuthService);
   offerService = inject(OfferBackendService);
   offers: Offer[] = [];
+
+  addOfferModalOpen: boolean = false;
 
 
   constructor(private route: ActivatedRoute) {}
@@ -46,6 +49,11 @@ export class ListingTrackingComponent {
         console.error('Error fetching offer history:', error);
       }
     });
+
+  }
+
+  openAddOfferModal(){
+    this.addOfferModalOpen = true;
 
   }
 

@@ -14,6 +14,16 @@
       <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">
         Storico delle offerte ricevute per l'annuncio #{{ listingId }}
       </p>
+
+      <!-- Pulsante Azione (Aggiungi Offerta) -->
+      <div class="mt-4 sm:mt-0 flex-shrink-0">
+        <button (click)="openAddOfferModal()" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#4CAF50] dark:bg-[#66BB6A] hover:bg-[#2E7D32] dark:hover:bg-[#388E3C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4CAF50] transition duration-200">
+          <svg class="w-5 h-5 mr-2 -ml-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+          </svg>
+          Aggiungi Offerta
+        </button>
+      </div>
     </div>
 
     @if (offers.length > 0) {
@@ -65,16 +75,26 @@
 
                     <!-- Dettagli Utente e Messaggio -->
                     <div>
+                      @if(!offer.externalName) {
                       <div class="text-sm font-medium text-gray-900 dark:text-white">
                         {{ offer.customer?.name && offer.customer?.surname 
                            ? offer.customer?.name + ' ' + offer.customer?.surname 
                            : (offer.counteroffer ? 'Tua Controfferta' : 'Utente Sconosciuto') }}
                       </div>
-                      @if (offer.message) {
-                        <div class="text-xs text-gray-500 dark:text-gray-400 truncate" title="{{offer.message}}">
-                          {{ offer.message }}
-                        </div>
-                      }
+
+                      <div class="text-xs text-gray-500 dark:text-gray-400 truncate" >
+                        mettere email
+                      </div>
+                    } @else {
+                      <div class="text-sm font-medium text-gray-900 dark:text-white">
+                        {{ offer.externalName }}
+                      </div>
+
+                      <div class="text-xs text-gray-500 dark:text-gray-400 truncate">
+                          Offerta Esterna
+                      </div>
+                    }
+
                     </div>
                   </div>
                 </td>
@@ -89,7 +109,7 @@
                   {{ offer.offer_Date | date:'dd/MM/yyyy HH:mm' }}
                 </td>
 
-                <!-- Data Risposta (NEW) -->
+                <!-- Data Risposta -->
                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
                   @if (offer.response_Date) {
                     {{ offer.response_Date | date:'dd/MM/yyyy HH:mm' }}
@@ -145,4 +165,13 @@
 
   </div> <!-- Fine di max-w-6xl -->
 </div> <!-- Fine del contenitore principale -->
+
+
+@if(addOfferModalOpen) {
+  <app-add-offer-modal 
+    [listingId]="listingId!" 
+    (close)="addOfferModalOpen = false" 
+    (offerSubmitted)="fetchOfferHistory()">
+  </app-add-offer-modal>
+}
 

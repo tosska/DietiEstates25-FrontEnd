@@ -1,0 +1,142 @@
+<!-- 
+  Backdrop scuro: 
+  Cliccando qui si chiude il modal (onClose).
+-->
+<div (click)="onClose()" 
+     class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-gray-900 bg-opacity-75 transition-opacity duration-300 ease-in-out">
+
+  <!-- 
+    Pannello Modal:
+    stopPropagation() previene la chiusura cliccando all'interno del modal.
+  -->
+  <div (click)="$event.stopPropagation()" 
+       class="relative w-full max-w-lg p-6 bg-white dark:bg-gray-800 rounded-lg shadow-xl transform transition-all duration-300 ease-out">
+    
+    <!-- Intestazione Modal -->
+    <div class="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-700">
+      <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Registra Offerta Manuale</h2>
+      <button (click)="onClose()" 
+              class="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition duration-150">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Corpo del Form -->
+    <form [formGroup]="offerForm" (ngSubmit)="onSubmit()" class="mt-6 space-y-5">
+      
+      <!-- MODIFICATO: Da Select a Input per Nome Cliente -->
+      <div>
+        <label for="customerName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Nome Cliente
+          <span class="text-pink-600">*</span>
+        </label>
+        <input type="text"
+               id="customerName"
+               formControlName="customerName"
+               placeholder="Es. Mario Rossi"
+               class="w-full p-3 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-transparent focus:outline-none focus:ring-2 focus:ring-[#4CAF50] transition duration-200"
+               [ngClass]="{ 'border-pink-600 focus:ring-pink-500': offerForm.controls['customerName'].invalid && offerForm.controls['customerName'].touched }">
+        
+        @if (offerForm.controls['customerName'].invalid && offerForm.controls['customerName'].touched) {
+          <p class="mt-1 text-xs text-pink-600 dark:text-pink-400">
+            Il nome del cliente è obbligatorio.
+          </p>
+        }
+      </div>
+
+      <!-- Importo Offerta -->
+      <div>
+        <label for="amount" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Importo Offerta
+          <span class="text-pink-600">*</span>
+        </label>
+        <div class="relative">
+          <span class="absolute inset-y-0 left-3 flex items-center text-gray-500 dark:text-gray-400">€</span>
+          <input type="number" 
+                 id="amount" 
+                 formControlName="amount" 
+                 placeholder="0.00"
+                 class="w-full p-3 pl-8 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-transparent focus:outline-none focus:ring-2 focus:ring-[#4CAF50] transition duration-200"
+                 [ngClass]="{ 'border-pink-600 focus:ring-pink-500': offerForm.controls['amount'].invalid && offerForm.controls['amount'].touched }">
+        </div>
+        @if (offerForm.controls['amount'].invalid && offerForm.controls['amount'].touched) {
+          <p class="mt-1 text-xs text-pink-600 dark:text-pink-400">
+            L'importo è obbligatorio e deve essere positivo.
+          </p>
+        }
+      </div>
+
+      <!-- Stato Offerta -->
+      <div>
+        <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Risposta Offerta
+          <span class="text-pink-600">*</span>
+        </label>
+        <select id="status" 
+                formControlName="status"
+                class="w-full p-3 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-transparent focus:outline-none focus:ring-2 focus:ring-[#4CAF50] transition duration-200">
+          <option value="Accepted">Accettata</option>
+          <option value="Rejected">Rifiutata</option>
+        </select>
+      </div>
+
+      <!-- Contenitore griglia per le Date -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 sm:gap-4">
+        
+        <!-- Data Ricezione Offerta -->
+        <div>
+          <label for="offer_Date" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Data Offerta
+            <span class="text-pink-600">*</span>
+          </label>
+          <input type="datetime-local" 
+                 id="offer_Date" 
+                 formControlName="offer_Date"
+                 class="w-full p-3 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-transparent focus:outline-none focus:ring-2 focus:ring-[#4CAF50] transition duration-200"
+                 [ngClass]="{ 'border-pink-600 focus:ring-pink-500': offerForm.controls['offer_Date'].invalid && offerForm.controls['offer_Date'].touched }">
+          @if (offerForm.controls['offer_Date'].invalid && offerForm.controls['offer_Date'].touched) {
+            <p class="mt-1 text-xs text-pink-600 dark:text-pink-400">
+              La data è obbligatoria.
+            </p>
+          }
+        </div>
+      </div>
+
+      <!-- Messaggio Opzionale -->
+      <div>
+        <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          Note Interne (opzionale)
+        </label>
+        <textarea id="message" 
+                  formControlName="message" 
+                  rows="3"
+                  placeholder="Es: Offerta ricevuta via telefono..."
+                  class="w-full p-3 rounded-md bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 border border-transparent focus:outline-none focus:ring-2 focus:ring-[#4CAF50] transition duration-200"></textarea>
+      </div>
+
+      <!-- Messaggio di Errore Generale -->
+      @if (errorMessage) {
+        <div class="text-center text-sm text-pink-600 dark:text-pink-400">
+          {{ errorMessage }}
+        </div>
+      }
+
+      <!-- Pulsanti Azione -->
+      <div class="pt-5 flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-3">
+        <button type="button" 
+                (click)="onClose()"
+                class="w-full sm:w-auto inline-flex justify-center rounded-md px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-400 dark:focus:ring-offset-gray-900 transition duration-150 mt-3 sm:mt-0">
+          Annulla
+        </button>
+        <button type="submit" 
+                [disabled]="offerForm.invalid"
+                class="w-full sm:w-auto inline-flex justify-center rounded-md shadow-sm px-4 py-2 text-sm font-medium text-white bg-[#4CAF50] hover:bg-[#2E7D32] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4CAF50] dark:focus:ring-offset-gray-900 transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed">
+          Registra Offerta
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

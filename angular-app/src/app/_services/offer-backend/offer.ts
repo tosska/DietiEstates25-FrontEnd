@@ -8,6 +8,7 @@ export interface Offer {
   offer_Date: Date;
   response_Date?: Date;
   counteroffer?: boolean;
+  externalName: string;
   customer_id: number;
   agent_id: number;
   listing_id: number;
