@@ -86,7 +86,7 @@
     <div class="modal-overlay" (click)="closeModal()">
       <div class="modal-content accept-modal" (click)="$event.stopPropagation()">
         <h4>Accetta Offerta</h4>
-        <p>Sei sicuro di voler **accettare** l'offerta di <strong class="text-success">{{ offerToRespond!.amount | currency:'EUR':'symbol':'1.0-2' }}</strong> da Cliente #{{ offerToRespond!.customer_id }}?</p>
+        <p>Sei sicuro di voler accettare l'offerta di <strong class="text-success">{{ offerToRespond!.amount | currency:'EUR':'symbol':'1.0-2' }}</strong> da Cliente #{{ offerToRespond!.customer_id }}?</p>
         <div class="modal-actions">
           <button class="btn btn-secondary" (click)="closeModal()">Annulla</button>
           <button class="btn btn-primary-success" (click)="responseOffer(offerToRespond!.id, 'Accepted')">Conferma Accettazione</button>
@@ -99,7 +99,7 @@
     <div class="modal-overlay" (click)="closeModal()">
       <div class="modal-content reject-modal" (click)="$event.stopPropagation()">
         <h4>Rifiuta Offerta</h4>
-        <p>Sei sicuro di voler **rifiutare** l'offerta di <strong class="text-danger">{{ offerToRespond!.amount | currency:'EUR':'symbol':'1.0-2' }}</strong>?</p>
+        <p>Sei sicuro di voler rifiutare l'offerta di <strong class="text-danger">{{ offerToRespond!.amount | currency:'EUR':'symbol':'1.0-2' }}</strong>?</p>
         <div class="modal-actions">
           <button class="btn btn-secondary" (click)="closeModal()">Annulla</button>
           <button class="btn btn-primary-danger" (click)="responseOffer(offerToRespond!.id, 'Rejected')">Conferma Rifiuto</button>
@@ -117,7 +117,7 @@
       [initialAmount]="listingSelected?.price || 0"
       [modalMessage]="'Inserisci l\'importo della controfferta da inviare al cliente.'"
       (close)="closeModal()"
-      (submitted)="closeModal(); loadOfferData()"
+      (submitted)="closeModal()"
     >
     </app-offer-modal>
   }

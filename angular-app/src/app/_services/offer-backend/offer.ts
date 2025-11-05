@@ -1,3 +1,5 @@
+import { Customer } from "../customer-backend/customer";
+
 export interface Offer {
   id: number;
   amount: number;
@@ -9,4 +11,5 @@ export interface Offer {
   customer_id: number;
   agent_id: number;
   listing_id: number;
+  customer?: Customer;
 }

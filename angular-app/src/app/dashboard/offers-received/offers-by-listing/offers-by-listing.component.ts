@@ -105,6 +105,7 @@ export class OffersByListingComponent {
 
 
   closeModal() {
+    this.loadOfferData();
     this.isAcceptModalOpen = false;
     this.isRejectModalOpen = false;
     this.isCounterModalOpen = false;

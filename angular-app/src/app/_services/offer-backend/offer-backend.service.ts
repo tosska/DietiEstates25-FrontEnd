@@ -34,4 +34,8 @@ export class OfferBackendService {
   createCounterOffer(originalOfferId: number, offerData: OfferRequest ) {
     return this.http.post(`${this.url}/offer/${originalOfferId}/counteroffer`, offerData);
   }
+
+  getOfferHistoryForListing(listingId: number) {
+    return this.http.get<Offer[]>(`${this.url}/offers/history/listing/${listingId}`);
+  }
 }

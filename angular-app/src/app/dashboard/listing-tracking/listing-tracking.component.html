@@ -1,0 +1,148 @@
+<!-- 
+  Template per il tracking delle offerte.
+  AGGIORNATO con frecce per controfferte e stato dinamico.
+-->
+<div class="p-6 md:p-8 bg-gray-50 dark:bg-gray-900 min-h-screen">
+  <div class="max-w-6xl mx-auto"> <!-- Aumentata la larghezza massima per le nuove colonne -->
+
+
+    <app-listing-summary-card [listingId]="listingId"></app-listing-summary-card>
+
+    <!-- Intestazione -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Tracking Offerte</h1>
+      <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">
+        Storico delle offerte ricevute per l'annuncio #{{ listingId }}
+      </p>
+    </div>
+
+    @if (offers.length > 0) {
+      <!-- Contenitore della tabella -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-x-auto"> <!-- Aggiunto overflow-x-auto per mobile -->
+        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <!-- Intestazione Tabella -->
+          <thead class="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Offerta
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Importo
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Data Invio
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Data Risposta
+              </th>
+              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                Stato
+              </th>
+            </tr>
+          </thead>
+          <!-- Corpo Tabella -->
+          <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            
+            @for (offer of offers; track offer.id) {
+              <tr class="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150">
+                
+                <!-- Colonna "Offerta" (Freccia + Utente + Messaggio) -->
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center space-x-3">
+                    
+                    <!-- Logica Frecce -->
+                    @if (offer.counteroffer) {
+                      <!-- Freccia Controfferta (da venditore) -->
+                      <svg class="h-5 w-5 text-green-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                      </svg>
+                    } @else {
+                      <!-- Freccia Offerta (da utente) -->
+                      <svg class="h-5 w-5 text-blue-500 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                      </svg>
+                    }
+
+                    <!-- Dettagli Utente e Messaggio -->
+                    <div>
+                      <div class="text-sm font-medium text-gray-900 dark:text-white">
+                        {{ offer.customer?.name && offer.customer?.surname 
+                           ? offer.customer?.name + ' ' + offer.customer?.surname 
+                           : (offer.counteroffer ? 'Tua Controfferta' : 'Utente Sconosciuto') }}
+                      </div>
+                      @if (offer.message) {
+                        <div class="text-xs text-gray-500 dark:text-gray-400 truncate" title="{{offer.message}}">
+                          {{ offer.message }}
+                        </div>
+                      }
+                    </div>
+                  </div>
+                </td>
+                
+                <!-- Importo -->
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-800 dark:text-gray-100">
+                  {{ offer.amount | currency:'EUR':'symbol':'1.0-0' }}
+                </td>
+                
+                <!-- Data Invio -->
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  {{ offer.offer_Date | date:'dd/MM/yyyy HH:mm' }}
+                </td>
+
+                <!-- Data Risposta (NEW) -->
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  @if (offer.response_Date) {
+                    {{ offer.response_Date | date:'dd/MM/yyyy HH:mm' }}
+                  } @else {
+                    <span class="text-gray-400 dark:text-gray-500">-</span>
+                  }
+                </td>
+                
+                <!-- Stato (Dinamico) -->
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <!-- 
+                    ngClass richiede CommonModule. 
+                    Cambia colore in base allo stato.
+                  -->
+                  <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold"
+                        [ngClass]="{
+                          'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200': offer.status === 'Accepted',
+                          'bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200': offer.status === 'Rejected',
+                          'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200': offer.status === 'Pending'
+                        }">
+                    {{ offer.status }}
+                  </span>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <!-- Pulsante "Torna Indietro" sotto la tabella -->
+      <div class="mt-6 text-center">
+        <button (click)="goBack()" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#4CAF50] dark:bg-[#66BB6A] hover:bg-[#2E7D32] dark:hover:bg-[#388E3C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4CAF50]">
+          Torna indietro
+        </button>
+      </div>
+
+    } @else {
+      <!-- 
+        Stato @empty: Mostrato quando l'array 'offers' è vuoto.
+      -->
+      <div class="col-span-full text-center py-12 px-6 bg-white dark:bg-gray-800 rounded-lg shadow-md">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+        <h2 class="mt-2 text-xl font-medium text-gray-900 dark:text-white">Nessuna offerta trovata</h2>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+          Non sono state ancora inviate offerte per questo annuncio.
+        </p>
+        <button (click)="goBack()" class="mt-6 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#4CAF50] dark:bg-[#66BB6A] hover:bg-[#2E7D32] dark:hover:bg-[#388E3C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4CAF50]">
+          Torna indietro
+        </button>
+      </div>
+    }
+
+  </div> <!-- Fine di max-w-6xl -->
+</div> <!-- Fine del contenitore principale -->
+

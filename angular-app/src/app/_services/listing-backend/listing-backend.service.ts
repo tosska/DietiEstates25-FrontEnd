@@ -28,8 +28,16 @@ export class ListingBackendService {
     return this.http.post(`${this.url}/listing`, formData);
   }
 
+  getListingsForAgent() {
+    return this.http.get<Listing[]>(`${this.url}/agent/listings`);
+  }
+
   getActiveListingsForAgent() {
     return this.http.get<Listing[]>(`${this.url}/agent/listings/active`);
+  }
+
+  getClosedListingsForAgent() {
+    return this.http.get<Listing[]>(`${this.url}/agent/listings/closed`);
   }
 
   getLatestListings(limit: number = 4) {

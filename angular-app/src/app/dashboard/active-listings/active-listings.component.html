@@ -1,32 +1,69 @@
+<!-- 
+  Ho modificato questo file per includere il sistema di filtri a tab 
+  e rendere i titoli e lo stato vuoto dinamici.
+-->
 <div class="p-6">
   <div class="mb-8">
-    <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Annunci attivi</h1>
+    <!-- Il titolo e il sottotitolo ora sono dinamici -->
+    <h1 class="text-3xl font-bold text-gray-900 dark:text-white"> I Miei Annunci </h1>
     <p class="mt-2 text-lg text-gray-600 dark:text-gray-400">
-      Gestisci tutti i tuoi annunci immobiliari correntemente attivi.
+      Gestisci tutti i tuoi annunci immobiliari 
     </p>
   </div>
 
-  <div class="flex flex-col md:flex-row items-center justify-between mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
-    <div class="w-full md:w-1/2 relative">
+  <!-- Sistema di Filtri a Tab -->
+  <div class="mb-6">
+    <div class="flex space-x-1 bg-gray-100 dark:bg-gray-700 p-1 rounded-full max-w-sm">
+
+      <button 
+        (click)="setFilter('active')"
+        [ngClass]="activeFilter === 'active' ? 
+          'bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-md rounded-full' : 
+          'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-full'"
+        class="w-full py-2 px-4 text-sm font-medium text-center transition-all duration-200">
+        Attivi
+      </button>
+
+
+      <button 
+        (click)="setFilter('closed')"
+        [ngClass]="activeFilter === 'closed' ? 
+          'bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-md rounded-full' : 
+          'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-full'"
+        class="w-full py-2 px-4 text-sm font-medium text-center transition-all duration-200">
+        Chiusi
+      </button>
+      
+      <button 
+        (click)="setFilter('all')"
+        [ngClass]="activeFilter === 'all' ? 
+          'bg-white dark:bg-gray-800 text-gray-900 dark:text-white shadow-md rounded-full' : 
+          'text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-full'"
+        class="w-full py-2 px-4 text-sm font-medium text-center transition-all duration-200">
+        Tutti
+      </button>
+
+
+    </div>
+  </div>
+
+  <!-- Barra di Ricerca (rimosso il dropdown) -->
+  <div class="mb-8 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-sm">
+    <div class="w-full md:max-w-md relative">
       <input type="text" placeholder="Cerca un annuncio per titolo o indirizzo..."
+             (input)="onSearch($event)"
              class="w-full p-3 pl-10 pr-4 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 placeholder:text-gray-500 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#4CAF50] transition duration-200">
       <svg class="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
       </svg>
     </div>
-    <div class="mt-4 md:mt-0 md:ml-4 w-full md:w-auto">
-      <select class="w-full p-3 rounded-full bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-[#4CAF50] cursor-pointer">
-        <option value="">Filtra per stato</option>
-        <option value="attivo">Attivo</option>
-        <option value="in-attesa">In attesa</option>
-      </select>
-    </div>
   </div>
 
   <div class="mb-6 text-gray-600 dark:text-gray-400">
-    Sono presenti {{numberOfListings}} annunci attivi.
+    Sono presenti {{ listingsToShow.length }} annunci.
   </div>
 
+  <!-- Griglia Annunci -->
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
     @for (listing of listingsToShow; track listing.id) {
@@ -43,29 +80,32 @@
               <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
+              <!-- Info Agente (esempio) -->
             </div>
             <div class="flex items-center mt-2 text-gray-700 dark:text-gray-300">
               <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 1.343-3 3v2a3 3 0 003 3h2a3 3 0 003-3v-2c0-1.657-1.343-3-3-3z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18V6" />
-              </svg>
-                <span class="font-bold text-lg text-green-700 dark:text-green-300">
-                    {{ listing.price | currency:'EUR':'symbol':'1.0-0':'en-US' }}
-                </span>
+                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 1.343-3 3v2a3 3 0 003 3h2a3 3 0 003-3v-2c0-1.657-1.343-3-3-3z" />
+                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18V6" />
+               </svg>
+               <span class="font-bold text-lg text-green-700 dark:text-green-300">
+                   {{ listing.price | currency:'EUR':'symbol':'1.0-0':'en-US' }}
+               </span>
             </div>
           </div>
           <div class="flex justify-end p-4 border-t border-gray-200 dark:border-gray-700">
             <button (click)="openListing(listing.id)" class="text-sm font-semibold text-[#4CAF50] dark:text-[#66BB6A] hover:underline">Vedi dettagli</button>
+            <button (click)="openTracking(listing.id)" class="ml-4 text-sm font-semibold text-[#4CAF50] dark:text-[#66BB6A] hover:underline">Visualizza Tracking</button>
           </div>
         </div>
       </div>
     } @empty {
+      <!-- Stato vuoto aggiornato -->
       <div class="col-span-full text-center py-12 text-gray-500 dark:text-gray-400">
         <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h10a2 2 0 012 2v1m-4 5H7a2 2 0 00-2 2v6a2 2 0 002 2h10a2 2 0 002-2v-6a2 2 0 00-2-2z"/>
         </svg>
-        <h2 class="mt-2 text-xl font-medium text-gray-900 dark:text-white">Nessun annuncio attivo</h2>
-        <p class="mt-1 text-sm">Inizia a creare il tuo primo annuncio per visualizzarlo qui.</p>
+        <h2 class="mt-2 text-xl font-medium text-gray-900 dark:text-white">Nessun annuncio trovato</h2>
+        <p class="mt-1 text-sm">Nessun annuncio corrisponde ai filtri impostati.</p>
         <a routerLink="/create-listing" class="mt-3 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#4CAF50] dark:bg-[#66BB6A] hover:bg-[#2E7D32] dark:hover:bg-[#388E3C] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#4CAF50]">
           Crea un nuovo annuncio
         </a>
