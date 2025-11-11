@@ -4,43 +4,10 @@
   <div class="flex flex-col lg:flex-row lg:space-x-6">
     <div class="flex-1">
       @for (listing of listings; track listing.id) {
-        <div class="bg-white rounded-2xl shadow-lg p-5 mb-6 flex flex-col md:flex-row hover:shadow-xl transition-all duration-300 border border-[#e0f2d9]"
-          (mouseenter)="highlightListing(listing)"
-          (mouseleave)="clearHighlight()">
-          
-          <div class="w-full h-48 md:h-auto md:w-64 flex-shrink-0 mb-4 md:mb-0 md:mr-5 rounded-xl overflow-hidden bg-[#f6fff0] border border-[#d0eac2]">
-            <img
-              [src]="listing.imageUrl"
-              alt="Immagine immobile"
-              class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
-            />
-          </div>
-
-          <div class="flex flex-col justify-between flex-grow">
-            <div>
-              <h2 class="text-xl font-semibold mb-2 text-[#4e8c22]">
-                {{ listing.title }}
-              </h2>
-              <p class="text-lg font-bold text-[#689f38] mb-2">
-                {{ listing.price | currency:'EUR':'symbol' }}
-              </p>
-              <div class="text-gray-600 text-sm mb-1">
-                <span>{{ listing.numberRooms }} locali</span> ·
-                <span>{{ listing.area }} m²</span>
-              </div>
-              <div class="text-gray-500 text-sm mb-4">
-                {{ listing.city }}, {{ listing.state }}
-              </div>
-            </div>
-
-            <button
-              (click)="openListing(listing.id)"
-              class="mt-auto w-full md:w-auto bg-[#8bc34b] hover:bg-[#7cb342] text-white px-4 py-2 rounded-lg text-sm font-medium shadow-sm transition-colors duration-300"
-            >
-              Dettagli
-            </button>
-          </div>
-        </div>
+        <app-listing-card
+          [listing]="listing"
+          (cardClick)="openListing(listing.id)"
+        ></app-listing-card>
       }
     </div>
 
@@ -49,7 +16,7 @@
         <app-geo-map
           [isResearch]="false"
           [focusOn] = "listingFocused"
-          [elementsToMark]="listings"
+          [elementsToMark]="listingGeoPoints"
           [height]="'100%'"
           [width]="'100%'"
         ></app-geo-map>

@@ -7,8 +7,8 @@ export interface Listing {
   price: number;
   listingType: string;
   status: string;
-  publicationDate?: Date | null;      // di solito le API restituiscono date come stringhe ISO
-  endPublicationDate: Date;
+  publicationDate?: Date | null;      
+  endPublicationDate?: Date | null;   
   description: string;
   area: number;
   numberRooms: number;

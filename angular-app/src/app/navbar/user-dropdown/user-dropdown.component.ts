@@ -1,0 +1,95 @@
+import { Component, effect, ElementRef, HostListener, inject } from '@angular/core';
+import { AuthService } from '../../_services/auth/auth.service';
+import { CustomerBackendService } from '../../_services/customer-backend/customer-backend.service';
+import { AgencyBackendService } from '../../_services/agency-backend/agency-backend.service';
+import { Customer } from '../../_services/customer-backend/customer';
+import { Agent } from '../../_services/agency-backend/agent';
+import { Router, RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-user-dropdown',
+  standalone: true,
+  imports: [RouterLink],
+  templateUrl: './user-dropdown.component.html',
+  styleUrl: './user-dropdown.component.scss'
+})
+export class UserDropdownComponent {
+
+  // INPUT: Accetta solo il ruolo dell'utente
+  userRole: string | null = null;
+  authService = inject(AuthService);
+  agencySerice = inject(AgencyBackendService);
+  customerService = inject(CustomerBackendService);
+
+  activeUser: Agent | Customer | null = null;
+  isDropdownOpen: boolean = false;
+
+  constructor(private router: Router, private elRef: ElementRef) {
+
+    effect(() => {
+      const isAuthenticated = this.authService.isAuthenticated();
+      const userId = this.authService.userId();
+      this.userRole = this.authService.role();
+
+      if (isAuthenticated && userId && this.userRole) {
+        this.fetchUserDetails(this.userRole, userId);
+      } else {
+        this.activeUser = null;
+      }
+    });
+  }
+
+  ngOnInit() {
+    const isAuthenticated = this.authService.isAuthenticated();
+    const userId = this.authService.userId();
+    this.userRole= this.authService.role();
+
+    if (isAuthenticated && userId && this.userRole) {
+      this.fetchUserDetails(this.userRole, userId);
+    } else {
+      this.activeUser = null;
+    }
+    console.log('Navbar init, isAuthenticated:', this.authService.isUserAuthenticated());
+  }
+
+  fetchUserDetails(role: string, userId: number) {
+
+    if (role == "agent") {
+      this.agencySerice.getAgentById(userId!).subscribe({
+        next: (agent) => {
+          console.log("Agent details:", agent);
+          this.activeUser = agent as Agent;
+        }
+      });
+    }
+
+    if (role == "customer") {
+      this.customerService.getCustomerById(userId!).subscribe({
+        next: (customer) => {
+          console.log("Customer details:", customer);
+          this.activeUser = customer as Customer;
+        }
+      });
+    }
+  }
+
+  // Chiude il menu se si clicca all'esterno del componente
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (this.isDropdownOpen && !this.elRef.nativeElement.contains(event.target)) {
+      this.isDropdownOpen = false;
+    }
+  }
+
+  toggleDropdown(event: Event) {
+    event.stopPropagation();
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
+
+}

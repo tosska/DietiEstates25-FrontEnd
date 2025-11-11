@@ -3,6 +3,8 @@ import * as L from 'leaflet';
 import { LocationRequest } from '../_services/geo-service/location-request';
 import { GeoService } from '../_services/geo-service/geo.service';
 import { Listing } from '../_services/listing-backend/listing';
+import { Address } from '../_services/listing-backend/address';
+import { GeoPoint } from '../_services/geo-service/GeoPoint';
 
 @Component({
   selector: 'app-geo-map',
@@ -17,7 +19,7 @@ export class GeoMapComponent {
   @Input() height: string = '400px';
   @Input() circleRadiusKm: number = 1;
   @Input() isResearch: boolean = true;
-  @Input() elementsToMark: any[] | any | null= [];
+  @Input() elementsToMark: GeoPoint[] | GeoPoint | null= [];
   @Input() focusOn: any = null;
   @Input() startLatitude: number = 45.4642;
   @Input() startLongitude: number = 9.1900;

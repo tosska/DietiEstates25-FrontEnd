@@ -1,0 +1,73 @@
+<div class="relative">
+  
+  <button 
+    (click)="toggleDropdown($event)" 
+    type="button"
+    class="flex items-center gap-2 rounded-full p-2 text-sm font-medium
+           text-gray-700 hover:bg-gray-100 focus:outline-none 
+           focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors">
+    
+    <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-200 text-gray-600">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
+      </svg>
+    </span>
+
+       Benvenuto, {{ activeUser?.name }} ({{ this.authService.role() }})
+    
+    <svg class="h-4 w-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </button>
+
+ @if(isDropdownOpen) {
+    <div 
+      class="absolute right-0 top-full mt-2 w-56 origin-top-right bg-white 
+             rounded-md shadow-lg ring-1 ring-black ring-opacity-5 z-50">
+      
+      <div class="py-1" role="menu" aria-orientation="vertical">
+
+        <a routerLink="/user-area"
+           class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 
+                  cursor-pointer" role="menuitem">
+          Il mio profilo
+        </a>
+
+        @if (userRole === 'customer') {
+            <a routerLink="/customer-my-offers"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 
+                    cursor-pointer" role="menuitem">
+            Le mie offerte
+            </a>
+
+        }
+
+        @if (userRole === 'agent') {
+    
+            <a routerLink="/user-area"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 
+                    cursor-pointer" role="menuitem">
+            Pannello agente
+            </a>
+        }
+                
+        @if (userRole === 'admin') {
+            <a routerLink="/user-area"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 
+                    cursor-pointer" role="menuitem">
+            Pannello admin
+            </a>
+        }
+
+
+        <div class="border-t border-gray-100 my-1"></div>
+
+        <a (click)="logout()"
+           class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100 
+                  cursor-pointer" role="menuitem">
+          Esci
+        </a>
+      </div>
+    </div>
+ }
+</div>
