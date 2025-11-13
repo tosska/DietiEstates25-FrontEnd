@@ -1,0 +1,189 @@
+<!-- Layout più esteso, max-w-4xl e più padding -->
+<div class="max-w-4xl mx-auto p-6 md:p-8 bg-white dark:bg-gray-900 min-h-screen">
+
+  <header class="mb-10">
+    <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-gray-100">
+      Trattativa Annuncio
+    </h1>
+    <p class="mt-3 text-xl text-gray-600 dark:text-gray-400">
+      Visualizza lo storico delle offerte e rispondi alle controproposte.
+    </p>
+  </header>
+
+  <!-- Stato di Caricamento -->
+  @if (isLoading) {
+    <div class="flex justify-center items-center p-10">
+      <span class="text-gray-500 dark:text-gray-400">Caricamento storico...</span>
+      <!-- Aggiungi uno spinner se vuoi -->
+    </div>
+  }
+
+  <!-- Stato di Errore -->
+  @if (error) {
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative" role="alert">
+      <strong class="font-bold">Errore:</strong>
+      <span class="block sm:inline">{{ error }}</span>
+    </div>
+  }
+
+  <!-- Contenitore dello Storico/Chat -->
+  @if (!isLoading && !error) {
+
+  <div #chatContainer class="space-y-6 p-6 md:p-8 bg-gray-100 dark:bg-gray-800 
+                rounded-2xl border border-gray-200 dark:border-gray-700
+                max-h-[70vh] overflow-y-auto mb-8">
+                
+      @for (offer of offersHistory; track offer.id) {
+        
+        @if (offer.counteroffer === true) {
+          <div class="flex justify-start">
+
+            <div class="p-4 rounded-2xl rounded-bl-none bg-white dark:bg-gray-700 
+                        text-gray-900 dark:text-gray-100 max-w-lg shadow-sm border border-gray-200 dark:border-gray-600
+                        flex flex-col space-y-3">
+              <!-- Header Messaggio -->
+              <div class="flex justify-between items-center">
+                <span class="font-semibold text-sm text-gray-800 dark:text-gray-200">{{ offer.externalName }}</span>
+                <span class="text-xs text-gray-500 dark:text-gray-400">{{ offer.offer_Date | date:'dd/MM/yy HH:mm' }}</span>
+              </div>
+
+              <!-- Corpo Messaggio -->
+              <div>
+                <p class="font-bold text-2xl text-gray-900 dark:text-white">
+                  {{ offer.amount | currency:'EUR':'symbol':'1.0-0' }}
+                </p>
+                @if (offer.message) {
+                  <p class="mt-2 text-base text-gray-700 dark:text-gray-300">{{ offer.message }}</p>
+                }
+              </div>
+
+             
+              <div class="pt-2 border-t border-gray-100 dark:border-gray-600">
+                <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold"
+                      [ngClass]="{
+                        'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200': offer.status === 'Accepted',
+                        'bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200': offer.status === 'Rejected',
+                        'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200': offer.status === 'Pending'
+                      }">
+                  {{ offer.status }}
+                </span>
+              </div>
+            </div>
+          </div>
+        }
+
+
+        @if (offer.counteroffer !== true) {
+          <div class="flex justify-end">
+      
+            <div class="p-4 rounded-2xl rounded-br-none bg-green-600 text-white max-w-lg shadow-sm
+                        flex flex-col space-y-3">
+  
+              <div class="flex justify-between items-center">
+                <span class="font-semibold text-sm text-green-50">Tu</span>
+                <span class="text-xs text-green-100">{{ offer.offer_Date | date:'dd/MM/yy HH:mm' }}</span>
+              </div>
+              
+      
+              <div>
+                <p class="font-bold text-2xl">
+                  {{ offer.amount | currency:'EUR':'symbol':'1.0-0' }}
+                </p>
+                @if (offer.message) {
+                  <p class="mt-2 text-base text-green-50">{{ offer.message }}</p>
+                }
+              </div>
+
+        
+              <div class="pt-2 border-t border-green-500">
+      
+                 <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold"
+                      [ngClass]="{
+                        'bg-white text-green-800': offer.status === 'Accepted',
+                        'bg-white text-pink-800': offer.status === 'Rejected',
+                        'bg-white text-yellow-800': offer.status === 'Pending'
+                      }">
+                  {{ offer.status }}
+                </span>
+              </div>
+            </div>
+          </div>
+        }
+      }
+
+      <!-- Stato vuoto -->
+      @if (offersHistory.length === 0) {
+        <p class="text-center text-gray-500 dark:text-gray-400 p-4">
+          Non hai ancora inviato offerte per questo annuncio.
+        </p>
+      }
+    </div>
+  }
+
+  <!-- Sezione Azioni (stile moderno) -->
+ 
+    <!-- Contenitore più spazioso -->
+    <div class="p-6 border-t-2 border-gray-100 dark:border-gray-700">
+
+    @if (canRespond && offersHistory.length > 0) {
+      
+      <!-- Box di notifica verde, più elegante -->
+      <div class="text-center mb-6 p-5 bg-green-50 dark:bg-green-900 
+                  border border-green-200 dark:border-green-700 rounded-2xl">
+        <p class="font-semibold text-lg text-green-800 dark:text-green-200">
+          L'agente ha inviato una controfferta:
+        </p>
+        <p class="text-3xl font-extrabold text-green-700 dark:text-green-100 mt-1">
+          {{ latestOffer?.amount | currency:'EUR':'symbol':'1.0-0' }}
+        </p>
+      </div>
+      
+      <!-- Pulsanti di Azione più grandi e moderni -->
+      <div class="flex flex-col sm:flex-row gap-4">
+        <button 
+          (click)="acceptOffer()"
+          class="flex-1 bg-green-600 text-white font-bold py-3 px-5 rounded-lg
+                 shadow-sm hover:shadow-md hover:bg-green-700 
+                 transition-all duration-200">
+          Accetta Offerta
+        </button>
+        <button 
+          (click)="rejectOffer()"
+          class="flex-1 bg-red-600 text-white font-bold py-3 px-5 rounded-lg
+                 shadow-sm hover:shadow-md hover:bg-red-700 
+                 transition-all duration-200">
+          Rifiuta
+        </button>
+        <button 
+          
+          class="flex-1 bg-gray-700 text-white font-bold py-3 px-5 rounded-lg
+                 shadow-sm hover:shadow-md hover:bg-gray-800 
+                 transition-all duration-200">
+          Rilancia
+        </button>
+      </div>
+    } @else if (canCreateNewOffer) {
+
+<div class="flex flex-col sm:flex-row gap-4">
+
+        <button 
+          (click)="openOfferModal()"
+          class="flex-1 bg-gray-700 text-white font-bold py-3 px-5 rounded-lg
+                 shadow-sm hover:shadow-md hover:bg-blue 
+                 transition-all duration-200">
+          Fai un'offerta
+        </button>
+      </div>
+
+    }
+    </div>
+
+</div>
+
+@if (showOfferModal) {
+    <app-offer-modal 
+      [listingId]="listingId"
+      [userTarget]="this.latestOffer!.agent_id"
+      (close)="showOfferModal = false; loadOffersHistory(listingId!);"
+    ></app-offer-modal>
+}

@@ -19,7 +19,7 @@ export class ListingCardComponent {
    * sempre fornito dal componente genitore.
    */
   @Input() listing!: Listing;
-  @Input() buttonText: string = 'Azione';
+  @Input() buttonText: string = 'Dettagli';
 
   /**
    * Evento emesso quando l'intera card viene cliccata.

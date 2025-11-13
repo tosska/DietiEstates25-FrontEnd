@@ -130,7 +130,7 @@
             [isResearch]="false" 
             [startLatitude]="currentListing.Address.latitude!" 
             [startLongitude]="currentListing.Address.longitude!"
-            [elementsToMark]="currentListing.Address">
+            [elementsToMark]="{latitude: currentListing.Address.latitude!, longitude: currentListing.Address.longitude!}">
         </app-geo-map>
       </div>
     </div>

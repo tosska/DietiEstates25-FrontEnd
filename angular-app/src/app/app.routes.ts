@@ -17,6 +17,7 @@ import { OffersReceivedComponent } from './dashboard/offers-received/offers-rece
 import { OffersByListingComponent } from './dashboard/offers-received/offers-by-listing/offers-by-listing.component';
 import { ListingTrackingComponent } from './dashboard/listing-tracking/listing-tracking.component';
 import { CustomerMyOffersComponent } from './customer-my-offers/customer-my-offers.component';
+import { CustomerListingTrackingComponent } from './customer-my-offers/customer-listing-tracking/customer-listing-tracking.component';
 
 export const routes: Routes = [
     {
@@ -62,6 +63,10 @@ export const routes: Routes = [
         path: 'customer-my-offers',
         component: CustomerMyOffersComponent,
         title: "My Offers | DietiEstates App",
+    },{
+        path: 'customer-my-offers/listing/:id',
+        component: CustomerListingTrackingComponent,
+        title: "Listing Tracking | DietiEstates App"
 
     }, {
         path: 'dashboard-agent',

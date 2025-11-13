@@ -35,7 +35,11 @@ export class OfferBackendService {
     return this.http.post(`${this.url}/offer/${originalOfferId}/counteroffer`, offerData);
   }
 
-  getOfferHistoryForListing(listingId: number) {
-    return this.http.get<Offer[]>(`${this.url}/offers/history/listing/${listingId}`);
+  getOfferHistoryForListingByAgent(listingId: number) {
+    return this.http.get<Offer[]>(`${this.url}/agent/offers/history/listing/${listingId}`);
+  }
+
+  getOfferHistoryForListingByCustomer(listingId: number) {
+    return this.http.get<Offer[]>(`${this.url}/customer/offers/history/listing/${listingId}`);
   }
 }

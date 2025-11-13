@@ -7,7 +7,7 @@ export interface Offer {
   status: 'Accepted' | 'Rejected' | 'Pending';
   offer_Date: Date;
   response_Date?: Date;
-  counteroffer?: boolean;
+  counteroffer: boolean;
   externalName: string;
   customer_id: number;
   agent_id: number;

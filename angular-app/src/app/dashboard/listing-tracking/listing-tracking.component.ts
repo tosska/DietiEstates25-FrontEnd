@@ -39,7 +39,7 @@ export class ListingTrackingComponent {
 
   fetchOfferHistory() {
 
-    this.offerService.getOfferHistoryForListing(this.listingId!).subscribe({
+    this.offerService.getOfferHistoryForListingByAgent(this.listingId!).subscribe({
       next: (offers) => {
         console.log('Offer history for listing:', offers);
         this.offers = offers;
