@@ -74,7 +74,7 @@ export class OfferModalComponent {
 
   onSubmitForm(){
     if(this.offerForm.valid){
-
+      console.log("Form valido, procedo con l'invio");
       let dataForm = this.offerForm.value;
 
       if(this.listingId) {

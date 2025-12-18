@@ -25,7 +25,7 @@ export class CustomerMyOffersComponent {
 
 
   loadOfferedListings(): void {
-    this.listingService.getListingsOfferedByCustomer().subscribe({
+    this.listingService.getActiveListingsOfferedByCustomer().subscribe({
       next: (listings) => {
         this.offeredListings = listings;
       },

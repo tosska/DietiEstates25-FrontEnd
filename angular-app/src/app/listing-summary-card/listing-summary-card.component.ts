@@ -14,6 +14,9 @@ export class ListingSummaryCardComponent {
   
   // Il componente riceve l'oggetto Listing completo
   @Input() listingId: number | null = null;
+  @Input() isSidebar: boolean | null = null;
+
+
   listingService = inject(ListingBackendService);
   listing: Listing | null = null;
 

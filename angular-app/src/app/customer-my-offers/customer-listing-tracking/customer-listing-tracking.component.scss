@@ -1,0 +1,152 @@
+/* --- Variabili Colori (Palette Verde/Bianco Professionale) --- */
+$color-primary: #15803d;      /* Green 700 - Colore principale brand */
+$color-primary-dark: #14532d; /* Green 900 - Per hover e testi scuri */
+$color-bg-light: #f9fafb;     /* Gray 50 - Sfondo pagina */
+$color-white: #ffffff;
+
+/* --- Variabili Stati --- */
+$status-accepted-text: #15803d;
+$status-accepted-bg: #dcfce7;
+$status-rejected-text: #dc2626; /* Rosso deciso */
+$status-rejected-bg: #fee2e2;
+$status-pending-text: #b45309;
+$status-pending-bg: #fef3c7;
+
+/* --- Layout Generale --- */
+.page-container {
+  @apply max-w-4xl mx-auto p-6 md:p-10 min-h-screen;
+  background-color: $color-bg-light;
+}
+
+.page-header {
+  @apply mb-10 border-b border-gray-200 pb-4;
+  
+  h1 {
+    @apply text-4xl font-extrabold tracking-tight text-gray-900;
+  }
+  
+  p {
+    @apply mt-2 text-lg text-gray-500;
+  }
+}
+
+/* --- Area Chat / Storico --- */
+.chat-container {
+  @apply space-y-6 p-6 overflow-y-auto mb-8 bg-white rounded-2xl shadow-xl border border-gray-100;
+  max-height: 75vh;
+}
+
+/* Bolla del Messaggio (Base) */
+.message-bubble {
+  @apply p-5 rounded-2xl shadow-md flex flex-col space-y-2 max-w-lg transition-transform duration-200;
+  
+  &:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Header del messaggio (Nome e Data) */
+  .msg-header {
+    @apply flex justify-between items-center pb-2 mb-1 border-b;
+    font-size: 0.875rem; /* text-sm */
+  }
+
+  /* Contenuto (Prezzo e Messaggio) */
+  .msg-content {
+    .amount {
+      @apply text-3xl font-extrabold;
+    }
+    .text {
+      @apply mt-2 text-base italic;
+    }
+  }
+
+  /* Footer (Status Badge) */
+  .msg-footer {
+    @apply pt-3 mt-1 border-t flex justify-end;
+  }
+}
+
+/* --- VARIANTE: Messaggio Ricevuto (Agente) --- */
+.message-bubble.received {
+  @apply bg-gray-50 text-gray-800 border border-gray-200 rounded-bl-none;
+
+  .msg-header {
+    @apply border-gray-200;
+    .name { @apply font-bold text-gray-700; }
+    .date { @apply text-gray-500; }
+  }
+
+  .amount { @apply text-gray-900; }
+  .text { @apply text-gray-600; }
+  .msg-footer { @apply border-gray-200; }
+
+  /* Badge su sfondo chiaro */
+  .status-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-bold tracking-wider;
+    
+    &.accepted { background-color: $status-accepted-bg; color: $status-accepted-text; }
+    &.rejected { background-color: $status-rejected-bg; color: $status-rejected-text; }
+    &.pending  { background-color: $status-pending-bg;  color: $status-pending-text; }
+  }
+}
+
+/* --- VARIANTE: Messaggio Inviato (Tu) --- */
+.message-bubble.sent {
+  background-color: $color-primary; /* Verde Brand */
+  @apply text-white rounded-br-none shadow-lg;
+
+  .msg-header {
+    border-color: rgba(255, 255, 255, 0.3);
+    .name { @apply font-bold text-white; }
+    .date { @apply text-green-100; }
+  }
+
+  .amount { @apply text-white; }
+  .text { @apply text-green-50; }
+  .msg-footer { border-color: rgba(255, 255, 255, 0.3); }
+
+  /* Badge su sfondo VERDE (Qui sta la fix di leggibilità) */
+  .status-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-bold tracking-wider;
+    background-color: whitesmoke; /* Sempre bianco per contrasto */
+    
+    &.accepted { color: $status-accepted-text; }
+    &.rejected { color: $status-rejected-text; } /* Rosso su Bianco = Leggibile */
+    &.pending  { color: $status-pending-text; }
+  }
+}
+
+
+/* --- Sezione Azioni (Bottom) --- */
+.actions-container {
+  @apply p-6 border-t-4 border-gray-100 rounded-b-2xl bg-white;
+}
+
+.notification-box {
+  @apply text-center mb-6 p-5 rounded-xl border flex flex-col items-center justify-center;
+  background-color: #f0fdf4; /* Green 50 */
+  border-color: #bbf7d0;     /* Green 200 */
+  color: #166534;            /* Green 800 */
+}
+
+/* Pulsanti Custom */
+.btn-action {
+  @apply flex items-center justify-center font-bold py-4 px-6 rounded-xl shadow-md transition-all duration-300;
+  
+  &:hover {
+    @apply shadow-xl -translate-y-1;
+  }
+
+  &.accept {
+    @apply bg-green-600 text-white hover:bg-green-700;
+  }
+  &.reject {
+    @apply bg-red-600 text-white hover:bg-red-700;
+  }
+  &.counter {
+    @apply bg-gray-700 text-white hover:bg-gray-800;
+  }
+  &.primary {
+    @apply bg-green-600 text-white hover:bg-green-700 w-full;
+  }
+}

@@ -1,14 +1,16 @@
 import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { Offer } from '../../_services/offer-backend/offer';
 import { OfferBackendService } from '../../_services/offer-backend/offer-backend.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { OfferModalComponent } from '../../listing-page/offer-modal/offer-modal.component';
+import { ListingCardComponent } from '../../listing-card/listing-card.component';
+import { ListingSummaryCardComponent } from '../../listing-summary-card/listing-summary-card.component';
 
 @Component({
   selector: 'app-customer-listing-tracking',
   standalone: true,
-  imports: [CommonModule, OfferModalComponent],
+  imports: [CommonModule, OfferModalComponent, ListingSummaryCardComponent, RouterLink],
   templateUrl: './customer-listing-tracking.component.html',
   styleUrl: './customer-listing-tracking.component.scss'
 })
@@ -107,5 +109,11 @@ setScrollToBottom(): void {
         console.error('Error rejecting offer:', error);
       }
     });
+  }
+
+  handle_submitted(): void {
+    if(this.canRespond){
+      this.rejectOffer();
+    }
   }
 }

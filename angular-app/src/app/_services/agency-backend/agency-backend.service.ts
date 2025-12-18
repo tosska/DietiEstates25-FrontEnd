@@ -13,5 +13,12 @@ export class AgencyBackendService {
     return this.http.get(`${this.url}/agent/${id}`);
   }
 
+  getAgencyById(id: number) {
+    return this.http.get(`${this.url}/agency/${id}`);
+  }
+
+  getAgencyNameById(id: number) {
+    return this.http.get(`${this.url}/agency/${id}/name`);
+  }
 
 }

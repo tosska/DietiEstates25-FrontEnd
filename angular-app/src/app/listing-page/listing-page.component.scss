@@ -143,3 +143,11 @@ $color-light-green: #F0FFF0; // Sfondo verde molto chiaro (Green-50)
     border-radius: 0.75rem;
     color: #6B7280;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

@@ -42,7 +42,6 @@ export class CreateListingPageComponent {
       title: new FormControl('', Validators.required),
       price: new FormControl(null, [Validators.required, Validators.min(0)]),
       listingType: new FormControl('Sale', Validators.required),
-      endPublicationDate: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
       area: new FormControl(null, [Validators.required, Validators.min(0)]),
       numberRooms: new FormControl(null, [Validators.required, Validators.min(1)]),

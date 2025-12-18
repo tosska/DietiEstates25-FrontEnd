@@ -42,16 +42,6 @@ Crea un Nuovo Annuncio
           <div class="text-red-500 text-xs mt-1">Il tipo di annuncio è obbligatorio.</div>
         }
       </div>
-
-      <div>
-        <label for="endPublicationDate" class="block text-sm font-medium text-gray-700 mb-2">Data Fine Pubblicazione</label>
-        <input id="endPublicationDate" type="date" formControlName="endPublicationDate"
-               class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
-                      focus:border-green-600 focus:ring-green-600 sm:text-lg px-5 py-3 transition-colors duration-200">
-        @if (listingForm.get('endPublicationDate')?.invalid && (listingForm.get('endPublicationDate')?.dirty || listingForm.get('endPublicationDate')?.touched)) {
-          <div class="text-red-500 text-xs mt-1">La data di fine pubblicazione è obbligatoria.</div>
-        }
-      </div>
     </div>
 
     <div class="mt-8">

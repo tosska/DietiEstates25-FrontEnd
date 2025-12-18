@@ -48,8 +48,12 @@ export class ListingBackendService {
     return this.http.post<Listing[]>(`${this.url}/listings/by-ids`, { listingIds: listingIds });
   }
 
-  getListingsOfferedByCustomer() {
-    return this.http.get<Listing[]>(`${this.url}/customers/me/listings/offered`);
+  getActiveListingsOfferedByCustomer() {
+    return this.http.get<Listing[]>(`${this.url}/customers/me/listings/active/offered`);
+  }
+
+  getClosedListingsOfferedByCustomer() {
+    return this.http.get<Listing[]>(`${this.url}/customers/me/listings/closed/offered`);
   }
 
 
