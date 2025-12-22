@@ -50,10 +50,10 @@ export class RestBackendService {
     );
   }
 
-  registerAgency(data: any): Observable<any> { 
+  registerAgency(agencySignupRequest: AgencySignupRequest): Observable<any> { 
     const url = `${this.authServiceUrl}/register/agency`;
-    console.log('Invio dati registrazione agenzia:', data);
-    return this.http.post<any>(url, data, this.httpOptions).pipe(
+    console.log('Invio dati registrazione agenzia:', agencySignupRequest);
+    return this.http.post<any>(url, agencySignupRequest, this.httpOptions).pipe(
       map((response) => {
         console.log('Risposta registrazione agenzia:', response);
         return response;

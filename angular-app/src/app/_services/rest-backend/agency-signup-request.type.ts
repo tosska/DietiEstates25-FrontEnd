@@ -6,6 +6,15 @@ export interface AgencySignupRequest {
   description: string;
   vatNumber?: string;
   website?: string;
-  managerAdminId: number;
-  addressId: number;
+  street?: string;
+  city?: string;
+  postalCode?: string;
+  state?: string;
+  unitDetail?: string;
+  houseNumber?: string;
+  country?: string;
+  longitude?: string;
+  latitude?: string;
+  managerAdminId?: number;
+  addressId?: number;
 }
