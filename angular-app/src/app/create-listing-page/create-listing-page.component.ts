@@ -36,6 +36,9 @@ export class CreateListingPageComponent {
   images: File[] = []; 
   urlPreview: string [] = [];
 
+  verificationIsClicked: boolean = false;
+  verificationInProgress: boolean = false;
+
   ngOnInit(): void {
     this.listingForm = new FormGroup({
       // Campi di Listing
@@ -143,6 +146,8 @@ export class CreateListingPageComponent {
 
   verifyAddress() {
     if(this.selectedLocation){
+      this.verificationIsClicked = true;
+
       let houseNumber= this.listingForm.get('address')?.get('houseNumber')?.value;
       this.selectedLocation.housenumber = houseNumber;
       console.log('Verifica strada:',  this.selectedLocation?.street!);
@@ -153,13 +158,19 @@ export class CreateListingPageComponent {
         this.selectedLocation.postalCode = this.selectedCity.postalCode;
       }
 
+      this.verificationInProgress = true;
+
       this.geoService.verifyAddress(this.selectedLocation).subscribe({
           next: (result) => {
+            this.verificationInProgress = false;
             console.log('Risultato verifica indirizzo:', result);
-            this.addressVerified = true;
-            if (this.selectedLocation) {
+            if (this.selectedLocation && result) {
+              
+              this.addressVerified = true;
               this.selectedLocation.latitude = result?.latitude
               this.selectedLocation.longitude = result?.longitude
+            } else {
+              this.addressVerified = false;
             }
 
           }

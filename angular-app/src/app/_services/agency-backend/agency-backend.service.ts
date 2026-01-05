@@ -7,6 +7,8 @@ import { Injectable } from '@angular/core';
 export class AgencyBackendService {
 
   url: string = 'http://localhost:8000/agency-service'; 
+  publicUrl = 'http://localhost:8000/agency-public'; 
+
   constructor(private http: HttpClient) { }
 
   getAgentById(id: number) {
@@ -19,6 +21,12 @@ export class AgencyBackendService {
 
   getAgencyNameById(id: number) {
     return this.http.get(`${this.url}/agency/${id}/name`);
+  }
+
+  public getAgentImageUrl(id: number, nameFile: string): string{
+
+    return `${this.publicUrl}/images/agents/${id}/${nameFile}`;
+
   }
 
 }

@@ -230,7 +230,34 @@ Crea un Nuovo Annuncio
       </div>
     </div>
 
-    <div class="flex justify-end pt-4">
+<div class="flex flex-col sm:flex-row items-center justify-end gap-4 pt-4">
+
+      @if(verificationInProgress) {
+        <span class="text-blue-600 font-bold flex items-center gap-2">
+          <svg class="animate-spin h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+          </svg>
+          Verifica in corso...
+        </span>
+        
+      }
+      @else if (addressVerified && verificationIsClicked) {
+        <span class="text-green-600 font-bold flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+          </svg>
+          Indirizzo verificato
+        </span>
+      } @else if (addressVerified === false && verificationIsClicked) {
+        <span class="text-red-600 font-bold flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+          </svg>
+          Indirizzo non esistente
+        </span>
+      }
+
       <button type="button" (click)="verifyAddress()"
               class="inline-flex justify-center rounded-lg border border-transparent
                      bg-blue-600 py-3 px-8 text-base font-semibold text-white shadow-md
@@ -241,8 +268,10 @@ Crea un Nuovo Annuncio
     </div>
   </div>
 
+  
+
   <div class="flex justify-center pt-8">
-    <button type="submit" [disabled]="listingForm.invalid"
+    <button type="submit" [disabled]="listingForm.invalid && !addressVerified"
             class="w-full max-w-sm inline-flex justify-center rounded-lg border border-transparent 
                    bg-green-600 py-4 px-10 text-xl font-bold text-white shadow-lg 
                    hover:bg-green-700 focus:outline-none focus:ring-2 
