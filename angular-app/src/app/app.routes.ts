@@ -18,6 +18,7 @@ import { OffersByListingComponent } from './dashboard/offers-received/offers-by-
 import { ListingTrackingComponent } from './dashboard/listing-tracking/listing-tracking.component';
 import { CustomerMyOffersComponent } from './customer-my-offers/customer-my-offers.component';
 import { CustomerListingTrackingComponent } from './customer-my-offers/customer-listing-tracking/customer-listing-tracking.component';
+import { AdminAreaComponent } from './admin-area/admin-area.component';
 
 export const routes: Routes = [
     {
@@ -67,6 +68,11 @@ export const routes: Routes = [
         path: 'customer-my-offers/listing/:id',
         component: CustomerListingTrackingComponent,
         title: "Listing Tracking | DietiEstates App"
+
+    },{
+        path: 'admin-area',
+        component: AdminAreaComponent,
+        title: "Admin Area | DietiEstates App"
 
     }, {
         path: 'dashboard-agent',

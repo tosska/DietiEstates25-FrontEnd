@@ -1,96 +1,132 @@
-<div class="container mx-auto p-6">
-  <h1 class="text-2xl font-bold mb-6 text-[#1B1B1B] dark:text-[#A5D6A7]">Registrazione Agenzia</h1>
+<div class="min-h-screen flex items-start justify-center p-6 bg-gray-100 dark:bg-gray-950">
+    <div class="w-full max-w-xl">
+        <h1 class="text-3xl font-extrabold mb-8 text-gray-900 dark:text-white text-center">Registrazione Agenzia</h1>
 
-  <!-- Progress Bar -->
-  <div class="flex justify-between mb-6">
-    <div class="flex-1 text-center" [ngClass]="{'text-[#2E7D32] dark:text-[#81C784]': currentStep >= 1}">1. Account Manager</div>
-    <div class="flex-1 text-center" [ngClass]="{'text-[#2E7D32] dark:text-[#81C784]': currentStep >= 2}">2. Indirizzo</div>
-    <div class="flex-1 text-center" [ngClass]="{'text-[#2E7D32] dark:text-[#81C784]': currentStep >= 3}">3. Dati Agenzia</div>
-  </div>
+        <div class="flex justify-between mb-10 relative">
+            <div class="absolute top-1/2 left-0 right-0 h-1 bg-gray-300 dark:bg-gray-700 -translate-y-1/2 mx-4"></div>
+            <div class="absolute top-1/2 left-0 h-1 bg-[#4CAF50] transition-all duration-500 ease-in-out -translate-y-1/2 mx-4" 
+                 [ngClass]="{'w-1/2': currentStep === 2, 'w-full': currentStep === 3, 'w-0': currentStep === 1}"></div>
 
-  <!-- Step 1: Account Manager -->
-  <div *ngIf="currentStep === 1" class="bg-white dark:bg-[#121212] p-6 rounded-lg shadow-md">
-    <h2 class="text-xl font-semibold mb-4">Crea il tuo account</h2>
-    <form [formGroup]="step1" (ngSubmit)="nextStep()">
-      <div class="mb-4">
-        <label for="email" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Email</label>
-        <input id="email" formControlName="email" type="email" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-[#4CAF50] dark:focus:border-[#66BB6A] p-2 dark:bg-[#1E1E1E] dark:text-[#F1F1F1]">
-        <div *ngIf="step1.get('email')?.invalid && step1.get('email')?.touched" class="text-red-500 text-sm">Email richiesta</div>
-      </div>
-      <div class="mb-4">
-        <label for="password" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Password</label>
-        <input id="password" formControlName="password" type="password" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-[#4CAF50] dark:focus:border-[#66BB6A] p-2 dark:bg-[#1E1E1E] dark:text-[#F1F1F1]">
-        <div *ngIf="step1.get('password')?.invalid && step1.get('password')?.touched" class="text-red-500 text-sm">Password richiesta (min 6 caratteri)</div>
-      </div>
-      <button type="submit" class="bg-[#4CAF50] text-white py-2 px-4 rounded hover:bg-[#2E7D32] dark:bg-[#66BB6A] dark:hover:bg-[#43A047]">Avanti</button>
-    </form>
-  </div>
+            <div class="flex-1 text-center relative z-10">
+                <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center font-bold transition-colors duration-300"
+                     [ngClass]="{'bg-[#4CAF50] text-white shadow-lg': currentStep >= 1, 'bg-gray-300 text-gray-600': currentStep < 1}">1</div>
+                <p class="text-sm mt-2 font-medium" [ngClass]="{'text-[#4CAF50] dark:text-[#81C784]': currentStep >= 1, 'text-gray-500 dark:text-gray-400': currentStep < 1}">Account Manager</p>
+            </div>
+            
+            <div class="flex-1 text-center relative z-10">
+                <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center font-bold transition-colors duration-300"
+                     [ngClass]="{'bg-[#4CAF50] text-white shadow-lg': currentStep >= 2, 'bg-gray-300 text-gray-600': currentStep < 2}">2</div>
+                <p class="text-sm mt-2 font-medium" [ngClass]="{'text-[#4CAF50] dark:text-[#81C784]': currentStep >= 2, 'text-gray-500 dark:text-gray-400': currentStep < 2}">Indirizzo</p>
+            </div>
 
-  <!-- Step 2: Indirizzo con Mappa -->
-  <div *ngIf="currentStep === 2" class="bg-white dark:bg-[#121212] p-6 rounded-lg shadow-md">
-    <h2 class="text-xl font-semibold mb-4">Seleziona l'indirizzo</h2>
-    <form [formGroup]="step2" (ngSubmit)="nextStep()">
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Seleziona sulla mappa</label>
-        <div id="map" class="h-64 w-full rounded-md border-gray-300 dark:border-gray-600"></div>
-      </div>
-      <div class="mb-4">
-        <label for="street" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Via</label>
-        <input id="street" formControlName="street" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-[#4CAF50] dark:focus:border-[#66BB6A] p-2 dark:bg-[#1E1E1E] dark:text-[#F1F1F1]">
-      </div>
-      <div class="mb-4">
-        <label for="city" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Città</label>
-        <input id="city" formControlName="city" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-[#4CAF50] dark:focus:border-[#66BB6A] p-2 dark:bg-[#1E1E1E] dark:text-[#F1F1F1]">
-      </div>
-      <div class="mb-4">
-        <label for="postalCode" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">CAP</label>
-        <input id="postalCode" formControlName="postalCode" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-[#4CAF50] dark:focus:border-[#66BB6A] p-2 dark:bg-[#1E1E1E] dark:text-[#F1F1F1]">
-      </div>
-      <div class="mb-4">
-        <label for="state" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Regione</label>
-        <input id="state" formControlName="state" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-[#4CAF50] dark:focus:border-[#66BB6A] p-2 dark:bg-[#1E1E1E] dark:text-[#F1F1F1]">
-      </div>
-      <div class="mb-4">
-        <label for="unitDetail" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Dettagli Unità</label>
-        <input id="unitDetail" formControlName="unitDetail" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-[#4CAF50] dark:focus:border-[#66BB6A] p-2 dark:bg-[#1E1E1E] dark:text-[#F1F1F1]">
-      </div>
-      <div class="mb-4">
-        <label for="latitude" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Latitudine</label>
-        <input id="latitude" formControlName="latitude" type="number" step="0.000001" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-[#4CAF50] dark:focus:border-[#66BB6A] p-2 dark:bg-[#1E1E1E] dark:text-[#F1F1F1]">
-      </div>
-      <div class="mb-4">
-        <label for="longitude" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Longitudine</label>
-        <input id="longitude" formControlName="longitude" type="number" step="0.000001" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-[#4CAF50] dark:focus:border-[#66BB6A] p-2 dark:bg-[#1E1E1E] dark:text-[#F1F1F1]">
-      </div>
-      <button type="button" (click)="prevStep()" class="bg-gray-300 text-black py-2 px-4 rounded mr-2 hover:bg-gray-400">Indietro</button>
-      <button type="submit" class="bg-[#4CAF50] text-white py-2 px-4 rounded hover:bg-[#2E7D32] dark:bg-[#66BB6A] dark:hover:bg-[#43A047]">Avanti</button>
-    </form>
-  </div>
+            <div class="flex-1 text-center relative z-10">
+                <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center font-bold transition-colors duration-300"
+                     [ngClass]="{'bg-[#4CAF50] text-white shadow-lg': currentStep >= 3, 'bg-gray-300 text-gray-600': currentStep < 3}">3</div>
+                <p class="text-sm mt-2 font-medium" [ngClass]="{'text-[#4CAF50] dark:text-[#81C784]': currentStep >= 3, 'text-gray-500 dark:text-gray-400': currentStep < 3}">Dati Agenzia</p>
+            </div>
+        </div>
 
-  <!-- Step 3: Dati Agenzia -->
-  <div *ngIf="currentStep === 3" class="bg-white dark:bg-[#121212] p-6 rounded-lg shadow-md">
-    <h2 class="text-xl font-semibold mb-4">Dati dell'Agenzia</h2>
-    <form [formGroup]="step3" (ngSubmit)="onSubmit()">
-      <div class="mb-4">
-        <label for="phone" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Telefono</label>
-        <input id="phone" formControlName="phone" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-[#4CAF50] dark:focus:border-[#66BB6A] p-2 dark:bg-[#1E1E1E] dark:text-[#F1F1F1]">
-        <div *ngIf="step3.get('phone')?.invalid && step3.get('phone')?.touched" class="text-red-500 text-sm">Telefono richiesto</div>
-      </div>
-      <div class="mb-4">
-        <label for="description" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Descrizione</label>
-        <textarea id="description" formControlName="description" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-[#4CAF50] dark:focus:border-[#66BB6A] p-2 dark:bg-[#1E1E1E] dark:text-[#F1F1F1]"></textarea>
-      </div>
-      <div class="mb-4">
-        <label for="vatNumber" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Partita IVA</label>
-        <input id="vatNumber" formControlName="vatNumber" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-[#4CAF50] dark:focus:border-[#66BB6A] p-2 dark:bg-[#1E1E1E] dark:text-[#F1F1F1]">
-        <div *ngIf="step3.get('vatNumber')?.invalid && step3.get('vatNumber')?.touched" class="text-red-500 text-sm">Partita IVA richiesta</div>
-      </div>
-      <div class="mb-4">
-        <label for="website" class="block text-sm font-medium text-[#1B1B1B] dark:text-[#F1F1F1]">Sito Web</label>
-        <input id="website" formControlName="website" class="mt-1 block w-full rounded-md border-gray-300 dark:border-gray-600 shadow-sm focus:border-[#4CAF50] dark:focus:border-[#66BB6A] p-2 dark:bg-[#1E1E1E] dark:text-[#F1F1F1]">
-      </div>
-      <button type="button" (click)="prevStep()" class="bg-gray-300 text-black py-2 px-4 rounded mr-2 hover:bg-gray-400">Indietro</button>
-      <button type="submit" class="bg-[#4CAF50] text-white py-2 px-4 rounded hover:bg-[#2E7D32] dark:bg-[#66BB6A] dark:hover:bg-[#43A047]">Registrati</button>
-    </form>
-  </div>
+        <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-2xl">
+
+            <!-- Step 1: Account Manager -->
+            <div *ngIf="currentStep === 1">
+                <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Dati dell'Account Manager</h2>
+                <form [formGroup]="step1" (ngSubmit)="nextStep()" class="space-y-6">
+                    <div>
+                        <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Email</label>
+                        <input id="email" formControlName="email" type="email" placeholder="es. tuonome@agenzia.com"
+                               class="input-modern">
+                        <div *ngIf="step1.get('email')?.invalid && step1.get('email')?.touched" class="text-red-500 text-sm mt-1">L'email è richiesta e deve essere valida.</div>
+                    </div>
+                    <div>
+                        <label for="password" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Password</label>
+                        <input id="password" formControlName="password" type="password" placeholder="Minimo 6 caratteri"
+                               class="input-modern">
+                        <div *ngIf="step1.get('password')?.invalid && step1.get('password')?.touched" class="text-red-500 text-sm mt-1">Password richiesta (min 6 caratteri).</div>
+                    </div>
+                    <button type="submit" [disabled]="step1.invalid"
+                            class="btn-primary w-full disabled:opacity-50">Prosegui</button>
+                </form>
+            </div>
+
+            <!-- Step 2: Indirizzo Sede Legale -->
+            <div *ngIf="currentStep === 2">
+                <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Indirizzo Sede Legale</h2>
+                <form [formGroup]="step2" (ngSubmit)="nextStep()" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="street" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Via e Numero Civico</label>
+                            <input id="street" formControlName="street" placeholder="es. Via Roma 12" class="input-modern">
+                        </div>
+                        <div>
+                            <label for="unitDetail" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Dettagli Unità (Opzionale)</label>
+                            <input id="unitDetail" formControlName="unitDetail" placeholder="es. Piano 3, Interno A" class="input-modern">
+                        </div>
+                        <div>
+                            <label for="city" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Città</label>
+                            <input id="city" formControlName="city" class="input-modern">
+                        </div>
+                        <div>
+                            <label for="postalCode" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">CAP</label>
+                            <input id="postalCode" formControlName="postalCode" type="number" class="input-modern">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label for="state" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Regione / Provincia</label>
+                            <input id="state" formControlName="state" class="input-modern">
+                        </div>
+
+                        <!-- Aggiungi il campo per House Number -->
+                        <div class="sm:col-span-2">
+                            <label for="houseNumber" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Numero Civico</label>
+                            <input id="houseNumber" formControlName="houseNumber" class="input-modern" placeholder="es. 12">
+                        </div>
+
+                        <!-- Aggiungi il campo per Country -->
+                        <div class="sm:col-span-2">
+                            <label for="country" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Paese</label>
+                            <input id="country" formControlName="country" class="input-modern" placeholder="es. Italia">
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between pt-6">
+                        <button type="button" (click)="prevStep()" class="btn-secondary">Indietro</button>
+                        <button type="submit" class="btn-primary">Prosegui</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Step 3: Informazioni Commerciali -->
+            <div *ngIf="currentStep === 3">
+                <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Informazioni Commerciali</h2>
+                <form [formGroup]="step3" (ngSubmit)="onSubmit()" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="vatNumber" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Partita IVA / Codice Fiscale</label>
+                            <input id="vatNumber" formControlName="vatNumber" placeholder="es. 12345678901" class="input-modern">
+                            <div *ngIf="step3.get('vatNumber')?.invalid && step3.get('vatNumber')?.touched" class="text-red-500 text-sm mt-1">Partita IVA richiesta.</div>
+                        </div>
+                        <div>
+                            <label for="phone" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Telefono Agenzia</label>
+                            <input id="phone" formControlName="phone" placeholder="es. 06 123456" class="input-modern">
+                            <div *ngIf="step3.get('phone')?.invalid && step3.get('phone')?.touched" class="text-red-500 text-sm mt-1">Telefono richiesto.</div>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="website" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Sito Web (URL)</label>
+                        <input id="website" formControlName="website" placeholder="es. https://www.tuoagenzia.it" class="input-modern">
+                    </div>
+                    <div>
+                        <label for="description" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Descrizione Agenzia</label>
+                        <textarea id="description" formControlName="description" rows="3" placeholder="Parla della tua agenzia, della missione e delle aree coperte." 
+                                  class="input-modern resize-y"></textarea>
+                    </div>
+
+                    <div class="flex justify-between pt-6">
+                        <button type="button" (click)="prevStep()" class="btn-secondary">Indietro</button>
+                        <button type="submit" class="btn-primary">Registra Agenzia</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

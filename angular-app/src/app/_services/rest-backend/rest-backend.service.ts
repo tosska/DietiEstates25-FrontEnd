@@ -6,12 +6,15 @@ import { Observable } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { AgencySignupRequest } from './agency-signup-request.type';
+import { AgentSignupRequest } from './agent-signup-request.type';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestBackendService {
   authServiceUrl = "http://localhost:8000/auth-service";
+  agencyServiceUrl = "http://localhost:8000/agency-service";
   clientServiceUrl = "http://localhost:8000/customer-service";
 
   constructor(private http: HttpClient) {}
@@ -50,10 +53,10 @@ export class RestBackendService {
     );
   }
 
-  registerAgency(data: any): Observable<any> { 
+  registerAgency(agencySignupRequest: AgencySignupRequest): Observable<any> { 
     const url = `${this.authServiceUrl}/register/agency`;
-    console.log('Invio dati registrazione agenzia:', data);
-    return this.http.post<any>(url, data, this.httpOptions).pipe(
+    console.log('Invio dati registrazione agenzia:', agencySignupRequest);
+    return this.http.post<any>(url, agencySignupRequest, this.httpOptions).pipe(
       map((response) => {
         console.log('Risposta registrazione agenzia:', response);
         return response;
@@ -148,4 +151,79 @@ export class RestBackendService {
   private getToken(): string | null {
     return localStorage.getItem("token");
   }
+
+  getMyAgency(): Observable<{ agencyId: number }> {
+    const url = `${this.agencyServiceUrl}/my-agency`;
+    const token = this.getToken();
+
+    if (!token) {
+      console.error('Nessun token trovato in localStorage');
+      throw new Error('Token mancante');
+    }
+
+    const authHeaders = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      })
+    };
+
+    console.log('Richiesta getMyAgency');
+
+    return this.http.get<any>(url, authHeaders).pipe(
+      map((response) => {
+        console.log('Risposta getMyAgency:', response);
+        return response;
+      }),
+      catchError((error) => {
+        console.error('Errore getMyAgency:', error);
+        return throwError(() => new Error(
+          error.message || 'Errore nel recupero dell’agenzia'
+        ));
+      })
+    );
+  }
+
+  createAgent(agentSignupRequest: AgentSignupRequest): Observable<any> {
+    const url = `${this.authServiceUrl}/register/agent`;
+
+    const token = this.getToken();
+    if (!token) {
+      console.error('Nessun token trovato in localStorage');
+      throw new Error('Token mancante');
+    }
+
+    const authHeaders = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      })
+    };
+
+    console.log('Invio dati creazione agente:', agentSignupRequest);
+
+    return this.http.post<any>(url, agentSignupRequest, authHeaders).pipe(
+      map((response) => {
+        console.log('Risposta creazione agente:', response);
+        return response;
+      }),
+      catchError((error) => {
+        console.error('Errore creazione agente:', error);
+        return throwError(() =>
+          new Error(error.message || 'Errore nella creazione dell’agente')
+        );
+      })
+    );
+  }
+
+  getUserIdFromToken(): number | null {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload?.userId ?? null;
+  }
+
+
+
 }
