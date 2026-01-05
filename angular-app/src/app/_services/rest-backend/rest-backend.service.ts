@@ -152,37 +152,7 @@ export class RestBackendService {
     return localStorage.getItem("token");
   }
 
-  getMyAgency(): Observable<{ agencyId: number }> {
-    const url = `${this.agencyServiceUrl}/my-agency`;
-    const token = this.getToken();
-
-    if (!token) {
-      console.error('Nessun token trovato in localStorage');
-      throw new Error('Token mancante');
-    }
-
-    const authHeaders = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      })
-    };
-
-    console.log('Richiesta getMyAgency');
-
-    return this.http.get<any>(url, authHeaders).pipe(
-      map((response) => {
-        console.log('Risposta getMyAgency:', response);
-        return response;
-      }),
-      catchError((error) => {
-        console.error('Errore getMyAgency:', error);
-        return throwError(() => new Error(
-          error.message || 'Errore nel recupero dell’agenzia'
-        ));
-      })
-    );
-  }
+  
 
   createAgent(agentSignupRequest: AgentSignupRequest): Observable<any> {
     const url = `${this.authServiceUrl}/register/agent`;

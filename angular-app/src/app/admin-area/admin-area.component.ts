@@ -19,7 +19,6 @@ export class AdminAreaComponent implements OnInit {
   private router = inject(Router); // Iniezione del router per tornare alla home
 
   isLoading = false; // Usiamo questo per lo spinner del bottone
-  agencyId: number | null = null;
 
   agentForm = new FormGroup({
     name: new FormControl('', Validators.required),
@@ -34,19 +33,10 @@ export class AdminAreaComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.loadAgencyId();
+    
   }
 
-  loadAgencyId() {
-    this.restService.getMyAgency().subscribe({
-      next: (res) => {
-        this.agencyId = res.agencyId;
-      },
-      error: () => {
-        this.toastr.error('Impossibile recuperare i dati dell\'agenzia', 'Errore');
-      }
-    });
-  }
+  
 
   handleCreateAgent() {
     if (this.agentForm.invalid) {
@@ -56,7 +46,7 @@ export class AdminAreaComponent implements OnInit {
 
     const creatorAdminId = this.restService.getUserIdFromToken();
 
-    if (!creatorAdminId || !this.agencyId) {
+    if (!creatorAdminId) {
       this.toastr.error('Errore di autenticazione o agenzia non trovata.', 'Errore');
       return;
     }
@@ -65,7 +55,6 @@ export class AdminAreaComponent implements OnInit {
 
     // 2️⃣ Creazione dell'agente usando l'agencyId già caricato in ngOnInit
     this.restService.createAgent({
-      agencyId: this.agencyId,
       creatorAdminId: creatorAdminId,
       email: this.agentForm.value.email as string,
       password: this.agentForm.value.password as string,
