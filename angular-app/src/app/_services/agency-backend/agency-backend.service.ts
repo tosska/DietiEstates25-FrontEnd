@@ -21,4 +21,10 @@ export class AgencyBackendService {
     return this.http.get(`${this.url}/agency/${id}/name`);
   }
 
+  getMyAgency() {
+    return this.http.get(`${this.url}/my-agency`);
+  }
+
+
+
 }
