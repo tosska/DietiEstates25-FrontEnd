@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { AuthService } from '../_services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-logout',
@@ -13,6 +14,7 @@ import { Router } from '@angular/router';
 export class LogoutComponent {
 
   authService = inject(AuthService);
+  socialAuthService = inject(SocialAuthService);
   toastr = inject(ToastrService);
   router = inject(Router);
 
@@ -21,8 +23,9 @@ export class LogoutComponent {
       this.toastr.warning("You are not currently logged in!");
       this.router.navigateByUrl("/"); //go to homepage
     } else {
-      this.toastr.warning(`Come back soon, ${this.authService.userId()}!`, "You have been logged out");
+      this.toastr.info(`Arrivederci! See you soon!`);
       this.authService.logout();
+      this.socialAuthService.signOut().catch(() => {});
       this.router.navigateByUrl("/"); //go to homepage
     }
   }

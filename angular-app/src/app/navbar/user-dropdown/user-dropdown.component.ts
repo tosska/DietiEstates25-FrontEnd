@@ -5,6 +5,7 @@ import { AgencyBackendService } from '../../_services/agency-backend/agency-back
 import { Customer } from '../../_services/customer-backend/customer';
 import { Agent } from '../../_services/agency-backend/agent';
 import { Router, RouterLink } from '@angular/router';
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 
 @Component({
   selector: 'app-user-dropdown',
@@ -24,7 +25,7 @@ export class UserDropdownComponent {
   activeUser: Agent | Customer | null = null;
   isDropdownOpen: boolean = false;
 
-  constructor(private router: Router, private elRef: ElementRef) {
+  constructor(private router: Router, private elRef: ElementRef, private socialAuthService: SocialAuthService) {
 
     effect(() => {
       const isAuthenticated = this.authService.isAuthenticated();
@@ -86,10 +87,6 @@ export class UserDropdownComponent {
     this.isDropdownOpen = !this.isDropdownOpen;
   }
 
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
 
 
 }
