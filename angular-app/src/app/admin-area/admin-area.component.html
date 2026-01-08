@@ -61,7 +61,7 @@
         </div>
 
         <div class="pt-4">
-          <button type="submit" [disabled]="!agencyId || agentForm.invalid"
+          <button type="submit" [disabled]="agentForm.invalid || isLoading"
                   class="btn-primary w-full py-3 text-base shadow-lg shadow-green-500/30 flex justify-center items-center space-x-2">
             <svg *ngIf="!isLoading" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span>Crea Profilo Agente</span>

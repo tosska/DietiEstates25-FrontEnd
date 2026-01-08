@@ -6,7 +6,6 @@ export interface AgentSignupRequest {
   email: string;
   password: string;
   vatNumber?: string;
-  yearsExperience?: number;
-  agencyId: number;          
+  yearsExperience?: number;        
   creatorAdminId: number;   
 }
