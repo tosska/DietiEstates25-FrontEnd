@@ -42,8 +42,37 @@ export class RestBackendService {
     );
   }
 
+  loginWithSocial(loginRequest: AuthRequest): Observable<string> {
+    const url = `${this.authServiceUrl}/login/social`; 
+    console.log('Invio login con:', loginRequest);
+    return this.http.post<any>(url, loginRequest, this.httpOptions).pipe(
+      map((response: any) => {
+        const token = typeof response === 'string' ? response : response.token;
+        console.log('Risposta login:', token);
+        if (!token) throw new Error('Token non trovato nella risposta');
+        return token;
+      }),
+      catchError((error) => {
+        console.error('Errore login:', error);
+        return throwError(() => new Error(error.message || 'Errore nella richiesta di login'));
+      })
+    );
+  }
+
+
   signup(signupRequest: SignupRequest): Observable<any> {
     const url = `${this.authServiceUrl}/register/customer`; 
+    console.log('Invio signup con:', signupRequest);
+    return this.http.post(url, signupRequest, this.httpOptions).pipe(
+      catchError((error) => {
+        console.error('Errore signup:', error);
+        return throwError(() => new Error(error.message || 'Errore nella richiesta di signup'));
+      })
+    );
+  }
+
+  signupWithSocial(signupRequest: SignupRequest): Observable<any> {
+    const url = `${this.authServiceUrl}/register/customer/social`; 
     console.log('Invio signup con:', signupRequest);
     return this.http.post(url, signupRequest, this.httpOptions).pipe(
       catchError((error) => {
@@ -229,6 +258,8 @@ export class RestBackendService {
     const payload = JSON.parse(atob(token.split('.')[1]));
     return payload?.userId ?? null;
   }
+
+
 
 
 
