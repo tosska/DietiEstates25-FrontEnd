@@ -51,11 +51,19 @@
             </a>
         }
                 
-        @if (userRole === 'admin') {
+        @if (userRole === 'admin' || userRole === 'manager') {
             <a routerLink="/admin-area"
             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 
                     cursor-pointer" role="menuitem">
-            Pannello admin
+            Aggiungi Agente
+            </a>
+        }
+
+        @if (userRole === 'manager') {
+            <a routerLink="/manager-area"
+            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 
+                    cursor-pointer" role="menuitem">
+            Aggiungi Admin
             </a>
         }
 

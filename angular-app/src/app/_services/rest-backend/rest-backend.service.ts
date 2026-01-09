@@ -170,6 +170,8 @@ export class RestBackendService {
       })
     };
 
+    
+
     console.log('Invio dati creazione agente:', agentSignupRequest);
 
     return this.http.post<any>(url, agentSignupRequest, authHeaders).pipe(
@@ -179,6 +181,40 @@ export class RestBackendService {
       }),
       catchError((error) => {
         console.error('Errore creazione agente:', error);
+        return throwError(() =>
+          new Error(error.message || 'Errore nella creazione dell’agente')
+        );
+      })
+    );
+  }
+
+  createAdmin(agentSignupRequest: AgentSignupRequest): Observable<any> {
+    const url = `${this.authServiceUrl}/register/admin`;
+
+    const token = this.getToken();
+    if (!token) {
+      console.error('Nessun token trovato in localStorage');
+      throw new Error('Token mancante');
+    }
+
+    const authHeaders = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      })
+    };
+
+    
+
+    console.log('Invio dati creazione admin:', agentSignupRequest);
+
+    return this.http.post<any>(url, agentSignupRequest, authHeaders).pipe(
+      map((response) => {
+        console.log('Risposta creazione admin:', response);
+        return response;
+      }),
+      catchError((error) => {
+        console.error('Errore creazione admin:', error);
         return throwError(() =>
           new Error(error.message || 'Errore nella creazione dell’agente')
         );

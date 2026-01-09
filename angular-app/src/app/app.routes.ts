@@ -19,6 +19,7 @@ import { ListingTrackingComponent } from './dashboard/listing-tracking/listing-t
 import { CustomerMyOffersComponent } from './customer-my-offers/customer-my-offers.component';
 import { CustomerListingTrackingComponent } from './customer-my-offers/customer-listing-tracking/customer-listing-tracking.component';
 import { AdminAreaComponent } from './admin-area/admin-area.component';
+import { ManagerAreaComponent } from './manager-area/manager-area.component';
 
 export const routes: Routes = [
     {
@@ -73,6 +74,11 @@ export const routes: Routes = [
         path: 'admin-area',
         component: AdminAreaComponent,
         title: "Admin Area | DietiEstates App"
+
+    },{
+        path: 'manager-area',
+        component: ManagerAreaComponent,
+        title: "Manager Area | DietiEstates App"
 
     }, {
         path: 'dashboard-agent',
