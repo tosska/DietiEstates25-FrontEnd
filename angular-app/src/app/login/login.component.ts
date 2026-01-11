@@ -34,27 +34,49 @@ export class LoginComponent {
 
   handleLogin() {
     this.submitted = true;
+
     if (this.loginForm.invalid) {
       this.toastr.error("The data you provided is invalid!", "Oops! Invalid data!");
-    } else {
-      const credentials = {
-        usr: this.loginForm.value.user as string,
-        pwd: this.loginForm.value.pass as string,
-      };
-      this.restService.login(credentials).subscribe({
-        next: (token: string) => {
-          console.log('Token ricevuto:', token);
-          this.authService.updateToken(token);
-          this.toastr.success(`Succesfully logged in`, `Welcome ${this.loginForm.value.user}!`);
-          this.router.navigate(['/homepage']);
-        },
-        error: (err) => {
-          console.error('Errore login:', err);
-          this.toastr.error("Please, insert a valid username and password", "Oops! Invalid credentials");
-        }
-      });
+      return;
     }
+
+    const credentials = {
+      usr: this.loginForm.value.user as string,
+      pwd: this.loginForm.value.pass as string,
+    };
+
+    this.restService.login(credentials).subscribe({
+      next: (response: any) => {
+        const { token, mustChangePassword } = response;
+
+        console.log('TOKEN:', token, typeof token);
+        console.log('RESPONSE:', response);
+
+        this.authService.updateToken(token.token);
+
+        if (mustChangePassword) {
+          this.toastr.info(
+            'Devi cambiare la password al primo accesso',
+            'Cambio password richiesto'
+          );
+          this.router.navigate(['/change-password']);
+        } else {
+          this.toastr.success(
+            'Successfully logged in',
+            `Welcome ${this.loginForm.value.user}!`
+          );
+          this.router.navigate(['/homepage']);
+        }
+      },
+      error: () => {
+        this.toastr.error(
+          "Please, insert a valid username and password",
+          "Oops! Invalid credentials"
+        );
+      }
+    });
   }
+
 
   loginWithGoogle(user: SocialUser): void {
     console.log("Login con Google:", user);

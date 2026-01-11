@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthRequest } from './auth-request.type';
 import { SignupRequest } from './signup-request.type';
 import { Observable } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { AgencySignupRequest } from './agency-signup-request.type';
 import { AgentSignupRequest } from './agent-signup-request.type';
@@ -25,22 +25,33 @@ export class RestBackendService {
     })
   };
 
-  login(loginRequest: AuthRequest): Observable<string> {
-    const url = `${this.authServiceUrl}/login`; 
-    console.log('Invio login con:', loginRequest);
-    return this.http.post<any>(url, loginRequest, this.httpOptions).pipe(
-      map((response: any) => {
-        const token = typeof response === 'string' ? response : response.token;
-        console.log('Risposta login:', token);
-        if (!token) throw new Error('Token non trovato nella risposta');
-        return token;
-      }),
-      catchError((error) => {
-        console.error('Errore login:', error);
-        return throwError(() => new Error(error.message || 'Errore nella richiesta di login'));
-      })
+  login(loginRequest: AuthRequest): Observable<{ token: string; mustChangePassword: boolean }> {
+    return this.http.post<{ token: string; mustChangePassword: boolean }>(
+      `${this.authServiceUrl}/login`,
+      loginRequest,
+      this.httpOptions
     );
   }
+
+
+
+  changePasswordFirstLogin(newPassword: string) {
+    const token = this.getToken(); // prendi il token salvato dopo il login
+    if (!token) throw new Error('Token non trovato. Effettua il login prima.');
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`  // <- QUI deve esserci il token reale
+    };
+
+    return this.http.post(
+      `${this.authServiceUrl}/change-password-first-login`,
+      { newPassword },
+      { headers }
+    );
+  }
+
+
 
   loginWithSocial(loginRequest: AuthRequest): Observable<string> {
     const url = `${this.authServiceUrl}/login/social`; 

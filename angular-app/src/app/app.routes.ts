@@ -20,6 +20,7 @@ import { CustomerMyOffersComponent } from './customer-my-offers/customer-my-offe
 import { CustomerListingTrackingComponent } from './customer-my-offers/customer-listing-tracking/customer-listing-tracking.component';
 import { AdminAreaComponent } from './admin-area/admin-area.component';
 import { ManagerAreaComponent } from './manager-area/manager-area.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 export const routes: Routes = [
     {
@@ -81,6 +82,9 @@ export const routes: Routes = [
         title: "Manager Area | DietiEstates App"
 
     }, {
+        path: 'change-password',
+        component: ChangePasswordComponent
+    },{
         path: 'dashboard-agent',
         component: DashboardComponent,
         title: "Dashboard | DietiEstates App",
