@@ -1,3 +1,5 @@
+// rest-backend.service.ts
+
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthRequest } from './auth-request.type';
@@ -25,6 +27,12 @@ export class RestBackendService {
     })
   };
 
+  private getToken(): string | null {
+    return localStorage.getItem("token");
+  }
+
+  // --- METODI ESISTENTI ---
+
   login(loginRequest: AuthRequest): Observable<{ token: string; mustChangePassword: boolean }> {
     return this.http.post<{ token: string; mustChangePassword: boolean }>(
       `${this.authServiceUrl}/login`,
@@ -33,15 +41,13 @@ export class RestBackendService {
     );
   }
 
-
-
   changePasswordFirstLogin(newPassword: string) {
-    const token = this.getToken(); // prendi il token salvato dopo il login
+    const token = this.getToken();
     if (!token) throw new Error('Token non trovato. Effettua il login prima.');
 
     const headers = {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`  // <- QUI deve esserci il token reale
+      'Authorization': `Bearer ${token}`
     };
 
     return this.http.post(
@@ -51,7 +57,31 @@ export class RestBackendService {
     );
   }
 
+  // --- NUOVO METODO AGGIUNTO PER LA TERZA FINESTRA ---
+  changePassword(oldPassword: string, newPassword: string): Observable<any> {
+    const token = this.getToken();
+    if (!token) throw new Error('Token non trovato.');
 
+    const headers = {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    };
+
+    // Endpoint ipotetico standard, adattalo se il backend ne usa uno diverso
+    const url = `${this.authServiceUrl}/change-password`; 
+    
+    const body = {
+      oldPassword: oldPassword,
+      newPassword: newPassword
+    };
+
+    return this.http.post(url, body, { headers }).pipe(
+      catchError((error) => {
+        console.error('Errore cambio password:', error);
+        return throwError(() => new Error(error.message || 'Errore nel cambio password'));
+      })
+    );
+  }
 
   loginWithSocial(loginRequest: AuthRequest): Observable<string> {
     const url = `${this.authServiceUrl}/login/social`; 
@@ -111,7 +141,6 @@ export class RestBackendService {
   getCustomerById(userId: string): Observable<any> {
     const url = `${this.clientServiceUrl}/customer/${userId}`;
     const token = this.getToken();
-    console.log('Token recuperato da localStorage:', token); // Debug
     if (!token) {
       console.error('Nessun token trovato in localStorage');
       throw new Error('Token mancante');
@@ -119,11 +148,9 @@ export class RestBackendService {
     const authHeaders = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}` // Verifica il formato
+        'Authorization': `Bearer ${token}` 
       })
     };
-    console.log('Header Authorization inviato:', authHeaders.headers.get('Authorization')); // Debug
-    console.log('Richiesta getCustomerById per ID:', userId, 'con URL:', url);
     return this.http.get<any>(url, authHeaders).pipe(
       map((response: any) => {
         console.log('Risposta getCustomerById:', response);
@@ -134,6 +161,45 @@ export class RestBackendService {
         return throwError(() => new Error(error.message || 'Errore nel recupero dei dati del cliente'));
       })
     );
+  }
+
+  getCredentials(credentialsId: string): Observable<any> {
+    const url = `${this.authServiceUrl}/credentials/${credentialsId}`;
+    const token = this.getToken();
+    if (!token) throw new Error('Token mancante');
+
+    const authHeaders = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      })
+    };
+
+    return this.http.get<any>(url, authHeaders).pipe(
+      catchError((error) => {
+        console.error('Errore getCredentials:', error);
+        return throwError(() => new Error('Impossibile recuperare credenziali'));
+      })
+    );
+  }
+
+  updateCredentials(credentialsId: string, email?: string, password?: string): Observable<any> {
+    const url = `${this.authServiceUrl}/credentials/${credentialsId}`;
+    const token = this.getToken();
+    if (!token) throw new Error('Token mancante');
+
+    const authHeaders = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      })
+    };
+
+    const body: any = {};
+    if (email) body.email = email;
+    if (password) body.password = password;
+
+    return this.http.put(url, body, authHeaders);
   }
 
   updateCustomer(userId: string, data: any): Observable<any> {
@@ -162,46 +228,23 @@ export class RestBackendService {
     );
   }
 
-  deleteCustomer(userId: string): Observable<any> {
-    const url = `${this.clientServiceUrl}/customers/${userId}`;
+  deleteCredentials(authId: string): Observable<any> {
+    const url = `${this.authServiceUrl}/credentials/${authId}`;
     const token = this.getToken();
-    if (!token) {
-      console.error('Nessun token trovato in localStorage');
-      throw new Error('Token mancante');
-    }
+    if (!token) throw new Error('Token mancante');
     const authHeaders = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
       })
     };
-    console.log('Richiesta deleteCustomer per ID:', userId);
-    return this.http.delete(url, authHeaders).pipe(
-      map((response: any) => {
-        console.log('Risposta deleteCustomer:', response);
-        return response;
-      }),
-      catchError((error) => {
-        console.error('Errore deleteCustomer:', error);
-        return throwError(() => new Error(error.message || 'Errore nell\'eliminazione del profilo'));
-      })
-    );
+    return this.http.delete(url, authHeaders);
   }
-
-  private getToken(): string | null {
-    return localStorage.getItem("token");
-  }
-
-  
 
   createAgent(agentSignupRequest: AgentSignupRequest): Observable<any> {
     const url = `${this.authServiceUrl}/register/agent`;
-
     const token = this.getToken();
-    if (!token) {
-      console.error('Nessun token trovato in localStorage');
-      throw new Error('Token mancante');
-    }
+    if (!token) throw new Error('Token mancante');
 
     const authHeaders = {
       headers: new HttpHeaders({
@@ -210,32 +253,19 @@ export class RestBackendService {
       })
     };
 
-    
-
-    console.log('Invio dati creazione agente:', agentSignupRequest);
-
     return this.http.post<any>(url, agentSignupRequest, authHeaders).pipe(
-      map((response) => {
-        console.log('Risposta creazione agente:', response);
-        return response;
-      }),
+      map((response) => response),
       catchError((error) => {
         console.error('Errore creazione agente:', error);
-        return throwError(() =>
-          new Error(error.message || 'Errore nella creazione dell’agente')
-        );
+        return throwError(() => new Error(error.message || 'Errore nella creazione dell’agente'));
       })
     );
   }
 
   createAdmin(agentSignupRequest: AgentSignupRequest): Observable<any> {
     const url = `${this.authServiceUrl}/register/admin`;
-
     const token = this.getToken();
-    if (!token) {
-      console.error('Nessun token trovato in localStorage');
-      throw new Error('Token mancante');
-    }
+    if (!token) throw new Error('Token mancante');
 
     const authHeaders = {
       headers: new HttpHeaders({
@@ -244,20 +274,11 @@ export class RestBackendService {
       })
     };
 
-    
-
-    console.log('Invio dati creazione admin:', agentSignupRequest);
-
     return this.http.post<any>(url, agentSignupRequest, authHeaders).pipe(
-      map((response) => {
-        console.log('Risposta creazione admin:', response);
-        return response;
-      }),
+      map((response) => response),
       catchError((error) => {
         console.error('Errore creazione admin:', error);
-        return throwError(() =>
-          new Error(error.message || 'Errore nella creazione dell’agente')
-        );
+        return throwError(() => new Error(error.message || 'Errore nella creazione dell’agente'));
       })
     );
   }
@@ -265,13 +286,7 @@ export class RestBackendService {
   getUserIdFromToken(): number | null {
     const token = localStorage.getItem('token');
     if (!token) return null;
-
     const payload = JSON.parse(atob(token.split('.')[1]));
     return payload?.userId ?? null;
   }
-
-
-
-
-
 }
