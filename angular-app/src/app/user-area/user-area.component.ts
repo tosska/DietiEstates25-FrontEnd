@@ -1,3 +1,5 @@
+// user-area.component.ts
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -84,6 +86,9 @@ export class UserAreaComponent implements OnInit, OnDestroy {
       };
       this.restService.updateCustomer(this.credentialsId, updatedData).subscribe({
         next: (response) => {
+          // Notifica alla navbar di ricaricare i dati utente
+          this.authService.triggerUserRefresh();
+          
           this.authService.authState.update(state => ({ ...state, user: updatedData.name }));
           this.userData = { ...this.userData, ...updatedData };
           this.isEditing = false;

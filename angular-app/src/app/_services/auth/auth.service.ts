@@ -1,3 +1,5 @@
+// auth.service.ts
+
 import { Injectable, WritableSignal, computed, effect, signal } from '@angular/core';
 import { jwtDecode } from "jwt-decode";
 import { AuthState } from './auth-state.type';
@@ -7,6 +9,9 @@ import { RestBackendService } from '../rest-backend/rest-backend.service';
   providedIn: 'root'
 })
 export class AuthService {
+  // Signal per notificare l'aggiornamento del profilo
+  readonly userProfileUpdated = signal(0);
+
   authState: WritableSignal<AuthState> = signal<AuthState>({
     authId: this.getAuthId(),
     userId: this.getUserId(),
@@ -50,6 +55,11 @@ export class AuthService {
       }
       console.log('authState aggiornato:', this.authState());
     });
+  }
+
+  // Metodo da chiamare dopo aver salvato le modifiche al profilo
+  triggerUserRefresh() {
+    this.userProfileUpdated.update(value => value + 1);
   }
 
   updateToken(token: string): void {

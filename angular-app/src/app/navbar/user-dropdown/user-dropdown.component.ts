@@ -1,3 +1,5 @@
+// user-dropdown.component.ts
+
 import { Component, effect, ElementRef, HostListener, inject } from '@angular/core';
 import { AuthService } from '../../_services/auth/auth.service';
 import { CustomerBackendService } from '../../_services/customer-backend/customer-backend.service';
@@ -28,6 +30,9 @@ export class UserDropdownComponent {
   constructor(private router: Router, private elRef: ElementRef, private socialAuthService: SocialAuthService) {
 
     effect(() => {
+      // Registra la dipendenza dal segnale di aggiornamento
+      this.authService.userProfileUpdated();
+
       const isAuthenticated = this.authService.isAuthenticated();
       const userId = this.authService.userId();
       this.userRole = this.authService.role();
@@ -86,7 +91,5 @@ export class UserDropdownComponent {
     event.stopPropagation();
     this.isDropdownOpen = !this.isDropdownOpen;
   }
-
-
 
 }
