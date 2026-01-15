@@ -32,28 +32,34 @@ export class SignupAgencyComponent implements OnInit, AfterViewInit, OnDestroy {
     private router: Router
   ) {
     this.signupForm = this.fb.group({
-      // --- MODIFICA QUI: Aggiunti name e surname allo step1 ---
+      // STEP 1: Credenziali Manager
       step1: this.fb.group({
-        name: ['', Validators.required],     // NUOVO
-        surname: ['', Validators.required],  // NUOVO
+        name: ['', Validators.required],     
+        surname: ['', Validators.required],  
         email: ['', [Validators.required, Validators.email]],
         password: ['', [Validators.required, Validators.minLength(6)]]
       }),
-      // --------------------------------------------------------
+
+      // STEP 2: Indirizzo (Tutti campi obbligatori nel DB)
       step2: this.fb.group({
-        street: [''],
-        city: [''],
-        postalCode: [''],
-        state: [''],
-        unitDetail: [''],
-        houseNumber: [''],
-        country: [''],
+        street: ['', Validators.required],
+        city: ['', Validators.required],
+        postalCode: ['', Validators.required],
+        
+        // Ho aggiunto il validatore required qui
+        state: ['', Validators.required], 
+        
+        unitDetail: [''], // Opzionale
+        houseNumber: ['', Validators.required],
+        country: ['Italia', Validators.required],
         latitude: [this.mapCoordinates.latitude],
         longitude: [this.mapCoordinates.longitude]
       }),
+
+      // STEP 3: Dati Agenzia
       step3: this.fb.group({
         phone: ['', [Validators.required]],
-        description: [''],
+        description: ['', Validators.required], // Aggiunto required anche qui per coerenza
         vatNumber: ['', [Validators.required]],
         website: ['']
       })
@@ -67,8 +73,14 @@ export class SignupAgencyComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {}
 
   nextStep() {
-    if (this.currentStep === 1 && this.step1.invalid) return;
-    if (this.currentStep === 2 && this.step2.invalid) return;
+    if (this.currentStep === 1 && this.step1.invalid) {
+        this.step1.markAllAsTouched(); // Mostra errori visivi
+        return;
+    }
+    if (this.currentStep === 2 && this.step2.invalid) {
+        this.step2.markAllAsTouched(); // Mostra errori visivi
+        return;
+    }
     
     this.currentStep++;
   }
@@ -78,42 +90,48 @@ export class SignupAgencyComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSubmit() {
-    if (this.signupForm.invalid) return;
+    if (this.signupForm.invalid) {
+        this.signupForm.markAllAsTouched();
+        return;
+    }
 
-    // --- MODIFICA QUI: Mappatura dei nuovi campi ---
     const formData = {
-      name: this.step1.get('name')?.value,       // NUOVO
-      surname: this.step1.get('surname')?.value, // NUOVO
+      // Dati Manager
+      name: this.step1.get('name')?.value,       
+      surname: this.step1.get('surname')?.value, 
       email: this.step1.get('email')?.value,
       password: this.step1.get('password')?.value,
       
+      // Dati Agenzia
       phone: this.step3.get('phone')?.value,
       description: this.step3.get('description')?.value,
       vatNumber: this.step3.get('vatNumber')?.value,
       website: this.step3.get('website')?.value,
       
+      // Dati Indirizzo
       street: this.step2.get('street')?.value,
       city: this.step2.get('city')?.value,
       postalCode: this.step2.get('postalCode')?.value,
-      state: this.step2.get('state')?.value,
+      state: this.step2.get('state')?.value, // Mappatura corretta
       unitDetail: this.step2.get('unitDetail')?.value,
       houseNumber: this.step2.get('houseNumber')?.value,
       country: this.step2.get('country')?.value,
       longitude: this.step2.get('longitude')?.value,
       latitude: this.step2.get('latitude')?.value
     };
-    // -----------------------------------------------
 
     console.log('Dati inviati al backend:', formData);
 
     this.restService.registerAgency(formData).subscribe({
       next: (response) => {
         this.toastr.success(`L'agenzia è stata registrata con successo`);
-        this.router.navigate(['/homepage']); // O /login se preferisci
+        this.router.navigate(['/homepage']); 
       },
       error: (error) => {
         console.error('Errore registrazione agenzia:', error);
-        this.toastr.error('Errore durante la registrazione.');
+        // Mostra il messaggio di errore specifico dal backend se disponibile
+        const msg = error.error?.message || 'Errore durante la registrazione.';
+        this.toastr.error(msg);
       }
     });
   }
