@@ -52,7 +52,7 @@ export class LoginComponent {
         console.log('TOKEN:', token, typeof token);
         console.log('RESPONSE:', response);
 
-        this.authService.updateToken(token.token);
+        this.authService.updateToken(token);
 
         if (mustChangePassword) {
           this.toastr.info(

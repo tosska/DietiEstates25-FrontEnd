@@ -1,7 +1,8 @@
-// agency-signup-request.type.ts
 export interface AgencySignupRequest {
   email: string;
   password: string;
+  name: string;
+  surname: string;
   phone: string;
   description: string;
   vatNumber?: string;
@@ -13,7 +14,7 @@ export interface AgencySignupRequest {
   unitDetail?: string;
   houseNumber?: string;
   country?: string;
-  longitude?: string;
+  longitude?: string; 
   latitude?: string;
   managerAdminId?: number;
   addressId?: number;

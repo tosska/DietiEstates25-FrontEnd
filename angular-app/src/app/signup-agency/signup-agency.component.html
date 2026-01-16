@@ -28,28 +28,36 @@
 
         <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-2xl">
 
-            <!-- Step 1: Account Manager -->
             <div *ngIf="currentStep === 1">
                 <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Dati dell'Account Manager</h2>
                 <form [formGroup]="step1" (ngSubmit)="nextStep()" class="space-y-6">
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="name" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Nome</label>
+                            <input id="name" formControlName="name" type="text" placeholder="es. Mario" class="input-modern">
+                            <div *ngIf="step1.get('name')?.invalid && step1.get('name')?.touched" class="text-red-500 text-sm mt-1">Nome obbligatorio.</div>
+                        </div>
+                        <div>
+                            <label for="surname" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Cognome</label>
+                            <input id="surname" formControlName="surname" type="text" placeholder="es. Rossi" class="input-modern">
+                            <div *ngIf="step1.get('surname')?.invalid && step1.get('surname')?.touched" class="text-red-500 text-sm mt-1">Cognome obbligatorio.</div>
+                        </div>
+                    </div>
                     <div>
                         <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Email</label>
-                        <input id="email" formControlName="email" type="email" placeholder="es. tuonome@agenzia.com"
-                               class="input-modern">
+                        <input id="email" formControlName="email" type="email" placeholder="es. tuonome@agenzia.com" class="input-modern">
                         <div *ngIf="step1.get('email')?.invalid && step1.get('email')?.touched" class="text-red-500 text-sm mt-1">L'email è richiesta e deve essere valida.</div>
                     </div>
                     <div>
                         <label for="password" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Password</label>
-                        <input id="password" formControlName="password" type="password" placeholder="Minimo 6 caratteri"
-                               class="input-modern">
+                        <input id="password" formControlName="password" type="password" placeholder="Minimo 6 caratteri" class="input-modern">
                         <div *ngIf="step1.get('password')?.invalid && step1.get('password')?.touched" class="text-red-500 text-sm mt-1">Password richiesta (min 6 caratteri).</div>
                     </div>
-                    <button type="submit" [disabled]="step1.invalid"
-                            class="btn-primary w-full disabled:opacity-50">Prosegui</button>
+                    <button type="submit" [disabled]="step1.invalid" class="btn-primary w-full disabled:opacity-50">Prosegui</button>
                 </form>
             </div>
 
-            <!-- Step 2: Indirizzo Sede Legale -->
             <div *ngIf="currentStep === 2">
                 <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Indirizzo Sede Legale</h2>
                 <form [formGroup]="step2" (ngSubmit)="nextStep()" class="space-y-6">
@@ -67,6 +75,10 @@
                             <input id="city" formControlName="city" class="input-modern">
                         </div>
                         <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Provincia</label>
+                            <input type="text" formControlName="state" placeholder="es. NA" class="input-modern">
+                        </div>
+                        <div>
                             <label for="postalCode" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">CAP</label>
                             <input id="postalCode" formControlName="postalCode" type="number" class="input-modern">
                         </div>
@@ -74,14 +86,10 @@
                             <label for="state" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Regione / Provincia</label>
                             <input id="state" formControlName="state" class="input-modern">
                         </div>
-
-                        <!-- Aggiungi il campo per House Number -->
                         <div class="sm:col-span-2">
                             <label for="houseNumber" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Numero Civico</label>
                             <input id="houseNumber" formControlName="houseNumber" class="input-modern" placeholder="es. 12">
                         </div>
-
-                        <!-- Aggiungi il campo per Country -->
                         <div class="sm:col-span-2">
                             <label for="country" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Paese</label>
                             <input id="country" formControlName="country" class="input-modern" placeholder="es. Italia">
@@ -95,7 +103,6 @@
                 </form>
             </div>
 
-            <!-- Step 3: Informazioni Commerciali -->
             <div *ngIf="currentStep === 3">
                 <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Informazioni Commerciali</h2>
                 <form [formGroup]="step3" (ngSubmit)="onSubmit()" class="space-y-6">

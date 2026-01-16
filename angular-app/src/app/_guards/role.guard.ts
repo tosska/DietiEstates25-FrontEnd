@@ -6,17 +6,20 @@ export const roleGuard: CanActivateFn = (route, state) => {
   const auth = inject(AuthService);
   const router = inject(Router);
 
+  // 1. Verifica autenticazione di base
+  if (!auth.isAuthenticated()) {
+    // Salva l'URL a cui voleva accedere per redirect post-login (opzionale)
+    return router.createUrlTree(['/login']);
+  }
+
   const requiredRoles = route.data['roles'] as string[];
   const userRole = auth.getRole();
 
+  // 2. Verifica ruolo specifico
   if (userRole && requiredRoles.includes(userRole)) {
     return true;
   }
 
-  // se non ha i permessi → redirect
-  router.navigate(['/unauthorized']);
-  return false;
+  // 3. Utente loggato ma senza permessi -> Unauthorized
+  return router.createUrlTree(['/unauthorized']);
 };
-
-
-

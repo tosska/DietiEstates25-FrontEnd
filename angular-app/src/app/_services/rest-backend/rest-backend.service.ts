@@ -52,7 +52,7 @@ export class RestBackendService {
 
     return this.http.post(
       `${this.authServiceUrl}/change-password-first-login`,
-      { newPassword },
+      { password: newPassword },
       { headers }
     );
   }

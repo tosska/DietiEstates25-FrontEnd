@@ -29,79 +29,81 @@ export const routes: Routes = [
         // ... le tue altre rotte
     { path: '404', component: NotFoundComponent },
     // Opzionale: Wildcard per catturare qualsiasi URL sbagliato
+import { authGuard } from './_guards/auth.guard';
+
+export const routes: Routes = [
+    // --- ROTTE PUBBLICHE ---
+    { path: "login", component: LoginComponent, title: "Login | DietiEstates App" },
+    { path: "signup", component: SignupComponent, title: "Sign up | DietiEstates App" },
+    { path: "signup-agency", component: SignupAgencyComponent, title: "Sign up - Agency | DietiEstates App" },
+    { path: "logout", component: LogoutComponent, title: "Log out | DietiEstates App" },
+    { path: "", redirectTo: "/homepage", pathMatch: 'full' },
+    { path: "homepage", component: HomepageComponent, title: "Homepage | DietiEstates App" },
+    { path: "listings-page", component: ListingsPageComponent, title: "Listing" },
+    { path: "geo-map", component: GeoMapComponent, title: "Geo Map | DietiEstates App" },
+    { path: 'listing/:id', component: ListingPageComponent },
+    { path: 'unauthorized', component: UnauthorizedComponent, title: "Unauthorized | DietiEstates App" },
+
+    // --- ROTTE PROTETTE (Richiedono solo Login) ---
     {
-        path: "login",
-        component: LoginComponent,
-        title: "Login | DietiEstates App"
-    }, {
-        path: "signup",
-        component: SignupComponent,
-        title: "Sign up | DietiEstates App"
-    }, {
         path: "user-area",
         component: UserAreaComponent,
-        title: "User area | DietiEstates App"
-    }, {
-        path: "signup-agency",
-        component: SignupAgencyComponent,
-        title: "Sign up - Agency | DietiEstates App"
-    }, {
-        path: "logout",
-        component: LogoutComponent,
-        title: "Log out | DietiEstates App"
-    }, {
-        path: "",
-        redirectTo: "/homepage",
-        pathMatch: 'full'
-    }, {
-        path: "homepage",
-        component: HomepageComponent,
-        title: "Homepage | DietiEstates App"
-    }, {
-        path: "listings-page",
-        component: ListingsPageComponent,
-        title: "Listing"
-    }, {
-        path: "geo-map",
-        component: GeoMapComponent,
-        title: "Geo Map | DietiEstates App"
-    }, {
-        path: 'listing/:id',
-        component: ListingPageComponent
-    }, {
+        title: "User area | DietiEstates App",
+        canActivate: [authGuard] // PROTEZIONE AGGIUNTA
+    },
+    {
+        path: 'change-password',
+        component: ChangePasswordComponent,
+        canActivate: [authGuard] // PROTEZIONE AGGIUNTA
+    },
+
+    // --- ROTTE CUSTOMER (Richiedono Ruolo Customer) ---
+    {
         path: 'customer-my-offers',
         component: CustomerMyOffersComponent,
         title: "My Offers | DietiEstates App",
-    },{
+        canActivate: [roleGuard],      // PROTEZIONE AGGIUNTA
+        data: { roles: ['customer'] }  // Ruolo richiesto
+    },
+    {
         path: 'customer-my-offers/listing/:id',
         component: CustomerListingTrackingComponent,
-        title: "Listing Tracking | DietiEstates App"
+        title: "Listing Tracking | DietiEstates App",
+        canActivate: [roleGuard],      // PROTEZIONE AGGIUNTA
+        data: { roles: ['customer'] }
+    },
 
-    },{
+    // --- ROTTE AMMINISTRATIVE (Richiedono Admin/Manager) ---
+    {
         path: 'admin-area',
         component: AdminAreaComponent,
-        title: "Admin Area | DietiEstates App"
-
-    },{
+        title: "Admin Area | DietiEstates App",
+        canActivate: [roleGuard],      // PROTEZIONE AGGIUNTA
+        data: { roles: ['admin', 'manager'] } // Accessibile a entrambi
+    },
+    {
         path: 'manager-area',
         component: ManagerAreaComponent,
-        title: "Manager Area | DietiEstates App"
+        title: "Manager Area | DietiEstates App",
+        canActivate: [roleGuard],      // PROTEZIONE AGGIUNTA
+        data: { roles: ['manager'] }   // Solo Manager
+    },
 
-    }, {
-        path: 'change-password',
-        component: ChangePasswordComponent
-    },{
+    // --- DASHBOARD AGENTE (Già protetta, ma rivista per coerenza) ---
+    {
         path: 'dashboard-agent',
         component: DashboardComponent,
         title: "Dashboard | DietiEstates App",
         canActivate: [roleGuard],
         data: { roles: ['agent'] },
         children: [
-
-            {
-                path: 'create-listing',
-                component: CreateListingPageComponent,
-                title: "Create Listing | DietiEstates App"
+            { path: 'create-listing', component: CreateListingPageComponent, title: "Create Listing" },
+            { path: 'active-listings', component: ActiveListingsComponent, title: "Active Listings" },
+            { 
+                path: 'offers-received', 
+                component: OffersReceivedComponent, 
+                title: "Offers Received",
+                children: [] 
             },
             {
                 path: 'edit-listing',
@@ -130,11 +132,10 @@ export const routes: Routes = [
                 path: 'listing-tracking/:id',
                 component: ListingTrackingComponent,
                 title: "Listing Tracking | DietiEstates App"
-            }
+            },
+            { path: 'offers-received/listing/:id', component: OffersByListingComponent, title: "Offers by Listing" },
+            { path: 'listing-tracking/:id', component: ListingTrackingComponent, title: "Listing Tracking" }
         ]
-    }, {
-        path: 'unauthorized',
-        component: UnauthorizedComponent,
-        title: "Unauthorized | DietiEstates App"
+        
     },
 ];

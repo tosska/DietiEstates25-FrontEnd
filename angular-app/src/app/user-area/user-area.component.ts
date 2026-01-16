@@ -2,8 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, ValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { AuthService } from '../_services/auth/auth.service';
 import { RestBackendService } from '../_services/rest-backend/rest-backend.service';
+import { AgencyBackendService } from '../_services/agency-backend/agency-backend.service';
 import { Router } from '@angular/router';
-import { jwtDecode } from 'jwt-decode';
 import { CommonModule } from '@angular/common';
 
 export const passwordMatchValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
@@ -30,18 +30,22 @@ export class UserAreaComponent implements OnInit, OnDestroy {
   isEditingCredentials: boolean = false; 
 
   authId: string | null = null;
-  customerId: string | null = null;
+  userId: string | null = null; 
+  userRole: string | null = null;
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private restService: RestBackendService,
+    private agencyService: AgencyBackendService,
     private router: Router
   ) {
     this.userProfileForm = this.fb.group({
       name: ['', Validators.required], 
       surname: ['', Validators.required], 
-      phone: ['', Validators.required], 
+      phone: ['', Validators.required],
+      vatNumber: [''], 
+      yearsExperience: [''],
     });
 
     this.credentialsForm = this.fb.group({
@@ -54,10 +58,13 @@ export class UserAreaComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.extractIdsFromToken();
-    if (this.customerId && this.authId) {
+    
+    // MODIFICA: Procediamo se abbiamo almeno l'authId (le credenziali sono il minimo sindacale)
+    if (this.authId) {
       this.loadUserProfile();
     } else {
-      this.errorMessage = 'Impossibile identificare l\'utente.';
+      this.errorMessage = 'Impossibile identificare l\'utente (AuthID mancante).';
+      console.error('AuthID non trovato nel token');
     }
   }
 
@@ -65,26 +72,56 @@ export class UserAreaComponent implements OnInit, OnDestroy {
 
   private extractIdsFromToken() {
     const aId = this.authService.getAuthId();
-    const cId = this.authService.getUserId();
+    const uId = this.authService.getUserId();
+    this.userRole = this.authService.getRole();
+
     this.authId = aId ? aId.toString() : null;
-    this.customerId = cId ? cId.toString() : null;
+    this.userId = uId ? uId.toString() : null;
+    
+    console.log('UserArea Init -> AuthID:', this.authId, 'UserID:', this.userId, 'Role:', this.userRole);
   }
 
   loadUserProfile() {
-    if (this.customerId) {
-      this.restService.getCustomerById(this.customerId).subscribe({
-        next: (customer) => {
-          this.userData = { ...this.userData, ...customer }; 
-          this.userProfileForm.patchValue({
-            name: customer.name || '',
-            surname: customer.surname || '',
-            phone: customer.phone || ''
-          });
-        },
-        error: (err) => console.error('Errore anagrafica:', err)
-      });
+    // 1. CARICAMENTO DATI ANAGRAFICI (Solo se abbiamo userId e Role validi)
+    if (this.userId && this.userRole) {
+      
+      // LOGICA ADMIN: Rimuovi validazione telefono
+      if (this.userRole === 'admin' || this.userRole === 'manager') {
+        this.userProfileForm.get('phone')?.clearValidators();
+        this.userProfileForm.get('phone')?.updateValueAndValidity();
+      }
+
+      let profileRequest;
+
+      if (this.userRole === 'customer') {
+        profileRequest = this.restService.getCustomerById(this.userId);
+      } else if (this.userRole === 'agent') {
+        profileRequest = this.agencyService.getAgentById(Number(this.userId));
+      } else if (this.userRole === 'admin' || this.userRole === 'manager') {
+        profileRequest = this.agencyService.getAdminById(Number(this.userId));
+      }
+
+      if (profileRequest) {
+        profileRequest.subscribe({
+          next: (data: any) => {
+            this.userData = { ...this.userData, ...data }; 
+            
+            this.userProfileForm.patchValue({
+              name: data.name || '',
+              surname: data.surname || '',
+              phone: data.phone || '',
+              vatNumber: data.vatNumber || '',
+              yearsExperience: data.yearsExperience || ''
+            });
+          },
+          error: (err) => console.error('Errore caricamento profilo anagrafico:', err)
+        });
+      }
+    } else {
+      console.warn('UserID o Role mancante: impossibile caricare profilo anagrafico (Customer/Agent/Admin).');
     }
 
+    // 2. CARICAMENTO CREDENZIALI (Sempre eseguito se authId c'è)
     if (this.authId) {
       this.restService.getCredentials(this.authId).subscribe({
         next: (creds) => {
@@ -93,24 +130,19 @@ export class UserAreaComponent implements OnInit, OnDestroy {
             email: creds.email || '' 
           });
         },
-        error: (err) => console.error('Errore credenziali:', err)
+        error: (err) => console.error('Errore caricamento credenziali:', err)
       });
     }
   }
 
+  // ... (Tutti gli altri metodi rimangono uguali: toggleProfileEdit, saveProfile, updateCredentials, deleteProfile, logout)
   toggleProfileEdit() {
     this.isEditingProfile = !this.isEditingProfile;
     if (this.isEditingProfile) {
       this.userProfileForm.enable();
     } else {
       this.userProfileForm.disable();
-      if (this.userData) {
-         this.userProfileForm.patchValue({
-           name: this.userData.name, 
-           surname: this.userData.surname, 
-           phone: this.userData.phone
-         });
-      }
+      this.loadUserProfile(); 
     }
   }
 
@@ -127,22 +159,47 @@ export class UserAreaComponent implements OnInit, OnDestroy {
   }
 
   saveProfile() {
-    if (this.userProfileForm.valid && this.customerId) {
-      const updatedData = {
-        name: this.userProfileForm.get('name')?.value,
-        surname: this.userProfileForm.get('surname')?.value,
-        phone: this.userProfileForm.get('phone')?.value
-      };
+    if (this.userProfileForm.valid && this.userId && this.userRole) {
       
-      this.restService.updateCustomer(this.customerId, updatedData).subscribe({
-        next: () => {
-          this.authService.triggerUserRefresh();
-          this.authService.authState.update(state => ({ ...state, user: updatedData.name }));
-          this.userData = { ...this.userData, ...updatedData };
-          this.isEditingProfile = false;
-        },
-        error: (err) => console.error(err)
-      });
+      const formValues = this.userProfileForm.value;
+      const updatedData: any = {
+        name: formValues.name,
+        surname: formValues.surname,
+      };
+
+      if (this.userRole !== 'admin' && this.userRole !== 'manager') {
+        updatedData.phone = formValues.phone;
+      }
+
+      if (this.userRole === 'agent') {
+        updatedData.vatNumber = formValues.vatNumber;
+        updatedData.yearsExperience = formValues.yearsExperience;
+      }
+
+      let updateRequest;
+
+      if (this.userRole === 'customer') {
+        updateRequest = this.restService.updateCustomer(this.userId, updatedData);
+      } else if (this.userRole === 'agent') {
+        updateRequest = this.agencyService.updateAgent(Number(this.userId), updatedData);
+      } else if (this.userRole === 'admin' || this.userRole === 'manager') {
+        updateRequest = this.agencyService.updateAdmin(Number(this.userId), updatedData);
+      }
+
+      if (updateRequest) {
+        updateRequest.subscribe({
+          next: () => {
+            this.authService.triggerUserRefresh();
+            this.authService.authState.update(state => ({ ...state, user: updatedData.name }));
+            this.userData = { ...this.userData, ...updatedData };
+            this.isEditingProfile = false;
+          },
+          error: (err) => {
+            console.error('Errore aggiornamento profilo:', err);
+            alert('Errore durante il salvataggio.');
+          }
+        });
+      }
     }
   }
 
@@ -167,17 +224,15 @@ export class UserAreaComponent implements OnInit, OnDestroy {
           }
         },
         error: (err) => {
-          alert('Errore aggiornamento.');
+          alert('Errore aggiornamento credenziali.');
           console.error(err);
         }
       });
     }
   }
 
-  // MODIFICATO: Chiama SOLO deleteCredentials.
   deleteProfile() {
     if (this.authId && confirm('Sei sicuro di voler eliminare definitivamente il tuo account?')) {
-      // Chiamiamo solo l'Auth Service. Le regole di Foreign Key nel DB faranno il resto.
       this.restService.deleteCredentials(this.authId).subscribe({
         next: () => {
           console.log('Account eliminato con successo');
@@ -185,8 +240,8 @@ export class UserAreaComponent implements OnInit, OnDestroy {
           this.router.navigate(['/login']);
         },
         error: (err) => {
-          console.error('Errore durante l\'eliminazione dell\'account:', err);
-          alert('Si è verificato un errore. Riprova.');
+          console.error('Errore eliminazione account:', err);
+          alert('Impossibile eliminare l\'account. Riprova.');
         }
       });
     }
