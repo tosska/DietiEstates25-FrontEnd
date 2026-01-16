@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-unauthorized',
@@ -8,5 +9,13 @@ import { Component } from '@angular/core';
   styleUrl: './unauthorized.component.scss'
 })
 export class UnauthorizedComponent {
+
+  constructor(private router: Router) {}
+
+  backToLogin(){
+
+    this.router.navigate(['/logout']);
+
+  }
 
 }

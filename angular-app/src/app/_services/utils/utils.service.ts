@@ -36,6 +36,8 @@ export class UtilsService {
       ? [{ id: 0, listingId: result.id, url: result.mainPhoto, order: 1 }]
       : [];
 
+    const categories: string[] = result.categories; 
+
     return {
       id: result.id,
       title: result.title,
@@ -53,7 +55,8 @@ export class UtilsService {
       agencyId: result.agencyId,
       agentId: result.agentId,
       Address: address,
-      Photos: photos
+      Photos: photos,
+      Category: categories
     };
 }
 
@@ -69,6 +72,18 @@ public convertListingToGeoPoint(listing: Listing): GeoPoint {
   };
 
   
+}
+
+public generateYears(){
+
+  let years = [];
+
+  const currentYear = new Date().getFullYear();
+    for (let i = currentYear; i >= 1900; i--) {
+      years.push(i);
+    }
+
+  return years;
 }
 
 

@@ -7,11 +7,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Listing } from '../_services/listing-backend/listing';
 import { ListingBackendService } from '../_services/listing-backend/listing-backend.service';
 import { Router } from '@angular/router';
+import { ListingCardComponent } from '../listing-card/listing-card.component';
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [SearchBarComponent, CommonModule, ReactiveFormsModule],
+  imports: [SearchBarComponent, CommonModule, ReactiveFormsModule, ListingCardComponent],
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss'
 })
@@ -36,8 +37,16 @@ export class HomepageComponent {
   }
 
   openListing(id: number) {
-    console.log("sesso")
     this.router.navigate(['/listing', id]);
   }
+
+  getMainPhotoForListingCard(listing: Listing) {
+    if(listing.Photos) {
+      return this.listingService.craftListingImageUrl(listing.Photos[0].url); 
+    }
+    
+    return `https://placehold.co/600x400/e2e8f0/64748b?text=Foto+non+disponibile`;
+  }
+
 
 }

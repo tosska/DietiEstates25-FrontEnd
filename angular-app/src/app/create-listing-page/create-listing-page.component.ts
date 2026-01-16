@@ -7,6 +7,8 @@ import { AuthService } from '../_services/auth/auth.service';
 import { GeoService } from '../_services/geo-service/geo.service';
 import { LocationRequest } from '../_services/geo-service/location-request';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { UtilsService } from '../_services/utils/utils.service';
+
 
 
 @Component({
@@ -22,9 +24,11 @@ export class CreateListingPageComponent {
   listingService = inject(ListingBackendService); 
   authService = inject(AuthService);
   geoService = inject(GeoService); 
+  utilsService = inject(UtilsService);
 
   citySuggestions: LocationRequest[] = [];
   streetSuggestions: LocationRequest[] = [];
+  availableRooms: number[] = Array.from({ length: 10 }, (_, i) => i + 1)
 
   selectedCity: LocationRequest | null = null;
   selectedLocation: LocationRequest | null = null;
@@ -39,7 +43,15 @@ export class CreateListingPageComponent {
   verificationIsClicked: boolean = false;
   verificationInProgress: boolean = false;
 
+  availableYears: number[] = [];
+  availableProperties: {id: number, name: string}[] = [];
+
+  formattedPrice: string = '';
+
   ngOnInit(): void {
+    this.availableYears = this.utilsService.generateYears();
+    this.getProperties();
+   
     this.listingForm = new FormGroup({
       // Campi di Listing
       title: new FormControl('', Validators.required),
@@ -47,7 +59,7 @@ export class CreateListingPageComponent {
       listingType: new FormControl('Sale', Validators.required),
       description: new FormControl('', Validators.required),
       area: new FormControl(null, [Validators.required, Validators.min(0)]),
-      numberRooms: new FormControl(null, [Validators.required, Validators.min(1)]),
+      numberRooms: new FormControl(1, [Validators.required, Validators.min(1)]),
       propertyType: new FormControl('', Validators.required),
       constructionYear: new FormControl(null, [Validators.required, Validators.min(1000), Validators.max(new Date().getFullYear())]),
       energyClass: new FormControl(null),
@@ -57,7 +69,7 @@ export class CreateListingPageComponent {
         street: new FormControl('', Validators.required),
         city: new FormControl('', Validators.required),
         houseNumber: new FormControl('', Validators.required),
-        unitDetail: new FormControl('', Validators.required),
+        unitDetail: new FormControl('', ),
         postalCode: new FormControl('', Validators.required),
       })
     });
@@ -117,15 +129,16 @@ export class CreateListingPageComponent {
 
 
   selectSuggestionCity(city: LocationRequest) {
-    
-    this.listingForm.get('address')?.get('city')?.setValue(city.formatted);
-    this.listingForm.get('address')?.get('postalcode')?.setValue(city.postalCode);
+    console.log("dadasdasdas", city)
+    this.listingForm.get('address')?.get('city')?.setValue(city.formatted, { emitEvent: false });
+    this.listingForm.get('address')?.get('postalCode')?.setValue(city.postalCode);
     this.selectedCity = city;
     this.citySuggestions = [];
   }
 
   selectSuggestionStreet(locationFromStreet: LocationRequest) {
-    this.listingForm.get('address')?.get('street')?.setValue(locationFromStreet.street);
+
+    this.listingForm.get('address')?.get('street')?.setValue(locationFromStreet.street, { emitEvent: false });
     console.log('Strada selezionata:', locationFromStreet);
     this.selectedLocation = locationFromStreet;
 
@@ -136,9 +149,9 @@ export class CreateListingPageComponent {
 
 
   setValuesFromSelectedStreet() {
-
     if(this.selectedLocation) {
-      this.listingForm.get('address')?.get('city')?.setValue(this.selectedLocation.city);
+    
+      this.listingForm.get('address')?.get('city')?.setValue(this.selectedLocation.city, { emitEvent: false });
       this.listingForm.get('address')?.get('postalCode')?.setValue(this.selectedLocation.postalCode);
     }
 
@@ -173,6 +186,12 @@ export class CreateListingPageComponent {
               this.addressVerified = false;
             }
 
+          },
+          error: (error) => {
+            if(error.status== 400) {
+            this.verificationInProgress = false;
+            this.addressVerified = false;
+            }
           }
       });
 
@@ -221,6 +240,13 @@ export class CreateListingPageComponent {
       let listing = this.listingForm.value;
 
       listing.address = this.geoService.convertLocationToAddress(this.selectedLocation!); 
+      let price = listing.price;
+      if (price !== null && price !== undefined) {
+        const normalized = String(price).replace(/\./g, '');
+        listing.price = normalized === '' ? null : Number(normalized);
+      } else {
+        listing.price = null;
+      }
 
       console.log('Listing da inviare:', listing);
       
@@ -241,6 +267,59 @@ export class CreateListingPageComponent {
       this.listingForm.markAllAsTouched(); // Rende tutti i controlli touched per mostrare gli errori
     }
   }
+
+  resetVerificationAddress(): void {
+  if (this.addressVerified) {
+    console.log('Indirizzo modificato: Verifica resettata');
+    this.addressVerified = false;
+    this.verificationIsClicked = false; // Fa sparire la scritta 
+    
+    if (this.selectedLocation) {
+      this.selectedLocation.latitude = undefined;
+      this.selectedLocation.longitude = undefined;
+    }
+  }
+}
+
+
+getProperties() {
+
+ 
+  this.listingService.getPropertyTypes().subscribe({
+    next: (types) => {
+      
+      types.forEach(element => {
+        this.availableProperties.push({
+          id: element.id,
+          name: this.listingService.propertiesMapping[element.name]
+        });
+      });
+
+      
+      
+    },
+    error: (error) => {
+      console.log(error);
+    }
+  });
+
+}
+
+
+formatPrice(event: Event): void {
+    const input = (event.target as HTMLInputElement);
+
+    // Rimuovi tutto ciò che non è numero
+    const numericValue = input.value.replace(/\D/g, '');
+
+    // Aggiorna FormControl con valore numerico (o null se vuoto)
+    this.listingForm.get('price')?.setValue(numericValue ? +numericValue : null);
+
+    // Aggiorna valore formattato per la UI
+    input.value = this.utilsService.formatNumber(numericValue);
+}
+
+
 
   
 

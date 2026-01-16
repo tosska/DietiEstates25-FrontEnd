@@ -21,8 +21,14 @@ import { CustomerListingTrackingComponent } from './customer-my-offers/customer-
 import { AdminAreaComponent } from './admin-area/admin-area.component';
 import { ManagerAreaComponent } from './manager-area/manager-area.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { NotFoundComponent } from './_error-components/not-found/not-found.component';
+import { EditListingComponent } from './dashboard/edit-listing/edit-listing.component';
 
 export const routes: Routes = [
+
+        // ... le tue altre rotte
+    { path: '404', component: NotFoundComponent },
+    // Opzionale: Wildcard per catturare qualsiasi URL sbagliato
     {
         path: "login",
         component: LoginComponent,
@@ -96,6 +102,11 @@ export const routes: Routes = [
                 path: 'create-listing',
                 component: CreateListingPageComponent,
                 title: "Create Listing | DietiEstates App"
+            },
+            {
+                path: 'edit-listing',
+                component: EditListingComponent,
+                title: "Edit Listing | DietiEstates App"
             },
             {
                 path: 'active-listings',

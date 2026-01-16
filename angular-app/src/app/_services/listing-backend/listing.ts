@@ -19,4 +19,5 @@ export interface Listing {
   agentId: number;
   Address: Address;
   Photos?: Photo[];
+  Category?: string[];
 }

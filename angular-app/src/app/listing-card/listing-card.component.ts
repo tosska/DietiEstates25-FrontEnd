@@ -13,35 +13,44 @@ import { ListingBackendService } from '../_services/listing-backend/listing-back
 })
 export class ListingCardComponent {
 
-  /**
-   * L'oggetto annuncio completo da visualizzare.
-   * L'operatore '!' indica che ci aspettiamo che venga 
-   * sempre fornito dal componente genitore.
-   */
+
   @Input() listing!: Listing;
   @Input() buttonText: string = 'Dettagli';
+  @Input() IsWithoutButton: boolean = false;
 
-  /**
-   * Evento emesso quando l'intera card viene cliccata.
-   * Il genitore deciderà come gestire questo click 
-   * (es. navigare ai dettagli, al tracking, ecc.).
-   */
+
   @Output() cardClick = new EventEmitter<void>();
 
   listingService = inject(ListingBackendService)
+  extraData: string = "";
 
   constructor() { }
 
-  /**
-   * Restituisce l'URL della prima foto dell'annuncio.
-   * Se non ci sono foto, restituisce un placeholder.
-   */
+
   getMainPhotoUrl(): string {
     if (this.listing?.Photos && this.listing.Photos.length > 0 && this.listing.Photos[0].url) {
       return this.listingService.craftListingImageUrl(this.listing.Photos[0].url);
     }
     // Placeholder se non ci sono foto
     return `https://placehold.co/600x400/e2e8f0/64748b?text=Foto+non+disponibile`;
+  }
+
+
+  getCategories(cat: string){
+
+    if(this.listing.Category) {
+
+      let categories: string[] = this.listing.Category;
+
+    
+      if(cat == "park") return "Parchi"
+      if(cat == "school") return "Scuole"
+      if(cat == "public_trasport") return "Trasporti pubblici"
+    
+
+    }
+
+    return null;
   }
 
   /**

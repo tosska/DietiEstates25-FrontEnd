@@ -25,4 +25,5 @@ export interface ListingResult {
     latitude: number;
     country: string;
     mainPhoto: string;
+    categories: string[];
 }

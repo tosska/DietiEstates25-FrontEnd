@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ListingBackendService } from '../_services/listing-backend/listing-backend.service';
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common'; // Importa CommonModule o le singole pipe
 import { Listing } from '../_services/listing-backend/listing';
@@ -10,6 +10,8 @@ import { AuthService } from '../_services/auth/auth.service';
 import { UtilsService } from '../_services/utils/utils.service';
 import { AgencyBackendService } from '../_services/agency-backend/agency-backend.service';
 import { Agent } from '../_services/agency-backend/agent';
+import { ToastrService } from 'ngx-toastr';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-listing-page',
@@ -34,9 +36,11 @@ export class ListingPageComponent {
   creatorAgentName: string | null = null;
   agencyName: string | null = null;
 
-  removeModalVisible: boolean=false;
+  isDeleteModalVisible: boolean=false;
 
-  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer) {}
+  constructor(private route: ActivatedRoute, private sanitizer: DomSanitizer, private toastr: ToastrService, private router: Router,
+              private location: Location
+  ) {}
 
   ngOnInit() {
     console.log("ruolo", this.authService.getRole());
@@ -51,6 +55,18 @@ export class ListingPageComponent {
         this.getAgentName();
         this.getAgencyName();
         this.bypassSecurityTrust();
+      },
+      error: (err) => {
+
+
+        // CONTROLLO DELL'ERRORE 404
+        if (err.status === 404) {
+          // Reindirizza alla pagina di errore
+          this.router.navigate(['/404'], { skipLocationChange: true });
+        } else {
+          // Gestisci altri errori (es. 500 server down)
+          console.error('Errore generico:', err);
+        }
       }
     })
   }
@@ -111,9 +127,42 @@ export class ListingPageComponent {
       }
     });
    }  
+
+
 }
 
+onConfirmDelete() {
+    // 1. Chiudi subito il modale
+    this.isDeleteModalVisible = false;
+
+    if (!this.id) return;
+
+    this.listingService.deleteListing(this.id).subscribe({
+      next: () => {
+        // 2. Feedback di SUCCESSO
+        this.toastr.success('Il tuo annuncio è stato eliminato correttamente.', 'Operazione riuscita', {
+          timeOut: 3000,
+          progressBar: true,
+          positionClass: 'toast-bottom-right' // O dove preferisci
+        });
+
+        // 3. Navigazione verso la Home (o Dashboard)
+        this.location.back();
+      },
+      error: (err) => {
+        console.error(err);
+        
+        // 4. Feedback di ERRORE
+        this.toastr.error('Non è stato possibile eliminare l\'annuncio.', 'Errore', {
+          timeOut: 4000
+        });
+        
+        // Opzionale: Se vuoi riaprire il modale in caso di errore
+        // this.isDeleteModalVisible = true;
+      }
+    });
+  }
+}
   
 
 
-}
