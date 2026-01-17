@@ -136,5 +136,10 @@ export class ActiveListingsComponent {
 
   }
 
+  openEditPage(id: number) {
+    this.router.navigate(["dashboard-agent/edit-listing", id]);
+
+  }
+
 
 }

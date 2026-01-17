@@ -4,6 +4,7 @@ import { Address } from '../listing-backend/address';
 import { Photo } from '../listing-backend/photo';
 import { ListingResult } from '../search-backend/listing-result';
 import { GeoPoint } from '../geo-service/GeoPoint';
+import { PropertyType } from '../listing-backend/propertyType';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,7 @@ export class UtilsService {
       ? [{ id: 0, listingId: result.id, url: result.mainPhoto, order: 1 }]
       : [];
 
+  
     const categories: string[] = result.categories; 
 
     return {

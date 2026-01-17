@@ -16,6 +16,7 @@ export interface SearchRequest {
     unitDetail?: string;
     longitude?: number;
     latitude?: number;
+    propertyType?: string;
     categories?: string[];
 
 }

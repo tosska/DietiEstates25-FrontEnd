@@ -1,85 +1,98 @@
-<form [formGroup]="searchForm" (ngSubmit)="handleSearch()">
-  <div class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-    <div class="bg-white rounded-lg p-6 w-full max-w-2xl shadow-lg relative">
-      <h2 class="text-xl font-bold mb-4 text-green-800">Filtri di ricerca</h2>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-
-        <!-- Tipo di annuncio -->
+<form [formGroup]="searchForm" (ngSubmit)="handleSearch()" class="contents">
+  <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    
+    <div class="bg-white dark:bg-gray-800 rounded-[2.5rem] w-full max-w-2xl shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-700">
+      
+      <div class="px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center bg-gray-50/50 dark:bg-gray-800/50">
         <div>
-          <label class="block mb-1 text-sm font-medium text-gray-700">Tipo annuncio</label>
-          <select formControlName="listing_type" class="w-full border px-3 py-2 rounded">
-            <option value="">Qualsiasi</option>
-            <option value="Sale">sale</option>
-            <option value="rent">rent</option>
-          </select>
+          <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight">Filtri di Ricerca</h2>
+          <p class="text-sm text-gray-500 dark:text-gray-400">Personalizza i parametri dell'immobile</p>
         </div>
-
-        <!-- Numero camere -->
-        <div>
-          <label class="block mb-1 text-sm font-medium text-gray-700">Numero camere</label>
-          <input type="number" formControlName="number_rooms" class="w-full border px-3 py-2 rounded" />
-        </div>
-
-        <!-- Superficie minima -->
-        <div>
-          <label class="block mb-1 text-sm font-medium text-gray-700">Superficie minima (m²)</label>
-          <input type="number" formControlName="min_area" class="w-full border px-3 py-2 rounded" />
-        </div>
-
-        <!-- Superficie massima -->
-        <div>
-          <label class="block mb-1 text-sm font-medium text-gray-700">Superficie massima (m²)</label>
-          <input type="number" formControlName="max_area" class="w-full border px-3 py-2 rounded" />
-        </div>
-
-        <!-- Prezzo minimo -->
-        <div>
-          <label class="block mb-1 text-sm font-medium text-gray-700">Prezzo minimo (€)</label>
-          <input type="number" formControlName="min_price" class="w-full border px-3 py-2 rounded" />
-        </div>
-
-        <!-- Prezzo massimo -->
-        <div>
-          <label class="block mb-1 text-sm font-medium text-gray-700">Prezzo massimo (€)</label>
-          <input type="number" formControlName="max_price" class="w-full border px-3 py-2 rounded" />
-        </div>
-
-        <!-- Anno costruzione da -->
-        <div>
-          <label class="block mb-1 text-sm font-medium text-gray-700">Anno costruzione da</label>
-          <input type="number" formControlName="construction_year_after" class="w-full border px-3 py-2 rounded" />
-        </div>
-
-        <!-- Anno costruzione fino a -->
-        <div>
-          <label class="block mb-1 text-sm font-medium text-gray-700">Anno costruzione fino a</label>
-          <input type="number" formControlName="construction_year_before" class="w-full border px-3 py-2 rounded" />
-        </div>
-
-        <!-- Classe energetica -->
-        <div>
-          <label class="block mb-1 text-sm font-medium text-gray-700">Classe energetica</label>
-          <select formControlName="energyClass" class="w-full border px-3 py-2 rounded">
-            <option value="">Qualsiasi</option>
-            <option value="A">A</option>
-            <option value="B">B</option>
-            <option value="C">C</option>
-            <option value="D">D</option>
-            <option value="E">E</option>
-            <option value="F">F</option>
-            <option value="G">G</option>
-          </select>
-        </div>
-
-
+        <button type="button" (click)="close()" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+          <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
       </div>
 
-      <!-- Azioni -->
-      <div class="mt-6 flex justify-end gap-3">
-        <button type="button" (click)="close()" class="px-4 py-2 rounded border text-gray-700 hover:bg-gray-100">Annulla</button>
-        <button type="submit" class="px-4 py-2 rounded bg-green-600 text-white hover:bg-green-700">Applica</button>
+      <div class="p-8 max-h-[70vh] overflow-y-auto custom-scrollbar">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+
+          <div class="md:col-span-2">
+            <label class="block mb-2 text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Tipo annuncio</label>
+            <div class="relative">
+              <select formControlName="listing_type" 
+                      class="w-full p-4 bg-gray-50 dark:bg-gray-700 rounded-2xl border-none focus:ring-2 focus:ring-green-500 shadow-inner appearance-none cursor-pointer text-gray-900 dark:text-white">
+                <option value="">Qualsiasi</option>
+                <option value="Sale">In Vendita</option>
+                <option value="Rent">In Affitto</option>
+              </select>
+              <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="md:col-span-2 py-2">
+             <label class="block mb-2 text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Budget (€)</label>
+             <div class="flex items-center gap-4">
+               <input type="number" formControlName="min_price" placeholder="Minimo" class="w-full p-4 bg-gray-50 dark:bg-gray-700 border-none rounded-2xl focus:ring-2 focus:ring-green-500 shadow-inner">
+               <span class="text-gray-400 font-bold">—</span>
+               <input type="number" formControlName="max_price" placeholder="Massimo" class="w-full p-4 bg-gray-50 dark:bg-gray-700 border-none rounded-2xl focus:ring-2 focus:ring-green-500 shadow-inner">
+             </div>
+          </div>
+
+          <div>
+            <label class="block mb-2 text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Superficie (m²)</label>
+            <div class="flex gap-2">
+              <input type="number" formControlName="min_area" placeholder="Min" class="w-1/2 p-4 bg-gray-50 dark:bg-gray-700 rounded-2xl border-none focus:ring-2 focus:ring-green-500 shadow-inner">
+              <input type="number" formControlName="max_area" placeholder="Max" class="w-1/2 p-4 bg-gray-50 dark:bg-gray-700 rounded-2xl border-none focus:ring-2 focus:ring-green-500 shadow-inner">
+            </div>
+          </div>
+
+          <div>
+            <label class="block mb-2 text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Camere da letto</label>
+            <input type="number" formControlName="number_rooms" placeholder="Es. 2" class="w-full p-4 bg-gray-50 dark:bg-gray-700 rounded-2xl border-none focus:ring-2 focus:ring-green-500 shadow-inner">
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block mb-2 text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Anno di costruzione</label>
+            <div class="flex gap-4">
+               <input type="number" formControlName="construction_year_after" placeholder="Dal" class="w-full p-4 bg-gray-50 dark:bg-gray-700 border-none rounded-2xl focus:ring-2 focus:ring-green-500 shadow-inner">
+               <input type="number" formControlName="construction_year_before" placeholder="Al" class="w-full p-4 bg-gray-50 dark:bg-gray-700 border-none rounded-2xl focus:ring-2 focus:ring-green-500 shadow-inner">
+            </div>
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block mb-2 text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Efficienza Energetica</label>
+            <div class="relative">
+              <select formControlName="energyClass" class="w-full p-4 bg-gray-50 dark:bg-gray-700 rounded-2xl border-none focus:ring-2 focus:ring-green-500 shadow-inner appearance-none cursor-pointer">
+                <option value="">Qualsiasi classe</option>
+                @for (class of ['A', 'B', 'C', 'D', 'E', 'F', 'G']; track class) {
+                  <option [value]="class">Classe {{class}}</option>
+                }
+              </select>
+              <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
+
+      <div class="px-8 py-6 bg-gray-50 dark:bg-gray-800/80 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
+        <button type="button" (click)="searchForm.reset()" class="text-xs font-bold text-gray-400 hover:text-red-500 transition-colors uppercase tracking-widest">
+          Resetta filtri
+        </button>
+        <div class="flex gap-3">
+          <button type="button" (click)="close()" class="px-6 py-3 rounded-2xl text-gray-600 dark:text-gray-300 font-bold hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
+            Annulla
+          </button>
+          <button type="submit" class="px-10 py-3 rounded-2xl bg-green-600 text-white font-bold shadow-lg hover:bg-green-700 transform active:scale-95 transition-all">
+            Applica
+          </button>
+        </div>
+      </div>
+
     </div>
   </div>
 </form>

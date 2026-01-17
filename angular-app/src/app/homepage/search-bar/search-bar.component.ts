@@ -9,6 +9,8 @@ import { LocationRequest } from '../../_services/geo-service/location-request';
 import { SearchBackendService } from '../../_services/search-backend/search-backend.service';
 import { routes } from '../../app.routes';
 import { Router } from '@angular/router';
+import { ListingBackendService } from '../../_services/listing-backend/listing-backend.service';
+import { PropertyType } from '../../_services/listing-backend/propertyType';
 
 @Component({
   selector: 'app-search-bar',
@@ -25,6 +27,7 @@ export class SearchBarComponent {
   dropdownVisibleMap = false;
   geoService = inject(GeoService);
   searchService = inject(SearchBackendService);
+  listingService = inject(ListingBackendService);
 
   suggestedAddresses: LocationRequest[] = [];
   dropdownVisibleSuggestions = false;
@@ -33,7 +36,16 @@ export class SearchBarComponent {
   selectedLocation: LocationRequest | null = null;
   searchQuery: string | null  = '';
 
+  propertyTypes: PropertyType[] = [];
+  selectedPropertyType: string | null = null;
+
   constructor() { }
+
+  ngOnInit(){
+
+    this.getPropertyTypes();
+
+  }
 
 
   onFocus(event: any) {
@@ -84,8 +96,14 @@ export class SearchBarComponent {
 
     if (this.selectedLocation) {
       const { formatted, ...pureAddress } = this.selectedLocation;
+      const queryParams: any = { ...pureAddress };
+        if (this.selectedPropertyType) {
+          console.log("per forza", this.selectedPropertyType)
+        queryParams.propertyType = this.selectedPropertyType;
+      }
+      
       this.router.navigate(['/listings-page'], {
-        queryParams: pureAddress
+        queryParams: queryParams
       });
     } else {
       console.warn('Nessun indirizzo selezionato per la ricerca.');
@@ -121,6 +139,28 @@ export class SearchBarComponent {
 
   closeMap() {
     this.isGeoModalOpen = false;
+  }
+
+  getPropertyTypes(){
+
+  this.listingService.getPropertyTypes().subscribe({
+    next: (types) => {
+
+      types.forEach(element => {
+        this.propertyTypes.push({
+          id: element.id,
+          name: element.name
+        });
+      });
+
+      
+      
+    },
+    error: (error) => {
+      console.log(error);
+    }
+  });
+
   }
 
  

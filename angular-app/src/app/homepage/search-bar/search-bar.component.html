@@ -51,16 +51,20 @@
   </div>
 
   <div class="flex items-center gap-4 w-full sm:w-auto">
-    <div class="relative w-full sm:w-48">
-      <select
-        class="w-full rounded-full px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-inner ring-1 ring-inset ring-transparent focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] text-sm font-medium transition duration-300 cursor-pointer appearance-none"
-        style="background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22currentColor%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20d%3D%22M5.293%207.293a1%201%200%20011.414%200L10%2010.586l3.293-3.293a1%201%200%20111.414%201.414l-4%204a1%201%200%2001-1.414%200l-4-4a1%201%200%20010-1.414z%22%20clip-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 1.5rem center; background-size: 1.2em;"
-      >
-        <option value="appartamento">Appartamento</option>
-        <option value="villa">Villa</option>
-        <option value="monolocale">Monolocale</option>
-      </select>
-    </div>
+<div class="relative w-full sm:w-48">
+  <select
+    name="propertyType"
+    [(ngModel)]="selectedPropertyType"
+    class="w-full rounded-full px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-inner ring-1 ring-inset ring-transparent focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A] text-sm font-medium transition duration-300 cursor-pointer appearance-none"
+    style="background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22currentColor%22%3E%3Cpath%20fill-rule%3D%22evenodd%22%20d%3D%22M5.293%207.293a1%201%200%20011.414%200L10%2010.586l3.293-3.293a1%201%200%20111.414%201.414l-4%204a1%201%200%2001-1.414%200l-4-4a1%201%200%20010-1.414z%22%20clip-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E'); background-repeat: no-repeat; background-position: right 1.5rem center; background-size: 1.2em;"
+  >
+    <option [ngValue]="null" disabled>Seleziona tipo</option>
+    
+    @for (prop of propertyTypes; track prop.id) {
+      <option [value]="prop.name">{{ listingService.propertiesMapping[prop.name] }}</option>
+    }
+  </select>
+</div>
 
     <button type="button" (click)="openFilters()" class="w-full sm:w-auto flex items-center justify-center bg-transparent text-gray-700 dark:text-gray-300 font-semibold px-4 py-3 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-500 transition-all duration-300 shadow-md">
       <svg class="h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -83,6 +87,7 @@
 @if (isFilterModalOpen) {
 <app-filter-modal
   [selectedLocation]="selectedLocation"
+  [selectedPropertyType]="selectedPropertyType"
   (closeFilters)="closeFilters()"
   (applyFilters)="handleApplyFilters($event)">
 </app-filter-modal>

@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { LogoutComponent } from './logout/logout.component';
@@ -23,15 +23,15 @@ import { ManagerAreaComponent } from './manager-area/manager-area.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { NotFoundComponent } from './_error-components/not-found/not-found.component';
 import { EditListingComponent } from './dashboard/edit-listing/edit-listing.component';
+import { authGuard } from './_guards/auth.guard';
+import { NgModule } from '@angular/core';
 
 export const routes: Routes = [
 
-        // ... le tue altre rotte
+
     { path: '404', component: NotFoundComponent },
     // Opzionale: Wildcard per catturare qualsiasi URL sbagliato
-import { authGuard } from './_guards/auth.guard';
 
-export const routes: Routes = [
     // --- ROTTE PUBBLICHE ---
     { path: "login", component: LoginComponent, title: "Login | DietiEstates App" },
     { path: "signup", component: SignupComponent, title: "Sign up | DietiEstates App" },
@@ -106,7 +106,7 @@ export const routes: Routes = [
                 children: [] 
             },
             {
-                path: 'edit-listing',
+                path: 'edit-listing/:id',
                 component: EditListingComponent,
                 title: "Edit Listing | DietiEstates App"
             },

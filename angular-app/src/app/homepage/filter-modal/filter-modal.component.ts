@@ -18,6 +18,7 @@ export class FilterModalComponent {
   searchService = inject(SearchBackendService);
   private router = inject(Router);
   @Input() selectedLocation: LocationRequest | null = null;
+  @Input() selectedPropertyType: string | null = null;
   @Output() closeFilters = new EventEmitter<void>();
 
   searchForm = new FormGroup({
@@ -37,15 +38,23 @@ export class FilterModalComponent {
   handleSearch() {
     console.log('Form values:', this.searchForm.value);
     if (this.searchForm.valid) {
-      let filters = this.searchForm.value;
+      let form = this.searchForm.value;
+      let filters = {};
 
     
       if(this.selectedLocation) {
         const { formatted, ...pureAddress } = this.selectedLocation;
+        console.log("LOCATION SELEZIONATA", this.selectedLocation)
 
-        filters = { ...filters, ...pureAddress };
+        form = { ...form, ...pureAddress};
       
       }
+
+      if (this.selectedPropertyType) {
+      // don't spread a string; assign it to the listing_type field
+        filters = { ...form, propertyType: this.selectedPropertyType };
+      }
+
 
       this.router.navigate(['/listings-page'], {
         queryParams: filters

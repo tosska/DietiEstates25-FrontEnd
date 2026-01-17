@@ -40,7 +40,8 @@ export class ListingBackendService {
     return this.http.post(`${this.url}/listing`, formData);
   }
 
-  updateListing(listingData: Listing, photos: File[]) {
+  updateListing(id: number, listingData: Listing, photos: File[]) {
+    console.log("foto qui", photos)
     const formData = new FormData();
 
     // Aggiungo i dati dell'annuncio come stringa (deve essere JSON)
@@ -51,7 +52,7 @@ export class ListingBackendService {
       formData.append("photos", photo); // <-- stesso nome, multer lo raggruppa
     });
 
-    return this.http.post(`${this.url}/listing`, formData);
+    return this.http.put(`${this.url}/listing/${id}`, formData);
   }
 
   deleteListing(id: number) {

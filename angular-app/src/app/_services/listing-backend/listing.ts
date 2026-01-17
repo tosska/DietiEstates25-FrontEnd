@@ -1,5 +1,6 @@
 import { Address } from "./address";
 import { Photo } from "./photo";
+import { PropertyType } from "./propertyType";
 
 export interface Listing {
   id: number;
@@ -12,7 +13,7 @@ export interface Listing {
   description: string;
   area: number;
   numberRooms: number;
-  propertyType: string;
+  propertyType: PropertyType | string;
   constructionYear: number;
   energyClass?: string;
   agencyId: number;

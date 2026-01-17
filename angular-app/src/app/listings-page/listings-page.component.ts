@@ -29,6 +29,7 @@ export class ListingsPageComponent {
   ngOnInit() {
     this.activeRoute.queryParams.subscribe(params => {
       const filters = params as SearchRequest
+      console.log("FILTRI SELEZIONATI", filters);
       console.log("Received filters:", filters);
       this.searchService.search(filters).subscribe({
         next: (listings) => {

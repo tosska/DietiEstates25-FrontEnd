@@ -142,7 +142,7 @@
                 </button>
               } 
               @else if (isCreatorAgent()) {
-                <button (click)="openOfferModal()"
+                <button [routerLink]="['/dashboard-agent/edit-listing', id]"
                   class="w-full bg-gray-900 hover:bg-black text-white py-4 px-6 rounded-2xl font-bold shadow-lg transition-all active:scale-95">
                   Modifica Annuncio
                 </button>

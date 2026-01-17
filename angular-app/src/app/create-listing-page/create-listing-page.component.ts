@@ -44,7 +44,7 @@ export class CreateListingPageComponent {
   verificationInProgress: boolean = false;
 
   availableYears: number[] = [];
-  availableProperties: {id: number, name: string}[] = [];
+  availableProperties: {id: number, formatted: string}[] = [];
 
   formattedPrice: string = '';
 
@@ -60,7 +60,7 @@ export class CreateListingPageComponent {
       description: new FormControl('', Validators.required),
       area: new FormControl(null, [Validators.required, Validators.min(0)]),
       numberRooms: new FormControl(1, [Validators.required, Validators.min(1)]),
-      propertyType: new FormControl('', Validators.required),
+      propertyTypeId: new FormControl(null, Validators.required),
       constructionYear: new FormControl(null, [Validators.required, Validators.min(1000), Validators.max(new Date().getFullYear())]),
       energyClass: new FormControl(null),
       
@@ -239,6 +239,7 @@ export class CreateListingPageComponent {
       
       let listing = this.listingForm.value;
 
+      listing.pr
       listing.address = this.geoService.convertLocationToAddress(this.selectedLocation!); 
       let price = listing.price;
       if (price !== null && price !== undefined) {
@@ -291,12 +292,9 @@ getProperties() {
       types.forEach(element => {
         this.availableProperties.push({
           id: element.id,
-          name: this.listingService.propertiesMapping[element.name]
+          formatted: this.listingService.propertiesMapping[element.name]
         });
       });
-
-      
-      
     },
     error: (error) => {
       console.log(error);

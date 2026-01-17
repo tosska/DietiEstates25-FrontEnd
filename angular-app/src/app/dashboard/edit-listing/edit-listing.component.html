@@ -42,11 +42,7 @@
                 <option value="Sale">Vendita</option>
                 <option value="Rent">Affitto</option>
               </select>
-              <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-              </div>
+  
             </div>
           </div>
         </div>
@@ -107,22 +103,17 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
 
           <div>
-            <label for="propertyType" class="block text-sm font-medium text-gray-700 mb-2">Tipo Immobile</label>
+            <label for="propertyTypeId" class="block text-sm font-medium text-gray-700 mb-2">Tipo Immobile</label>
             <div class="relative">
-              <select id="propertyType" formControlName="propertyType" 
+              <select id="propertyTypeId" formControlName="propertyTypeId" 
                       class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
                              focus:border-green-600 focus:ring-green-600 sm:text-lg 
                              px-5 py-3 pr-10 appearance-none cursor-pointer transition-colors duration-200">
                 <option [ngValue]="null" disabled selected>Seleziona tipo</option>
                 @for (prop of availableProperties; track prop.id) {
-                  <option [value]="prop.name">{{ prop.name }}</option>
+                  <option [value]="prop.id">{{ prop.name }}</option>
                 }
               </select>
-              <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-              </div>
             </div>
           </div>
 
@@ -144,11 +135,6 @@
                   <option [value]="num">{{ num }}</option>
                 }
               </select>
-              <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-              </div>
             </div>
           </div>
 
@@ -169,11 +155,7 @@
                   <option [value]="year">{{ year }}</option>
                 }
               </select>
-              <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-              </div>
+              
             </div>
           </div>
 
@@ -196,11 +178,6 @@
                 <option value="F">F</option>
                 <option value="G">G</option>
               </select>
-              <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-green-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-              </div>
             </div>
           </div>
         </div>

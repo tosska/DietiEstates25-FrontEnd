@@ -6,7 +6,7 @@ import { SearchRequest } from './search-request';
   providedIn: 'root'
 })
 export class SearchBackendService {
-  url = 'http://localhost:3005'; 
+  url = 'http://localhost:8000/search-service'; 
   constructor(private http: HttpClient) { }
 
   search(searchRequest: SearchRequest) {

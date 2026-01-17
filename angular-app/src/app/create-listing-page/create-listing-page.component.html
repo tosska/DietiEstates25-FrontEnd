@@ -102,23 +102,23 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
 
           <div>
-            <label for="propertyType" class="block text-sm font-medium text-gray-700 mb-2">Tipo Immobile</label>
+            <label for="propertyTypeId" class="block text-sm font-medium text-gray-700 mb-2">Tipo Immobile</label>
 
             <div class="relative">
-              <select id="propertyType" formControlName="propertyType" class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
+              <select id="propertyTypeId" formControlName="propertyTypeId" class="w-full bg-green-50 rounded-lg border border-green-200 shadow-inner
                    focus:border-green-600 focus:ring-green-600 sm:text-lg 
                    px-5 py-3 pr-10 appearance-none cursor-pointer transition-colors duration-200">
 
                 <option [ngValue]="null" disabled selected>Seleziona tipo</option>
 
                 @for (prop of availableProperties; track prop.id) {
-                <option [value]="prop.name">{{ prop.name }}</option>
+                <option [ngValue]="prop.id">{{ prop.formatted }}</option>
                 }
               </select>
             </div>
 
-            @if (listingForm.get('propertyType')?.invalid && (listingForm.get('propertyType')?.dirty ||
-            listingForm.get('propertyType')?.touched)) {
+            @if (listingForm.get('propertyTypeId')?.invalid && (listingForm.get('propertyTypeId')?.dirty ||
+            listingForm.get('propertyTypeId')?.touched)) {
             <div class="text-red-500 text-xs mt-1">Il tipo di immobile è obbligatorio.</div>
             }
           </div>
