@@ -1,77 +1,142 @@
 <form [formGroup]="searchForm" (ngSubmit)="handleSearch()" class="contents">
-  <div class="fixed inset-0 bg-gray-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+  <div class="fixed inset-0 bg-gray-900/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
     
-    <div class="bg-white dark:bg-gray-800 rounded-[2.5rem] w-full max-w-2xl shadow-2xl overflow-hidden border border-gray-100 dark:border-gray-700">
+    <div class="bg-white dark:bg-gray-800 rounded-xl w-full max-w-md md:max-w-2xl shadow-xl border border-gray-200 dark:border-gray-700 flex flex-col max-h-[90vh]">
       
-      <div class="px-8 py-6 border-b border-gray-100 dark:border-gray-700 flex justify-between items-center bg-gray-50/50 dark:bg-gray-800/50">
-        <div>
-          <h2 class="text-2xl font-extrabold text-gray-900 dark:text-white tracking-tight">Filtri di Ricerca</h2>
-          <p class="text-sm text-gray-500 dark:text-gray-400">Personalizza i parametri dell'immobile</p>
-        </div>
-        <button type="button" (click)="close()" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-          <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex justify-between items-center bg-gray-50 dark:bg-gray-800/50 rounded-t-xl">
+        <h2 class="text-lg font-bold text-gray-900 dark:text-white">Filtri di Ricerca</h2>
+        <button type="button" (click)="close()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
 
-      <div class="p-8 max-h-[70vh] overflow-y-auto custom-scrollbar">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+      <div class="p-6 overflow-y-auto custom-scrollbar flex-1">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
           <div class="md:col-span-2">
-            <label class="block mb-2 text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Tipo annuncio</label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo annuncio</label>
             <div class="relative">
               <select formControlName="listing_type" 
-                      class="w-full p-4 bg-gray-50 dark:bg-gray-700 rounded-2xl border-none focus:ring-2 focus:ring-green-500 shadow-inner appearance-none cursor-pointer text-gray-900 dark:text-white">
-                <option value="">Qualsiasi</option>
+                      class="w-full rounded-lg border-gray-300 dark:border-gray-600 py-2.5 px-3 text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-700 dark:text-white appearance-none pr-10 cursor-pointer">
+                <option [ngValue]="null">Qualsiasi</option>
                 <option value="Sale">In Vendita</option>
                 <option value="Rent">In Affitto</option>
               </select>
-              <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+              <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-400">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
               </div>
             </div>
           </div>
 
-          <div class="md:col-span-2 py-2">
-             <label class="block mb-2 text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Budget (€)</label>
-             <div class="flex items-center gap-4">
-               <input type="number" formControlName="min_price" placeholder="Minimo" class="w-full p-4 bg-gray-50 dark:bg-gray-700 border-none rounded-2xl focus:ring-2 focus:ring-green-500 shadow-inner">
-               <span class="text-gray-400 font-bold">—</span>
-               <input type="number" formControlName="max_price" placeholder="Massimo" class="w-full p-4 bg-gray-50 dark:bg-gray-700 border-none rounded-2xl focus:ring-2 focus:ring-green-500 shadow-inner">
+          <div class="md:col-span-2">
+             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Budget (€)</label>
+             <div class="flex flex-col gap-1">
+               <div class="flex items-center gap-3">
+                 <input type="number" min="0" formControlName="min_price" placeholder="Min" 
+                        [class.border-red-500]="searchForm.get('min_price')?.invalid && searchForm.get('min_price')?.touched"
+                        class="w-full rounded-lg border-gray-300 dark:border-gray-600 py-2.5 px-3 text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-700 dark:text-white transition-colors">
+                 <span class="text-gray-400 text-sm">—</span>
+                 <input type="number" min="0" formControlName="max_price" placeholder="Max" 
+                        [class.border-red-500]="searchForm.get('max_price')?.invalid && searchForm.get('max_price')?.touched"
+                        class="w-full rounded-lg border-gray-300 dark:border-gray-600 py-2.5 px-3 text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-700 dark:text-white transition-colors">
+               </div>
+               
+               @if (searchForm.get('min_price')?.hasError('min')) {
+                 <p class="text-red-500 text-xs">Il prezzo non può essere negativo.</p>
+               }
+               @if (searchForm.hasError('priceRangeError') && (searchForm.get('max_price')?.touched || searchForm.get('min_price')?.touched)) {
+                 <p class="text-red-500 text-xs">Il prezzo minimo deve essere inferiore al massimo.</p>
+               }
              </div>
           </div>
 
           <div>
-            <label class="block mb-2 text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Superficie (m²)</label>
-            <div class="flex gap-2">
-              <input type="number" formControlName="min_area" placeholder="Min" class="w-1/2 p-4 bg-gray-50 dark:bg-gray-700 rounded-2xl border-none focus:ring-2 focus:ring-green-500 shadow-inner">
-              <input type="number" formControlName="max_area" placeholder="Max" class="w-1/2 p-4 bg-gray-50 dark:bg-gray-700 rounded-2xl border-none focus:ring-2 focus:ring-green-500 shadow-inner">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Superficie (m²)</label>
+            <div class="flex gap-3">
+              <input type="number" min="0" formControlName="min_area" placeholder="Min" 
+                     [class.border-red-500]="searchForm.get('min_area')?.invalid && searchForm.get('min_area')?.touched"
+                     class="w-1/2 rounded-lg border-gray-300 dark:border-gray-600 py-2.5 px-3 text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-700 dark:text-white">
+              <input type="number" min="0" formControlName="max_area" placeholder="Max" 
+                     [class.border-red-500]="searchForm.get('max_area')?.invalid && searchForm.get('max_area')?.touched"
+                     class="w-1/2 rounded-lg border-gray-300 dark:border-gray-600 py-2.5 px-3 text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-700 dark:text-white">
             </div>
+            @if (searchForm.hasError('areaRangeError') && (searchForm.get('max_area')?.touched || searchForm.get('min_area')?.touched)) {
+               <p class="text-red-500 text-xs mt-1">Min > Max.</p>
+            }
           </div>
-
           <div>
-            <label class="block mb-2 text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Camere da letto</label>
-            <input type="number" formControlName="number_rooms" placeholder="Es. 2" class="w-full p-4 bg-gray-50 dark:bg-gray-700 rounded-2xl border-none focus:ring-2 focus:ring-green-500 shadow-inner">
-          </div>
-
-          <div class="md:col-span-2">
-            <label class="block mb-2 text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Anno di costruzione</label>
-            <div class="flex gap-4">
-               <input type="number" formControlName="construction_year_after" placeholder="Dal" class="w-full p-4 bg-gray-50 dark:bg-gray-700 border-none rounded-2xl focus:ring-2 focus:ring-green-500 shadow-inner">
-               <input type="number" formControlName="construction_year_before" placeholder="Al" class="w-full p-4 bg-gray-50 dark:bg-gray-700 border-none rounded-2xl focus:ring-2 focus:ring-green-500 shadow-inner">
-            </div>
-          </div>
-
-          <div class="md:col-span-2">
-            <label class="block mb-2 text-sm font-bold text-gray-700 dark:text-gray-300 uppercase tracking-wider">Efficienza Energetica</label>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Numero di Camere</label>
             <div class="relative">
-              <select formControlName="energyClass" class="w-full p-4 bg-gray-50 dark:bg-gray-700 rounded-2xl border-none focus:ring-2 focus:ring-green-500 shadow-inner appearance-none cursor-pointer">
-                <option value="">Qualsiasi classe</option>
+              <select formControlName="number_rooms" 
+                      [class.border-red-500]="searchForm.get('number_rooms')?.invalid && searchForm.get('number_rooms')?.touched"
+                      class="w-full rounded-lg border-gray-300 dark:border-gray-600 py-2.5 px-3 text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-700 dark:text-white appearance-none pr-10 cursor-pointer">
+                
+                <option [ngValue]="null">Qualsiasi</option>
+                
+                @for (num of availableRooms; track num) {
+                  <option [value]="num">{{ num }}</option>
+                }
+              </select>
+              
+              <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-400">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/>
+                </svg>
+              </div>
+            </div>
+
+            @if (searchForm.get('number_rooms')?.invalid && searchForm.get('number_rooms')?.touched) {
+              <p class="text-red-500 text-xs mt-1">Valore non valido.</p>
+            }
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Anno di costruzione</label>
+            <div class="flex gap-3">
+               <div class="relative w-full">
+                 <select formControlName="construction_year_after" 
+                         [class.border-red-500]="searchForm.hasError('yearRangeError')"
+                         class="w-full rounded-lg border-gray-300 dark:border-gray-600 py-2.5 px-3 text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-700 dark:text-white appearance-none pr-10 cursor-pointer">
+                    <option [ngValue]="null">Dal</option>
+                    @for (year of availableYears; track year) {
+                        <option [value]="year">{{year}}</option>
+                    }
+                 </select>
+                 <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-400">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+                 </div>
+               </div>
+
+               <div class="relative w-full">
+                 <select formControlName="construction_year_before" 
+                         [class.border-red-500]="searchForm.hasError('yearRangeError')"
+                         class="w-full rounded-lg border-gray-300 dark:border-gray-600 py-2.5 px-3 text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-700 dark:text-white appearance-none pr-10 cursor-pointer">
+                    <option [ngValue]="null">Al</option>
+                    @for (year of availableYears; track year) {
+                        <option [value]="year">{{year}}</option>
+                    }
+                 </select>
+                 <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-400">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+                 </div>
+               </div>
+            </div>
+            @if (searchForm.hasError('yearRangeError') && (searchForm.get('construction_year_after')?.touched || searchForm.get('construction_year_before')?.touched)) {
+               <p class="text-red-500 text-xs mt-1">L'anno di inizio deve essere precedente alla fine.</p>
+            }
+          </div>
+
+          <div class="md:col-span-2">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Efficienza Energetica</label>
+            <div class="relative">
+              <select formControlName="energyClass" class="w-full rounded-lg border-gray-300 dark:border-gray-600 py-2.5 px-3 text-sm focus:border-green-500 focus:ring-green-500 dark:bg-gray-700 dark:text-white appearance-none pr-10 cursor-pointer">
+                <option [ngValue]="null">Qualsiasi classe</option>
                 @for (class of ['A', 'B', 'C', 'D', 'E', 'F', 'G']; track class) {
                   <option [value]="class">Classe {{class}}</option>
                 }
               </select>
-              <div class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-gray-400">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+              <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none text-gray-400">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
               </div>
             </div>
           </div>
@@ -79,16 +144,16 @@
         </div>
       </div>
 
-      <div class="px-8 py-6 bg-gray-50 dark:bg-gray-800/80 border-t border-gray-100 dark:border-gray-700 flex items-center justify-between">
-        <button type="button" (click)="searchForm.reset()" class="text-xs font-bold text-gray-400 hover:text-red-500 transition-colors uppercase tracking-widest">
-          Resetta filtri
+      <div class="px-6 py-4 bg-gray-50 dark:bg-gray-800/80 border-t border-gray-200 dark:border-gray-700 flex items-center justify-between rounded-b-xl">
+        <button type="button" (click)="searchForm.reset()" class="text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors font-medium">
+          Resetta
         </button>
         <div class="flex gap-3">
-          <button type="button" (click)="close()" class="px-6 py-3 rounded-2xl text-gray-600 dark:text-gray-300 font-bold hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
+          <button type="button" (click)="close()" class="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
             Annulla
           </button>
-          <button type="submit" class="px-10 py-3 rounded-2xl bg-green-600 text-white font-bold shadow-lg hover:bg-green-700 transform active:scale-95 transition-all">
-            Applica
+          <button type="submit" class="px-5 py-2 rounded-lg bg-green-600 text-white text-sm font-medium hover:bg-green-700 active:bg-green-800 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+            Applica Filtri
           </button>
         </div>
       </div>

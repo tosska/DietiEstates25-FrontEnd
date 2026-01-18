@@ -38,7 +38,7 @@ export class GeoMapComponent {
   ngOnInit() {
 
     this.setCurrentPosition();
-    this.map = L.map('geo-map').setView([this.startLatitude, this.startLongitude], 13); // Milano
+    this.map = L.map('geo-map').setView([this.startLatitude, this.startLongitude], 10); // Milano
 
     L.tileLayer(`https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=${this.urlapiKey}`, {
       attribution:

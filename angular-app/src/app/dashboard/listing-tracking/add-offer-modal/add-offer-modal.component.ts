@@ -68,7 +68,7 @@ export class AddOfferModalComponent implements OnInit {
       amount: formValues.amount,
       message: formValues.message || null,
       status: formValues.status,
-      offer_Date: new Date(formValues.offer_Date), // Converte la stringa in Data
+      offerDate: new Date(formValues.offer_Date), // Converte la stringa in Data
       response_Date: new Date(),
       counteroffer: false, // È un'offerta di un cliente, non controfferta
       agent_id: agentId,

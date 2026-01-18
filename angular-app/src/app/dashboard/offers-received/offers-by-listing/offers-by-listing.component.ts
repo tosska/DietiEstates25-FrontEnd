@@ -7,11 +7,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { OfferModalComponent } from '../../../listing-page/offer-modal/offer-modal.component';
+import { ListingSummaryCardComponent } from '../../../listing-summary-card/listing-summary-card.component';
+import { CustomerBackendService } from '../../../_services/customer-backend/customer-backend.service';
 
 @Component({
   selector: 'app-offers-by-listing',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, OfferModalComponent],
+  imports: [CommonModule, RouterLink, FormsModule, OfferModalComponent, ListingSummaryCardComponent],
   templateUrl: './offers-by-listing.component.html',
   styleUrl: './offers-by-listing.component.scss'
 })
@@ -19,6 +21,7 @@ export class OffersByListingComponent {
 
   offerService = inject(OfferBackendService);
   listingService = inject(ListingBackendService);
+  customerService = inject(CustomerBackendService);
   isAcceptModalOpen: boolean = false;
   isRejectModalOpen: boolean = false;
   isCounterModalOpen: boolean = false;

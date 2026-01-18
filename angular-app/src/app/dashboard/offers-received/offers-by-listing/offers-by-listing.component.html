@@ -1,13 +1,7 @@
 <div class="offers-detail-wrapper">
-  <header class="header">
-    <button class="back-btn" routerLink="/dashboard-agent/offers-received">
-      <i class="icon-arrow-left"></i> Torna agli annunci
-    </button>
-    <div class="header-content">
-      <h2>Offerte per: <span class="listing-title">{{ listingSelected!.title }}</span></h2>
-      <p class="listing-price">Prezzo Richiesto: <strong>{{ listingSelected!.price | currency:'EUR':'symbol':'1.0-2' }}</strong></p>
-    </div>
-  </header>
+
+
+  <app-listing-summary-card [listingId]="listingSelected!.id"></app-listing-summary-card>
 
   <section class="offers-section">
     <div class="section-header">
@@ -28,22 +22,16 @@
                 <strong>{{ offer.amount | currency:'EUR':'symbol':'1.0-2' }}</strong>
               </div>
               <div class="offer-detail">
-                <span class="label">Stato</span>
-                <span class="status-badge" [ngClass]="offer.status | lowercase">{{ offer.status }}</span>
-              </div>
-              <div class="offer-detail">
                 <span class="label">Data Offerta</span>
-                <span>{{ offer.offer_Date | date:'shortDate' }}</span>
+                <span>{{ offer.offerDate | date:'shortDate' }}</span>
               </div>
               <div class="offer-detail">
                 <span class="label">Cliente</span>
-                <span>Cliente #{{ offer.customer_id }}</span>
+                <span>{{offer.customer!.name}} {{offer.customer!.surname}}</span>
               </div>
               <div class="offer-detail">
-                <span class="label">Controfferta</span>
-                <span [ngClass]="offer.counteroffer ? 'counter-yes' : 'counter-no'">
-                  {{ offer.counteroffer ? 'SÌ' : 'NO' }}
-                </span>
+                <span class="label">Email</span>
+                <span>{{offer.customer!.email}}</span>
               </div>
             </div>
 

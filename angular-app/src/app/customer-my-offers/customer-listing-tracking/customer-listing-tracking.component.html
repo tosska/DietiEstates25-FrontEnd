@@ -44,7 +44,7 @@
               <div class="message-bubble received">
                 <div class="msg-header">
                   <span class="name">{{ offer.externalName }} (Agente)</span>
-                  <span class="date">{{ offer.offer_Date | date:'dd/MM, HH:mm' }}</span>
+                  <span class="date">{{ offer.offerDate | date:'dd/MM, HH:mm' }}</span>
                 </div>
                 <div class="msg-content">
                   <p class="amount">{{ offer.amount | currency:'EUR':'symbol':'1.0-0' }}</p>
@@ -67,7 +67,7 @@
               <div class="message-bubble sent">
                 <div class="msg-header">
                   <span class="name">Tu</span>
-                  <span class="date">{{ offer.offer_Date | date:'dd/MM, HH:mm' }}</span>
+                  <span class="date">{{ offer.offerDate | date:'dd/MM, HH:mm' }}</span>
                 </div>
                 <div class="msg-content">
                   <p class="amount">{{ offer.amount | currency:'EUR':'symbol':'1.0-0' }}</p>

@@ -26,6 +26,9 @@ export class ListingsPageComponent {
   public listingFocused: any = null; //mettere il tipo listing
   public listingGeoPoints: GeoPoint[] = [];
 
+  public zeroResult: boolean = false;
+  public isLoading: boolean = false; 
+
   ngOnInit() {
     this.activeRoute.queryParams.subscribe(params => {
       const filters = params as SearchRequest
@@ -34,7 +37,9 @@ export class ListingsPageComponent {
       this.searchService.search(filters).subscribe({
         next: (listings) => {
           console.log("Listings:", listings);
-          // Handle the listings data as needed
+          this.isLoading = true;
+
+        
           let result = (Array.isArray(listings) ? listings : []) as ListingResult[];
           this.listings = result.map(item => this.utilsService.convertListingResultToListing(item));
           this.listingGeoPoints = this.listings.map(listing => this.utilsService.convertListingToGeoPoint(listing));
@@ -42,6 +47,12 @@ export class ListingsPageComponent {
         },
         error: (error) => {
           console.error('Error during search:', error);
+        },
+        complete: () => {
+          this.isLoading = false;
+          if(this.listings.length === 0 || !this.listings) {
+            this.zeroResult = true;
+          }
         }
       });
     });
@@ -58,6 +69,11 @@ export class ListingsPageComponent {
   
   clearHighlight() {
     this.listingFocused = null;
+  }
+
+  goHome() {
+
+    this.router.navigate(['/'])
   }
   
 }
