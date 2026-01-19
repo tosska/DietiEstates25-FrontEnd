@@ -1,81 +1,117 @@
-<div class="received-offers-container">
-  <h2>Offerte Ricevute sugli Annunci 🟢</h2>
+<div class="max-w-7xl mx-auto p-4 md:p-10 text-olive-900">
+  
+  <header class="mb-10 space-y-1">
+    <h2 class="text-4xl font-extrabold text-olive-900 tracking-tight">
+      Offerte Ricevute sugli Annunci
+    </h2>
+    <p class="text-olive-900/60 font-medium">
+      Gestisci le proposte economiche ricevute per le tue proprietà.
+    </p>
+  </header>
 
   @if (isLoading) {
-    <div class="loading-message">
-      <div class="spinner"></div>
-      <p>Caricamento annunci in corso...</p>
+    <div class="flex flex-col items-center justify-center py-20">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-olive-500 mb-4"></div>
+      <p class="text-olive-900 font-medium">Caricamento annunci in corso...</p>
     </div>
-  } @else if (listingPures.length === 0) {
-    <div class="no-listings">
-      <p>Non hai annunci attivi con offerte ricevute.</p>
-      <button class="add-listing-btn">Crea Nuovo Annuncio</button>
+  } 
+  @else if (listingPures.length === 0) {
+    <div class="flex flex-col items-center justify-center py-20 px-4 text-center bg-white rounded-3xl border border-dashed border-olive-200">
+      <div class="w-20 h-20 bg-olive-50 rounded-full flex items-center justify-center mb-6 text-olive-400">
+        <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+      </div>
+      <p class="text-xl font-bold text-olive-900 mb-2">Non hai annunci attivi con offerte ricevute.</p>
+      <p class="text-olive-900/60 mb-8 font-medium">Inizia creando un nuovo annuncio per ricevere proposte.</p>
+      <button routerLink="/dashboard-agent/create-listing" class="px-8 py-3 bg-olive-500 hover:bg-olive-400 text-white font-bold rounded-2xl shadow-lg shadow-olive-200 transition-all hover:-translate-y-1 active:scale-95">
+        Crea Nuovo Annuncio
+      </button>
     </div>
-  } @else {
-    <div class="listings-list">
+  } 
+  @else {
+    <div class="space-y-6">
       @for (listing of listingPures; track $index) {
-        <article class="listing-card horizontal" [class.listing-closed]="listing.status === 'Closed'">
+        
+        <article class="group bg-white rounded-3xl shadow-sm hover:shadow-xl border border-olive-100 overflow-hidden flex flex-col md:flex-row transition-all duration-300"
+                 [class.opacity-75]="listing.status === 'Closed'">
           
-          <div class="card-image-placeholder">
-            <span class="image-text">Foto Placeholder</span>
+          <div class="w-full md:w-64 h-48 md:h-auto bg-olive-50 flex items-center justify-center text-olive-300 relative shrink-0 border-r border-olive-100">
+              <div class="flex flex-col items-center">
+                <svg class="w-12 h-12 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <span class="text-[10px] font-bold uppercase tracking-widest opacity-60">Foto Placeholder</span>
+              </div>
+              
+              <div class="absolute top-3 left-3 px-2 py-1 bg-white/90 backdrop-blur text-[10px] font-black uppercase text-olive-900 rounded-lg shadow-sm border border-olive-100">
+                {{ listing.listingType }}
+              </div>
           </div>
 
-          <div class="card-content">
-            <header class="card-header">
-              <h3 class="title">{{ listing.title | slice:0:40 }}{{ listing.title.length > 40 ? '...' : '' }}</h3>
-
-              <div class="status-badge" [attr.data-status]="(listing.status) | lowercase">
-                {{ listing.status }}
+          <div class="flex-1 p-6 flex flex-col justify-between">
+            
+            <div>
+              <div class="flex justify-between items-start mb-2 gap-4">
+                <h3 class="text-xl font-bold text-olive-900 group-hover:text-olive-500 transition-colors line-clamp-2">
+                  {{ listing.title }}
+                </h3>
+                
+                <div [ngClass]="{
+                      'bg-olive-100 text-olive-700 border-olive-200': listing.status === 'Active',
+                      'bg-red-50 text-red-700 border-red-100': listing.status === 'Closed'
+                    }"
+                     class="px-3 py-1 rounded-xl text-xs font-bold border whitespace-nowrap uppercase tracking-wide shrink-0">
+                  {{ listing.status }}
+                </div>
               </div>
-            </header>
 
-            <section class="card-body">
-              <p class="price-display">
-                Prezzo: <strong>{{ listing.price | currency:'EUR':'symbol':'1.0-2' }}</strong>
-                <span class="type-label">({{ listing.listingType }})</span>
+              <p class="text-3xl font-black text-olive-900 mb-4 tracking-tight">
+                {{ listing.price | currency:'EUR':'symbol':'1.0-2' }}
               </p>
 
-              <div class="info-group">
-                <span class="info-item">
-                  <i class="icon-area"></i> {{ listing.area }} m²
+              <div class="flex flex-wrap gap-3 text-sm text-olive-900/70 font-bold">
+                <span class="flex items-center bg-olive-50 px-3 py-1.5 rounded-xl border border-olive-100">
+                  <svg class="w-4 h-4 mr-2 text-olive-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+                  {{ listing.area }} m²
                 </span>
-                <span class="info-item">
-                  <i class="icon-rooms"></i> {{ listing.numberRooms }} Vani
+                <span class="flex items-center bg-olive-50 px-3 py-1.5 rounded-xl border border-olive-100">
+                  <svg class="w-4 h-4 mr-2 text-olive-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                  {{ listing.numberRooms }} Vani
                 </span>
-                <span class="info-item property-type">
-                  Tipo: {{ listing.propertyType }}
+                <span class="flex items-center bg-olive-50 px-3 py-1.5 rounded-xl border border-olive-100">
+                   <svg class="w-4 h-4 mr-2 text-olive-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                  {{ listing.propertyType }}
                 </span>
               </div>
-            </section>
-
-            <footer class="card-footer">
-              <div class="dates">
-                <span class="date-item">Pubblicato: {{ listing.publicationDate | date:'shortDate' }}</span>
-                <span class="date-item date-end">Scadenza: {{ listing.endPublicationDate | date:'shortDate' }}</span>
-              </div>
-            </footer>
-          </div>
-          
-          <div class="card-actions-summary">
-            <div class="offer-count-pill" [class.highlight]="listingIdsWithCount[$index].count > 0">
-              <span class="count">{{ listingIdsWithCount[$index].count }}</span>
-              <span class="label">Offerte Ricevute</span>
             </div>
 
-            @if (listingIdsWithCount[$index].count > 0) {
-              <button (click)="openOffersPage(listing.id)" class="view-offers-btn primary-green-btn">
-                Gestisci Offerte
-              </button>
-            } @else {
-              <span class="no-offers-text">Nessuna offerta in attesa.</span>
-            }
+            <div class="mt-6 pt-4 border-t border-olive-50 flex flex-wrap justify-between items-center gap-y-2 text-xs text-olive-900/50 font-medium">
+              <span>Pubblicato: <span class="text-olive-900">{{ listing.publicationDate | date:'shortDate' }}</span></span>
+              <span>Scadenza: <span class="text-red-500 font-bold">{{ listing.endPublicationDate | date:'shortDate' }}</span></span>
+            </div>
+          </div>
+
+          <div class="bg-olive-50/30 p-6 flex flex-row md:flex-col items-center justify-between md:justify-center gap-4 border-t md:border-t-0 md:border-l border-olive-100 w-full md:w-64 shrink-0">
+            
+            <div [ngClass]="listingIdsWithCount[$index].count > 0 ? 'bg-olive-500 text-white shadow-xl shadow-olive-200' : 'bg-olive-100/50 text-olive-900/30 border border-olive-100'"
+                 class="flex flex-col items-center justify-center w-24 h-24 rounded-2xl transition-all duration-300">
+              <span class="text-3xl font-black">{{ listingIdsWithCount[$index].count }}</span>
+              <span class="text-[10px] uppercase font-bold tracking-wide">Offerte</span>
+            </div>
+
+            <div class="w-full">
+              @if (listingIdsWithCount[$index].count > 0) {
+                <button (click)="openOffersPage(listing.id)" 
+                        class="w-full py-3 px-4 bg-olive-500 hover:bg-olive-400 text-white font-bold rounded-xl shadow-lg shadow-olive-200 transition-all active:scale-95 flex items-center justify-center hover:-translate-y-0.5">
+                  <span>Gestisci Offerte</span>
+                  <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </button>
+              } @else {
+                <span class="block text-center text-xs font-bold text-olive-900/40 py-3 bg-white rounded-xl border border-dashed border-olive-200">
+                  In attesa di offerte...
+                </span>
+              }
+            </div>
           </div>
           
         </article>
-      }
-
-      @empty {
-        <p class="filter-empty-message">Nessun annuncio trovato con i filtri correnti.</p>
       }
     </div>
   }

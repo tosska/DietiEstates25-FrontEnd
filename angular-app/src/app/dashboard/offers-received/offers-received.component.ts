@@ -6,7 +6,7 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Listing } from '../../_services/listing-backend/listing';
 import { Offer } from '../../_services/offer-backend/offer';
 import { ListingBackendService } from '../../_services/listing-backend/listing-backend.service';
@@ -22,7 +22,7 @@ interface ListingIdWithCount {
 @Component({
   selector: 'app-offers-received',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './offers-received.component.html',
   styleUrl: './offers-received.component.scss'
 })

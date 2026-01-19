@@ -1,16 +1,17 @@
-<div class="max-w-7xl mx-auto p-4 md:p-10 bg-gray-50 dark:bg-gray-900 min-h-screen">
+<div class="max-w-7xl mx-auto p-4 md:p-10">
   
   <header class="flex flex-col md:flex-row md:items-center justify-between mb-10 gap-6">
     <div class="space-y-1">
-      <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+      <h1 class="text-4xl font-extrabold text-olive-900 tracking-tight">
         I Miei Annunci
       </h1>
-      <p class="text-gray-500 dark:text-gray-400 font-medium">
+      <p class="text-olive-900/60 font-medium">
         Monitora le prestazioni e gestisci lo stato delle tue proprietà.
       </p>
     </div>
+    
     <a routerLink="/dashboard-agent/create-listing" 
-       class="inline-flex items-center justify-center px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-bold rounded-2xl shadow-lg shadow-green-200 dark:shadow-none transition-all active:scale-95">
+       class="inline-flex items-center justify-center px-6 py-3 bg-olive-500 hover:bg-olive-400 text-white font-bold rounded-2xl shadow-lg shadow-olive-200 transition-all active:scale-95 transform">
       <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
       Crea Annuncio
     </a>
@@ -18,19 +19,22 @@
 
   <div class="flex flex-col lg:flex-row gap-6 mb-10 items-center justify-between">
     
-    <div class="flex p-1.5 bg-gray-200/50 dark:bg-gray-800 rounded-2xl w-full lg:w-auto border border-gray-200 dark:border-gray-700">
+    <div class="flex p-1.5 bg-olive-100/50 rounded-2xl w-full lg:w-auto border border-olive-100">
+      
       <button (click)="setFilter('active')"
-        [class]="activeFilter === 'active' ? 'bg-white dark:bg-gray-700 text-green-600 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'"
+        [class]="activeFilter === 'active' ? 'bg-white text-olive-500 shadow-sm ring-1 ring-olive-100' : 'text-olive-900/60 hover:text-olive-900'"
         class="flex-1 lg:flex-none px-6 py-2.5 text-sm font-bold rounded-xl transition-all duration-300">
         Attivi
       </button>
+      
       <button (click)="setFilter('closed')"
-        [class]="activeFilter === 'closed' ? 'bg-white dark:bg-gray-700 text-green-600 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'"
+        [class]="activeFilter === 'closed' ? 'bg-white text-red-600 shadow-sm ring-1 ring-red-100' : 'text-olive-900/60 hover:text-red-600'"
         class="flex-1 lg:flex-none px-6 py-2.5 text-sm font-bold rounded-xl transition-all duration-300">
         Chiusi
       </button>
+      
       <button (click)="setFilter('all')"
-        [class]="activeFilter === 'all' ? 'bg-white dark:bg-gray-700 text-green-600 dark:text-white shadow-sm' : 'text-gray-500 dark:text-gray-400 hover:text-gray-700'"
+        [class]="activeFilter === 'all' ? 'bg-white text-olive-900 shadow-sm ring-1 ring-olive-200' : 'text-olive-900/60 hover:text-olive-900'"
         class="flex-1 lg:flex-none px-6 py-2.5 text-sm font-bold rounded-xl transition-all duration-300">
         Tutti
       </button>
@@ -40,58 +44,62 @@
       <input type="text" 
              (input)="onSearch($event)"
              placeholder="Cerca per titolo o zona..."
-             class="w-full pl-12 pr-4 py-3.5 bg-white dark:bg-gray-800 border-none rounded-2xl shadow-sm focus:ring-2 focus:ring-green-500 dark:text-white transition-all ring-1 ring-gray-100 dark:ring-gray-700">
-      <svg class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 group-focus-within:text-green-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+             class="w-full pl-12 pr-4 py-3.5 bg-white border-none rounded-2xl shadow-sm text-olive-900 placeholder:text-olive-900/40 focus:ring-2 focus:ring-olive-500 transition-all ring-1 ring-olive-100">
+      <svg class="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-olive-400 group-focus-within:text-olive-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
       </svg>
     </div>
   </div>
 
   <div class="mb-6 px-2 flex items-center justify-between">
-    <span class="text-xs font-bold text-gray-400 uppercase tracking-widest">
-      Risultati trovati: <span class="text-gray-900 dark:text-white">{{ listingsToShow.length }}</span>
+    <span class="text-xs font-bold text-olive-900/50 uppercase tracking-widest">
+      Risultati trovati: <span class="text-olive-900">{{ listingsToShow.length }}</span>
     </span>
   </div>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
     @for (listing of listingsToShow; track listing.id) {
-      <div (click)="openListing(listing.id)" class="group bg-white dark:bg-gray-800 rounded-[2rem] shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden border border-gray-100 dark:border-gray-700 flex flex-col h-full">
+      <div (click)="openListing(listing.id)" class="group bg-white rounded-[2rem] shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500 overflow-hidden border border-olive-100 flex flex-col h-full cursor-pointer">
         
-        <div class="relative h-60 overflow-hidden shrink-0">
+        <div class="relative h-64 overflow-hidden shrink-0">
           <img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
                [src]="urlPhoto(listing)" 
                alt="Immobile">
           
-          <div class="absolute top-4 left-4 px-3 py-1.5 bg-white/80 backdrop-blur-md text-gray-900 text-[10px] font-black uppercase tracking-wider rounded-xl shadow-sm">
-            {{listing.listingType}}
+          <div [ngClass]="listing.listingType === 'Sale' ? 'text-olive-900 border-olive-100' : 'text-olive-600 border-olive-100'"
+               class="absolute top-4 left-4 px-3 py-1.5 bg-white/95 backdrop-blur-md text-[10px] font-black uppercase tracking-wider rounded-xl shadow-sm border">
+            {{listing.listingType === 'Sale' ? 'Vendita' : 'Affitto'}}
           </div>
 
           <div class="absolute bottom-4 left-4">
-             <span class="px-4 py-2 bg-green-600 text-white rounded-2xl text-lg font-black shadow-lg">
+             <span class="px-4 py-2 bg-olive-500 text-white rounded-2xl text-lg font-black shadow-lg">
                 {{ listing.price | currency:'EUR':'symbol':'1.0-0' }}
              </span>
           </div>
         </div>
 
         <div class="p-6 flex flex-col flex-grow">
-          <h3 class="text-xl font-bold text-gray-900 dark:text-white truncate mb-2 group-hover:text-green-600 transition-colors">
+          <h3 class="text-xl font-bold text-olive-900 truncate mb-2 group-hover:text-olive-500 transition-colors">
             {{listing.title}}
           </h3>
           
-          <div class="flex items-center text-gray-500 dark:text-gray-400 text-sm mb-6">
-            <svg class="w-4 h-4 mr-1.5 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div class="flex items-center text-olive-900/60 text-sm mb-6 font-medium">
+            <svg class="w-4 h-4 mr-1.5 text-olive-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
             </svg>
             <span class="truncate">{{ listing.Address.street }} {{ listing.Address.houseNumber }}</span>
           </div>
 
-          <div class="mt-auto pt-6 border-t border-gray-50 dark:border-gray-700 flex items-center gap-3">
-            <button (click)="openEditPage(listing.id)" class="flex-1 flex items-center justify-center py-3 rounded-2xl bg-gray-50 dark:bg-gray-700 text-gray-700 dark:text-gray-200 font-bold text-xs hover:bg-gray-100 dark:hover:bg-gray-600 transition-all">
+          <div class="mt-auto pt-6 border-t border-olive-50 flex items-center gap-3">
+            
+            <button (click)="openEditPage(listing.id); $event.stopPropagation()" 
+                    class="flex-1 flex items-center justify-center py-3 rounded-2xl bg-olive-50 text-olive-900 font-bold text-xs hover:bg-olive-100 border border-olive-100 transition-all">
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
               Modifica
             </button>
-            <button (click)="openTracking(listing.id)" 
-                    class="flex-1 flex items-center justify-center py-3 rounded-2xl bg-green-600 text-white font-bold text-xs hover:bg-green-700 shadow-md shadow-green-100 dark:shadow-none transition-all">
+            
+            <button (click)="openTracking(listing.id); $event.stopPropagation()" 
+                    class="flex-1 flex items-center justify-center py-3 rounded-2xl bg-olive-500 text-white font-bold text-xs hover:bg-olive-400 shadow-md shadow-olive-200 transition-all">
               <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
               Tracking
             </button>
@@ -99,17 +107,18 @@
         </div>
       </div>
     } @empty {
+      
       <div class="col-span-full flex flex-col items-center justify-center py-20 px-4 text-center">
-        <div class="w-24 h-24 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center mb-6 text-gray-300">
+        <div class="w-24 h-24 bg-olive-100 rounded-full flex items-center justify-center mb-6 text-olive-500">
           <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
         </div>
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Nessun annuncio trovato</h2>
-        <p class="text-gray-500 dark:text-gray-400 max-w-sm mb-8 font-medium">
+        <h2 class="text-2xl font-bold text-olive-900 mb-2">Nessun annuncio trovato</h2>
+        <p class="text-olive-900/60 max-w-sm mb-8 font-medium">
           Prova a cambiare i filtri o la parola chiave di ricerca per trovare quello che cerchi.
         </p>
         <a routerLink="/dashboard-agent/create-listing" 
-           class="px-8 py-3.5 bg-green-600 text-white font-black rounded-2xl hover:bg-green-700 transition-all shadow-xl shadow-green-100 dark:shadow-none">
-          Crea il tuo primo annuncio
+           class="px-8 py-3.5 bg-olive-500 text-white font-black rounded-2xl hover:bg-olive-400 transition-all shadow-xl shadow-olive-200 hover:-translate-y-1">
+          Crea un nuovo annuncio
         </a>
       </div>
     }

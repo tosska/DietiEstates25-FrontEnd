@@ -1,61 +1,102 @@
-<section class="relative min-h-[500px] rounded-xl overflow-hidden bg-gray-100 dark:bg-gray-900 mt-8 container mx-auto">
-  <div class="absolute inset-0 bg-cover bg-center z-0 opacity-80" style="background-image: url('https://images.unsplash.com/photo-1518780664697-55e3ad937233?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')"></div>
-  <div class="absolute inset-0 z-10 bg-gradient-to-t from-gray-900 to-transparent"></div>
+<section class="container mx-auto mt-1 px-4">
+  
+  <div class="flex flex-col rounded-[2.5rem] overflow-hidden bg-olive-50">
+    
+    <div class="relative pt-24 pb-28 px-6 text-center z-20">
+      
+      <h1 class="text-4xl md:text-6xl font-extrabold mb-6 text-olive-900 leading-tight tracking-tight drop-shadow-sm">
+        Trova il tuo posto nel mondo.
+      </h1>
+      
+      <p class="text-lg md:text-xl text-olive-900/80 max-w-2xl mx-auto font-medium">
+        Esplora migliaia di annunci e scopri la casa dei tuoi sogni
+      </p>
 
-  <div class="relative z-20 py-24 px-4 text-center flex flex-col items-center justify-center h-full">
-    <h1 class="text-6xl font-extrabold mb-8 text-white leading-tight drop-shadow-lg">
-      Trova il tuo posto nel mondo.
-    </h1>
-    <p class="text-xl text-white/90 mb-10 max-w-2xl font-light">
-      Esplora migliaia di annunci e scopri la casa dei tuoi sogni
-    </p>
-    <app-search-bar class="w-full max-w-6xl"></app-search-bar>
+      <div class="absolute bottom-0 left-0 w-full flex justify-center transform translate-y-1/2 px-4 z-30">
+        <div class="w-full max-w-5xl">
+          <app-search-bar #searchBar 
+                          class="shadow-2xl block"
+                          (toggleFilterModal)="isFilterModalOpen = true"
+                          (toggleGeoModal)="isGeoModalOpen = true">
+          </app-search-bar>
+        </div>
+      </div>
+      
+    </div>
+
+    <div class="relative h-[400px] md:h-[500px] w-full z-10 rounded-t-[2.5rem] overflow-hidden">
+      <div class="absolute inset-0 bg-cover bg-center" 
+           style="background-image: url('https://images.unsplash.com/photo-1518780664697-55e3ad937233?q=80&w=1770&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')">
+      </div>
+    </div>
+
   </div>
 </section>
 
-<section class="container mx-auto py-8 px-4">
-  <div class="flex items-center mb-6">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-gray-500 dark:text-gray-400 mr-2">
+<section class="container mx-auto py-20 px-4"> 
+  <div class="flex items-center mb-8 border-b border-olive-200 pb-4">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8 text-olive-500 mr-3">
       <path fill-rule="evenodd" d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.007 5.404.433c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.433 2.082-5.007z" clip-rule="evenodd" />
     </svg>
-    <h2 class="text-xl font-semibold text-gray-700 dark:text-gray-200">
+    <h2 class="text-3xl font-bold text-olive-900">
       Ultimi annunci
     </h2>
   </div>
   
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
     @for (listing of latestListings; track listing.id) { 
-    <div (click)="openListing(listing.id)" class="group rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 bg-white dark:bg-gray-800 cursor-pointer border border-gray-200 dark:border-gray-700">
-      <img [src]="getMainPhotoForListingCard(listing)" alt="Appartamento in centro" class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105" />
-      <div class="p-4">
-        <p class="text-gray-900 dark:text-gray-100 font-bold text-xl mb-1">
+    <div (click)="openListing(listing.id)" class="group rounded-[2rem] overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-olive-200/50 transition-all duration-300 bg-white cursor-pointer border border-olive-100 transform hover:-translate-y-1">
+      <div class="relative overflow-hidden h-56">
+        <img [src]="getMainPhotoForListingCard(listing)" alt="Appartamento" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      </div>
+      
+      <div class="p-6">
+        <p class="text-olive-900 font-extrabold text-2xl mb-2">
           {{listing.price | currency:'EUR':'symbol'}}
         </p>
-        <div class="h-12 mb-2"> <h3 class="font-normal text-base text-gray-800 dark:text-gray-200 leading-tight">
+        
+        <div class="h-14 mb-2"> 
+          <h3 class="font-bold text-lg text-olive-900 leading-snug group-hover:text-olive-500 transition-colors line-clamp-2">
             {{ listing.title }}
           </h3>
         </div>
-        <div class="flex flex-wrap items-center text-gray-600 dark:text-gray-400 text-sm mt-3">
-          <span class="flex items-center mr-3">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-1 text-gray-500 dark:text-gray-400">
+        
+        <div class="flex flex-wrap items-center text-olive-900/70 text-sm mt-4 pt-4 border-t border-olive-100 font-medium">
+          <span class="flex items-center mr-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 mr-1.5 text-olive-500">
               <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.5m4.5 4.5V18m4.5 3v-7.5M3 10.5h18M3 14.25h18M5.25 9.75L12 3l6.75 6.75" />
-            </svg> {{listing.numberRooms}} locali
+            </svg> {{listing.numberRooms}}
           </span>
-          <span class="flex items-center mr-3">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-1 text-gray-500 dark:text-gray-400">
+          <span class="flex items-center mr-4">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 mr-1.5 text-olive-500">
               <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.01 60.01 0 0115.65-3.375M12 16.5a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM19.5 7.5a60.01 60.01 0 00-11.458 3.375m0 0a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
             </svg> {{listing.area}} m²
           </span>
           <span class="flex items-center">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 mr-1 text-gray-500 dark:text-gray-400">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="w-4 h-4 mr-1.5 text-olive-500">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.441 0 4.764-.979 6.495-2.71a9.004 9.004 0 00-6.495 2.71zm0 0c-2.441 0-4.764-.979-6.495-2.71A9.004 9.004 0 0112 21zm-1.5-9h-.75a.75.75 0 00-.75.75v3a.75.75 0 00.75.75h.75a.75.75 0 00.75-.75v-3a.75.75 0 00-.75-.75zm3-1.5h.008v.008H13.5v-.008z" />
-            </svg> 1 bagno
+            </svg> 1
           </span>
         </div>
       </div>
     </div>
-  }
-
+    }
   </div>
 </section>
+
+@if (isFilterModalOpen) {
+  <app-filter-modal
+    [selectedLocation]="searchBar.selectedLocation"
+    [selectedPropertyType]="searchBar.selectedPropertyType"
+    (closeFilters)="isFilterModalOpen = false"
+    (applyFilters)="searchBar.handleApplyFilters($event)">
+  </app-filter-modal>
+}
+
+@if(isGeoModalOpen) {
+  <app-geo-modal
+    (close)="isGeoModalOpen = false"
+    (confirmLocationEvent)="searchBar.onSelectLocation($event)">
+  </app-geo-modal>
+}

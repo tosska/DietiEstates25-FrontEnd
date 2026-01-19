@@ -1,125 +1,185 @@
-<div class="offers-detail-wrapper">
-  <header class="header">
-    <button class="back-btn" routerLink="/dashboard-agent/offers-received">
-      <i class="icon-arrow-left"></i> Torna agli annunci
+<div class="max-w-7xl mx-auto p-4 md:p-8 bg-olive-50 min-h-screen text-olive-900">
+  
+  <header class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">
+    <button class="group flex items-center text-olive-900 hover:text-olive-500 transition-colors font-bold" routerLink="/dashboard-agent/offers-received">
+      <svg class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+      Torna agli annunci
     </button>
-    <div class="header-content">
-      <h2>Offerte per: <span class="listing-title">{{ listingSelected!.title }}</span></h2>
-      <p class="listing-price">Prezzo Richiesto: <strong>{{ listingSelected!.price | currency:'EUR':'symbol':'1.0-2' }}</strong></p>
+    <div class="text-right">
+      <h2 class="text-2xl md:text-3xl font-extrabold text-olive-900 tracking-tight">
+        Offerte per: <span class="text-olive-600">{{ listingSelected!.title }}</span>
+      </h2>
+      <p class="text-olive-900/60 font-medium mt-1 uppercase tracking-wide text-sm">
+        Prezzo Richiesto: <strong class="text-olive-500 text-lg">{{ listingSelected!.price | currency:'EUR':'symbol':'1.0-2' }}</strong>
+      </p>
     </div>
   </header>
 
-  <section class="offers-section">
-    <div class="section-header">
-      <h3>Offerte Ricevute ({{ offers.length }})</h3>
+  <section class="space-y-6">
+    <div class="flex items-center gap-3 mb-6">
+      <h3 class="text-xl font-bold text-olive-900">Offerte Ricevute</h3>
+      <span class="px-3 py-1 bg-olive-100 text-olive-700 rounded-full text-xs font-bold">{{ offers.length }}</span>
     </div>
 
     @if (offers.length === 0) {
-      <div class="no-offers-card">
-        <p>Nessuna offerta registrata per questo annuncio.</p>
+      <div class="flex flex-col items-center justify-center py-20 px-4 text-center bg-white rounded-3xl border-2 border-dashed border-olive-200">
+        <div class="w-16 h-16 bg-olive-50 rounded-full flex items-center justify-center mb-4 text-olive-400">
+           <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
+        </div>
+        <p class="text-olive-900 font-bold text-lg">Nessuna offerta registrata</p>
+        <p class="text-olive-900/50 text-sm">Non ci sono ancora proposte per questo annuncio.</p>
       </div>
     } @else {
-      <div class="offers-grid">
+      <div class="grid grid-cols-1 gap-6">
         @for (offer of offers; track offer.id) {
-          <article class="offer-card" [ngClass]="offer.status | lowercase">
-            <div class="offer-content">
-              <div class="offer-detail">
-                <span class="label">Importo</span>
-                <strong>{{ offer.amount | currency:'EUR':'symbol':'1.0-2' }}</strong>
-              </div>
-              <div class="offer-detail">
-                <span class="label">Stato</span>
-                <span class="status-badge" [ngClass]="offer.status | lowercase">{{ offer.status }}</span>
-              </div>
-              <div class="offer-detail">
-                <span class="label">Data Offerta</span>
-                <span>{{ offer.offer_Date | date:'shortDate' }}</span>
-              </div>
-              <div class="offer-detail">
-                <span class="label">Cliente</span>
-                <span>Cliente #{{ offer.customer_id }}</span>
-              </div>
-              <div class="offer-detail">
-                <span class="label">Controfferta</span>
-                <span [ngClass]="offer.counteroffer ? 'counter-yes' : 'counter-no'">
-                  {{ offer.counteroffer ? 'SÌ' : 'NO' }}
-                </span>
-              </div>
+          
+          <article class="bg-white rounded-3xl shadow-sm hover:shadow-md border border-olive-100 p-6 transition-all duration-300 relative overflow-hidden"
+                   [ngClass]="{'opacity-60 grayscale': offer.status === 'Rejected', 'ring-2 ring-olive-500/20': offer.status === 'Accepted'}">
+            
+            <div class="flex flex-wrap justify-between items-start gap-4 mb-6 border-b border-olive-50 pb-4">
+               <div class="flex items-center gap-3">
+                 <span class="text-sm font-bold text-olive-900/50">#{{ offer.id }}</span>
+                 <span class="px-3 py-1 rounded-xl text-xs font-bold uppercase tracking-wider border"
+                       [ngClass]="{
+                         'bg-olive-100 text-olive-700 border-olive-200': offer.status === 'Accepted',
+                         'bg-red-50 text-red-600 border-red-100': offer.status === 'Rejected',
+                         'bg-yellow-50 text-yellow-700 border-yellow-100': offer.status === 'Pending'
+                       }">
+                   {{ offer.status }}
+                 </span>
+               </div>
+               <div class="text-sm font-medium text-olive-900/60">
+                 {{ offer.offer_Date | date:'shortDate' }} <span class="mx-1">•</span> {{ offer.offer_Date | date:'shortTime' }}
+               </div>
             </div>
 
-            <div class="offer-actions">
-              @switch (offer.status) {
-                @case ('Pending') {
-                  <button class="action-btn accept-btn" (click)="openModal('accept', offer)">Accetta</button>
-                  <button class="action-btn reject-btn" (click)="openModal('reject', offer)">Rifiuta</button>
-                  <button class="action-btn counter-btn" (click)="openModal('counter', offer)">Controfferta</button>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-center">
+              
+              <div class="md:col-span-1">
+                <p class="text-xs font-bold text-olive-900/40 uppercase tracking-widest mb-1">Offerta</p>
+                <p class="text-3xl font-black text-olive-900 tracking-tight">
+                  {{ offer.amount | currency:'EUR':'symbol':'1.0-2' }}
+                </p>
+              </div>
+
+              <div class="md:col-span-1">
+                <p class="text-xs font-bold text-olive-900/40 uppercase tracking-widest mb-1">Cliente</p>
+                <div class="flex items-center gap-2">
+                  <div class="w-8 h-8 bg-olive-50 rounded-full flex items-center justify-center text-olive-500">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                  </div>
+                  <span class="font-bold text-olive-900">Cliente #{{ offer.customer_id }}</span>
+                </div>
+              </div>
+
+              <div class="md:col-span-1">
+                 <p class="text-xs font-bold text-olive-900/40 uppercase tracking-widest mb-1">Tipo</p>
+                 @if (offer.counteroffer) {
+                   <span class="inline-flex items-center gap-1.5 text-olive-600 font-bold bg-olive-50 px-3 py-1.5 rounded-lg text-sm border border-olive-100">
+                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/></svg>
+                     Controfferta
+                   </span>
+                 } @else {
+                   <span class="inline-flex items-center gap-1.5 text-olive-900/60 font-bold bg-olive-50/50 px-3 py-1.5 rounded-lg text-sm">
+                     Offerta Iniziale
+                   </span>
+                 }
+              </div>
+
+              <div class="md:col-span-1 flex flex-col gap-2">
+                @switch (offer.status) {
+                  @case ('Pending') {
+                    <button class="w-full py-2 bg-olive-500 hover:bg-olive-400 text-white rounded-xl font-bold shadow-md shadow-olive-200 transition-all active:scale-95 text-sm" 
+                            (click)="openModal('accept', offer)">
+                      Accetta
+                    </button>
+                    <div class="flex gap-2">
+                      <button class="flex-1 py-2 bg-white border border-olive-200 text-olive-600 hover:bg-olive-50 rounded-xl font-bold text-sm transition-all active:scale-95 shadow-sm" 
+                              (click)="openModal('counter', offer)">
+                        Controfferta
+                      </button>
+                      <button class="flex-1 py-2 bg-white border border-red-100 text-red-600 hover:bg-red-50 rounded-xl font-bold text-sm transition-all active:scale-95" 
+                              (click)="openModal('reject', offer)">
+                        Rifiuta
+                      </button>
+                    </div>
+                  }
+                  @case ('Accepted') {
+                    <div class="text-center p-3 bg-olive-50 rounded-xl border border-olive-100">
+                      <p class="text-xs font-bold text-olive-500 uppercase">Finalizzata</p>
+                      <p class="text-sm font-bold text-olive-900">{{ offer.response_Date | date:'shortDate' }}</p>
+                    </div>
+                  }
+                  @case ('Rejected') {
+                    <div class="text-center p-3 bg-red-50 rounded-xl border border-red-100">
+                      <p class="text-sm font-bold text-red-600">Rifiutata</p>
+                    </div>
+                  }
                 }
-                @case ('Accepted') {
-                  <span class="action-info accepted-text">Finalizzata il {{ offer.response_Date | date:'shortDate' }}</span>
-                }
-                @case ('Rejected') {
-                  <span class="action-info rejected-text">Rifiutata</span>
-                }
-                @default {
-                  <span class="action-info">Stato Sconosciuto</span>
-                }
-              }
+              </div>
+
             </div>
 
             @if (offer.message) {
-              <div class="offer-message">
-                <i class="icon-message"></i>
-                <span>Messaggio: {{ offer.message }}</span>
+              <div class="mt-6 p-4 bg-olive-50/50 rounded-2xl border border-olive-100 flex gap-3">
+                <svg class="w-5 h-5 text-olive-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/></svg>
+                <div>
+                  <p class="text-xs font-bold text-olive-900/50 uppercase mb-1">Messaggio</p>
+                  <p class="text-olive-900 font-medium text-sm leading-relaxed italic">"{{ offer.message }}"</p>
+                </div>
               </div>
             }
           </article>
-        }
-
-        @empty {
-          <div class="no-offers-card">Nessuna offerta corrisponde ai criteri di filtro.</div>
         }
       </div>
     }
   </section>
 
- @if (isAcceptModalOpen) {
-    <div class="modal-overlay" (click)="closeModal()">
-      <div class="modal-content accept-modal" (click)="$event.stopPropagation()">
-        <h4>Accetta Offerta</h4>
-        <p>Sei sicuro di voler accettare l'offerta di <strong class="text-success">{{ offerToRespond!.amount | currency:'EUR':'symbol':'1.0-2' }}</strong> da Cliente #{{ offerToRespond!.customer_id }}?</p>
-        <div class="modal-actions">
-          <button class="btn btn-secondary" (click)="closeModal()">Annulla</button>
-          <button class="btn btn-primary-success" (click)="responseOffer(offerToRespond!.id, 'Accepted')">Conferma Accettazione</button>
+  @if (isAcceptModalOpen) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity" (click)="closeModal()">
+      <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full border border-olive-100" (click)="$event.stopPropagation()">
+        <h4 class="text-2xl font-extrabold text-olive-900 mb-2">Accetta Offerta</h4>
+        <p class="text-olive-900/70 mb-8 font-medium">
+          Sei sicuro di voler accettare l'offerta di <strong class="text-olive-600">{{ offerToRespond!.amount | currency:'EUR':'symbol':'1.0-2' }}</strong>?
+        </p>
+        <div class="flex gap-3">
+          <button class="flex-1 py-3 bg-white border border-olive-200 text-olive-900 rounded-xl font-bold hover:bg-olive-50 transition-all" (click)="closeModal()">Annulla</button>
+          <button class="flex-1 py-3 bg-olive-500 text-white rounded-xl font-bold hover:bg-olive-400 shadow-lg shadow-olive-200 transition-all transform active:scale-95" (click)="responseOffer(offerToRespond!.id, 'Accepted')">Conferma</button>
         </div>
       </div>
     </div>
   }
 
   @if (isRejectModalOpen) {
-    <div class="modal-overlay" (click)="closeModal()">
-      <div class="modal-content reject-modal" (click)="$event.stopPropagation()">
-        <h4>Rifiuta Offerta</h4>
-        <p>Sei sicuro di voler rifiutare l'offerta di <strong class="text-danger">{{ offerToRespond!.amount | currency:'EUR':'symbol':'1.0-2' }}</strong>?</p>
-        <div class="modal-actions">
-          <button class="btn btn-secondary" (click)="closeModal()">Annulla</button>
-          <button class="btn btn-primary-danger" (click)="responseOffer(offerToRespond!.id, 'Rejected')">Conferma Rifiuto</button>
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm transition-opacity" (click)="closeModal()">
+      <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full border border-olive-100" (click)="$event.stopPropagation()">
+        <h4 class="text-2xl font-extrabold text-olive-900 mb-2">Rifiuta Offerta</h4>
+        <p class="text-olive-900/70 mb-8 font-medium">
+          Sei sicuro di voler rifiutare l'offerta di <strong class="text-red-500">{{ offerToRespond!.amount | currency:'EUR':'symbol':'1.0-2' }}</strong>?
+        </p>
+        <div class="flex gap-3">
+          <button class="flex-1 py-3 bg-white border border-olive-200 text-olive-900 rounded-xl font-bold hover:bg-olive-50 transition-all" (click)="closeModal()">Annulla</button>
+          <button class="flex-1 py-3 bg-red-600 text-white rounded-xl font-bold hover:bg-red-700 shadow-lg shadow-red-200 transition-all transform active:scale-95" (click)="responseOffer(offerToRespond!.id, 'Rejected')">Rifiuta</button>
         </div>
       </div>
     </div>
   }
 
   @if (isCounterModalOpen) {
-    <app-offer-modal
-      [isCounterOffer]="true"
-      [listingId]="listingSelected?.id || 0"
-      [userTarget]="offerToRespond?.customer_id || null"
-      [offerId]="offerToRespond?.id || null"
-      [initialAmount]="listingSelected?.price || 0"
-      [modalMessage]="'Inserisci l\'importo della controfferta da inviare al cliente.'"
-      (close)="closeModal()"
-      (submitted)="closeModal()"
-    >
-    </app-offer-modal>
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+        <app-offer-modal
+          class="w-full max-w-lg"
+          [isCounterOffer]="true"
+          [listingId]="listingSelected?.id || 0"
+          [userTarget]="offerToRespond?.customer_id || null"
+          [offerId]="offerToRespond?.id || null"
+          [initialAmount]="listingSelected?.price || 0"
+          [modalMessage]="'Inserisci l\'importo della controfferta da inviare al cliente.'"
+          (close)="closeModal()"
+          (submitted)="closeModal()"
+        >
+        </app-offer-modal>
+    </div>
   }
 
 </div>

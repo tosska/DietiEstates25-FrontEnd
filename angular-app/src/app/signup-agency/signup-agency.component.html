@@ -1,136 +1,164 @@
-<div class="min-h-screen flex items-start justify-center p-6 bg-gray-100 dark:bg-gray-950">
+<div class="min-h-screen flex items-start justify-center p-6 bg-olive-50">
     <div class="w-full max-w-xl">
-        <h1 class="text-3xl font-extrabold mb-8 text-gray-900 dark:text-white text-center">Registrazione Agenzia</h1>
+        <h1 class="text-3xl font-extrabold mb-8 text-olive-900 text-center">Registrazione Agenzia</h1>
 
         <div class="flex justify-between mb-10 relative">
-            <div class="absolute top-1/2 left-0 right-0 h-1 bg-gray-300 dark:bg-gray-700 -translate-y-1/2 mx-4"></div>
-            <div class="absolute top-1/2 left-0 h-1 bg-[#4CAF50] transition-all duration-500 ease-in-out -translate-y-1/2 mx-4" 
+            <div class="absolute top-1/2 left-0 right-0 h-1 bg-olive-200 -translate-y-1/2 mx-4 rounded-full"></div>
+            
+            <div class="absolute top-1/2 left-0 h-1 bg-olive-500 transition-all duration-500 ease-in-out -translate-y-1/2 mx-4 rounded-full" 
                  [ngClass]="{'w-1/2': currentStep === 2, 'w-full': currentStep === 3, 'w-0': currentStep === 1}"></div>
 
             <div class="flex-1 text-center relative z-10">
-                <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center font-bold transition-colors duration-300"
-                     [ngClass]="{'bg-[#4CAF50] text-white shadow-lg': currentStep >= 1, 'bg-gray-300 text-gray-600': currentStep < 1}">1</div>
-                <p class="text-sm mt-2 font-medium" [ngClass]="{'text-[#4CAF50] dark:text-[#81C784]': currentStep >= 1, 'text-gray-500 dark:text-gray-400': currentStep < 1}">Account Manager</p>
+                <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center font-bold transition-colors duration-300 border-2 border-transparent"
+                     [ngClass]="{'bg-olive-500 text-white shadow-lg scale-110': currentStep >= 1, 'bg-olive-100 text-olive-900 border-olive-200': currentStep < 1}">1</div>
+                <p class="text-xs sm:text-sm mt-2 font-bold" [ngClass]="{'text-olive-500': currentStep >= 1, 'text-olive-900/40': currentStep < 1}">Account</p>
             </div>
             
             <div class="flex-1 text-center relative z-10">
-                <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center font-bold transition-colors duration-300"
-                     [ngClass]="{'bg-[#4CAF50] text-white shadow-lg': currentStep >= 2, 'bg-gray-300 text-gray-600': currentStep < 2}">2</div>
-                <p class="text-sm mt-2 font-medium" [ngClass]="{'text-[#4CAF50] dark:text-[#81C784]': currentStep >= 2, 'text-gray-500 dark:text-gray-400': currentStep < 2}">Indirizzo</p>
+                <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center font-bold transition-colors duration-300 border-2 border-transparent"
+                     [ngClass]="{'bg-olive-500 text-white shadow-lg scale-110': currentStep >= 2, 'bg-olive-100 text-olive-900 border-olive-200': currentStep < 2}">2</div>
+                <p class="text-xs sm:text-sm mt-2 font-bold" [ngClass]="{'text-olive-500': currentStep >= 2, 'text-olive-900/40': currentStep < 2}">Indirizzo</p>
             </div>
 
             <div class="flex-1 text-center relative z-10">
-                <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center font-bold transition-colors duration-300"
-                     [ngClass]="{'bg-[#4CAF50] text-white shadow-lg': currentStep >= 3, 'bg-gray-300 text-gray-600': currentStep < 3}">3</div>
-                <p class="text-sm mt-2 font-medium" [ngClass]="{'text-[#4CAF50] dark:text-[#81C784]': currentStep >= 3, 'text-gray-500 dark:text-gray-400': currentStep < 3}">Dati Agenzia</p>
+                <div class="w-8 h-8 mx-auto rounded-full flex items-center justify-center font-bold transition-colors duration-300 border-2 border-transparent"
+                     [ngClass]="{'bg-olive-500 text-white shadow-lg scale-110': currentStep >= 3, 'bg-olive-100 text-olive-900 border-olive-200': currentStep < 3}">3</div>
+                <p class="text-xs sm:text-sm mt-2 font-bold" [ngClass]="{'text-olive-500': currentStep >= 3, 'text-olive-900/40': currentStep < 3}">Dati Agenzia</p>
             </div>
         </div>
 
-        <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-2xl">
+        <div class="bg-white p-8 rounded-2xl shadow-xl border border-olive-100">
 
             <div *ngIf="currentStep === 1">
-                <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Dati dell'Account Manager</h2>
-                <form [formGroup]="step1" (ngSubmit)="nextStep()" class="space-y-6">
+                <h2 class="text-2xl font-bold mb-6 text-olive-900">Dati dell'Account Manager</h2>
+                <form [formGroup]="step1" (ngSubmit)="nextStep()" class="space-y-5">
                     
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div>
-                            <label for="name" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Nome</label>
-                            <input id="name" formControlName="name" type="text" placeholder="es. Mario" class="input-modern">
-                            <div *ngIf="step1.get('name')?.invalid && step1.get('name')?.touched" class="text-red-500 text-sm mt-1">Nome obbligatorio.</div>
+                            <label for="name" class="block text-sm font-semibold text-olive-900 mb-1">Nome</label>
+                            <input id="name" formControlName="name" type="text" placeholder="es. Mario" 
+                                   class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
+                            <div *ngIf="step1.get('name')?.invalid && step1.get('name')?.touched" class="text-red-600 text-xs mt-1 font-medium">Nome obbligatorio.</div>
                         </div>
                         <div>
-                            <label for="surname" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Cognome</label>
-                            <input id="surname" formControlName="surname" type="text" placeholder="es. Rossi" class="input-modern">
-                            <div *ngIf="step1.get('surname')?.invalid && step1.get('surname')?.touched" class="text-red-500 text-sm mt-1">Cognome obbligatorio.</div>
+                            <label for="surname" class="block text-sm font-semibold text-olive-900 mb-1">Cognome</label>
+                            <input id="surname" formControlName="surname" type="text" placeholder="es. Rossi" 
+                                   class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
+                            <div *ngIf="step1.get('surname')?.invalid && step1.get('surname')?.touched" class="text-red-600 text-xs mt-1 font-medium">Cognome obbligatorio.</div>
                         </div>
                     </div>
                     <div>
-                        <label for="email" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Email</label>
-                        <input id="email" formControlName="email" type="email" placeholder="es. tuonome@agenzia.com" class="input-modern">
-                        <div *ngIf="step1.get('email')?.invalid && step1.get('email')?.touched" class="text-red-500 text-sm mt-1">L'email è richiesta e deve essere valida.</div>
+                        <label for="email" class="block text-sm font-semibold text-olive-900 mb-1">Email</label>
+                        <input id="email" formControlName="email" type="email" placeholder="es. tuonome@agenzia.com" 
+                               class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
+                        <div *ngIf="step1.get('email')?.invalid && step1.get('email')?.touched" class="text-red-600 text-xs mt-1 font-medium">L'email è richiesta e deve essere valida.</div>
                     </div>
                     <div>
-                        <label for="password" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Password</label>
-                        <input id="password" formControlName="password" type="password" placeholder="Minimo 6 caratteri" class="input-modern">
-                        <div *ngIf="step1.get('password')?.invalid && step1.get('password')?.touched" class="text-red-500 text-sm mt-1">Password richiesta (min 6 caratteri).</div>
+                        <label for="password" class="block text-sm font-semibold text-olive-900 mb-1">Password</label>
+                        <input id="password" formControlName="password" type="password" placeholder="Minimo 6 caratteri" 
+                               class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
+                        <div *ngIf="step1.get('password')?.invalid && step1.get('password')?.touched" class="text-red-600 text-xs mt-1 font-medium">Password richiesta (min 6 caratteri).</div>
                     </div>
-                    <button type="submit" [disabled]="step1.invalid" class="btn-primary w-full disabled:opacity-50">Prosegui</button>
+                    
+                    <button type="submit" [disabled]="step1.invalid" 
+                            class="w-full justify-center rounded-md bg-olive-500 px-3 py-2.5 text-sm font-bold text-white shadow-md hover:bg-olive-400 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive-500 transition-all duration-200 ease-in-out transform active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
+                        Prosegui
+                    </button>
                 </form>
             </div>
 
             <div *ngIf="currentStep === 2">
-                <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Indirizzo Sede Legale</h2>
-                <form [formGroup]="step2" (ngSubmit)="nextStep()" class="space-y-6">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <h2 class="text-2xl font-bold mb-6 text-olive-900">Indirizzo Sede Legale</h2>
+                <form [formGroup]="step2" (ngSubmit)="nextStep()" class="space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div>
-                            <label for="street" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Via e Numero Civico</label>
-                            <input id="street" formControlName="street" placeholder="es. Via Roma 12" class="input-modern">
+                            <label for="street" class="block text-sm font-semibold text-olive-900 mb-1">Via</label>
+                            <input id="street" formControlName="street" placeholder="es. Via Roma" 
+                                   class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
                         </div>
                         <div>
-                            <label for="unitDetail" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Dettagli Unità (Opzionale)</label>
-                            <input id="unitDetail" formControlName="unitDetail" placeholder="es. Piano 3, Interno A" class="input-modern">
-                        </div>
-                        <div>
-                            <label for="city" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Città</label>
-                            <input id="city" formControlName="city" class="input-modern">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Provincia</label>
-                            <input type="text" formControlName="state" placeholder="es. NA" class="input-modern">
-                        </div>
-                        <div>
-                            <label for="postalCode" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">CAP</label>
-                            <input id="postalCode" formControlName="postalCode" type="number" class="input-modern">
+                            <label for="houseNumber" class="block text-sm font-semibold text-olive-900 mb-1">N. Civico</label>
+                            <input id="houseNumber" formControlName="houseNumber" placeholder="es. 12" 
+                                   class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
                         </div>
                         <div class="sm:col-span-2">
-                            <label for="state" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Regione / Provincia</label>
-                            <input id="state" formControlName="state" class="input-modern">
+                            <label for="unitDetail" class="block text-sm font-semibold text-olive-900 mb-1">Dettagli Unità (Opzionale)</label>
+                            <input id="unitDetail" formControlName="unitDetail" placeholder="es. Piano 3, Interno A" 
+                                   class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
                         </div>
-                        <div class="sm:col-span-2">
-                            <label for="houseNumber" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Numero Civico</label>
-                            <input id="houseNumber" formControlName="houseNumber" class="input-modern" placeholder="es. 12">
+                        <div>
+                            <label for="city" class="block text-sm font-semibold text-olive-900 mb-1">Città</label>
+                            <input id="city" formControlName="city" 
+                                   class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
                         </div>
-                        <div class="sm:col-span-2">
-                            <label for="country" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Paese</label>
-                            <input id="country" formControlName="country" class="input-modern" placeholder="es. Italia">
+                        <div>
+                            <label for="postalCode" class="block text-sm font-semibold text-olive-900 mb-1">CAP</label>
+                            <input id="postalCode" formControlName="postalCode" type="number" 
+                                   class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-olive-900 mb-1">Provincia</label>
+                            <input type="text" formControlName="state" placeholder="es. NA" 
+                                   class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
+                        </div>
+                        <div>
+                            <label for="country" class="block text-sm font-semibold text-olive-900 mb-1">Paese</label>
+                            <input id="country" formControlName="country" placeholder="es. Italia" 
+                                   class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
                         </div>
                     </div>
 
                     <div class="flex justify-between pt-6">
-                        <button type="button" (click)="prevStep()" class="btn-secondary">Indietro</button>
-                        <button type="submit" class="btn-primary">Prosegui</button>
+                        <button type="button" (click)="prevStep()" 
+                                class="rounded-md bg-white px-4 py-2 text-sm font-bold text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 hover:bg-olive-50 hover:text-olive-500 transition-colors duration-200">
+                            Indietro
+                        </button>
+                        
+                        <button type="submit" 
+                                class="rounded-md bg-olive-500 px-6 py-2 text-sm font-bold text-white shadow-md hover:bg-olive-400 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive-500 transition-all duration-200 active:scale-95">
+                            Prosegui
+                        </button>
                     </div>
                 </form>
             </div>
 
             <div *ngIf="currentStep === 3">
-                <h2 class="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Informazioni Commerciali</h2>
-                <form [formGroup]="step3" (ngSubmit)="onSubmit()" class="space-y-6">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <h2 class="text-2xl font-bold mb-6 text-olive-900">Informazioni Commerciali</h2>
+                <form [formGroup]="step3" (ngSubmit)="onSubmit()" class="space-y-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         <div>
-                            <label for="vatNumber" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Partita IVA / Codice Fiscale</label>
-                            <input id="vatNumber" formControlName="vatNumber" placeholder="es. 12345678901" class="input-modern">
-                            <div *ngIf="step3.get('vatNumber')?.invalid && step3.get('vatNumber')?.touched" class="text-red-500 text-sm mt-1">Partita IVA richiesta.</div>
+                            <label for="vatNumber" class="block text-sm font-semibold text-olive-900 mb-1">Partita IVA / C.F.</label>
+                            <input id="vatNumber" formControlName="vatNumber" placeholder="es. 12345678901" 
+                                   class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
+                            <div *ngIf="step3.get('vatNumber')?.invalid && step3.get('vatNumber')?.touched" class="text-red-600 text-xs mt-1 font-medium">Partita IVA richiesta.</div>
                         </div>
                         <div>
-                            <label for="phone" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Telefono Agenzia</label>
-                            <input id="phone" formControlName="phone" placeholder="es. 06 123456" class="input-modern">
-                            <div *ngIf="step3.get('phone')?.invalid && step3.get('phone')?.touched" class="text-red-500 text-sm mt-1">Telefono richiesto.</div>
+                            <label for="phone" class="block text-sm font-semibold text-olive-900 mb-1">Telefono Agenzia</label>
+                            <input id="phone" formControlName="phone" placeholder="es. 06 123456" 
+                                   class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
+                            <div *ngIf="step3.get('phone')?.invalid && step3.get('phone')?.touched" class="text-red-600 text-xs mt-1 font-medium">Telefono richiesto.</div>
                         </div>
                     </div>
                     <div>
-                        <label for="website" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Sito Web (URL)</label>
-                        <input id="website" formControlName="website" placeholder="es. https://www.tuoagenzia.it" class="input-modern">
+                        <label for="website" class="block text-sm font-semibold text-olive-900 mb-1">Sito Web (URL)</label>
+                        <input id="website" formControlName="website" placeholder="es. https://www.tuoagenzia.it" 
+                               class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
                     </div>
                     <div>
-                        <label for="description" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Descrizione Agenzia</label>
-                        <textarea id="description" formControlName="description" rows="3" placeholder="Parla della tua agenzia, della missione e delle aree coperte." 
-                                  class="input-modern resize-y"></textarea>
+                        <label for="description" class="block text-sm font-semibold text-olive-900 mb-1">Descrizione Agenzia</label>
+                        <textarea id="description" formControlName="description" rows="3" placeholder="Parla della tua agenzia..." 
+                                  class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white resize-y"></textarea>
                     </div>
 
                     <div class="flex justify-between pt-6">
-                        <button type="button" (click)="prevStep()" class="btn-secondary">Indietro</button>
-                        <button type="submit" class="btn-primary">Registra Agenzia</button>
+                        <button type="button" (click)="prevStep()" 
+                                class="rounded-md bg-white px-4 py-2 text-sm font-bold text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 hover:bg-olive-50 hover:text-olive-500 transition-colors duration-200">
+                            Indietro
+                        </button>
+                        <button type="submit" 
+                                class="rounded-md bg-olive-500 px-6 py-2 text-sm font-bold text-white shadow-md hover:bg-olive-400 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive-500 transition-all duration-200 active:scale-95">
+                            Registra Agenzia
+                        </button>
                     </div>
                 </form>
             </div>

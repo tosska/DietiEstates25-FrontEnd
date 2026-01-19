@@ -15,15 +15,18 @@ import { PropertyType } from '../../_services/listing-backend/propertyType';
 @Component({
   selector: 'app-search-bar',
   standalone: true,
-  imports: [FilterModalComponent, FormsModule, CommonModule, ReactiveFormsModule, GeoModalComponent],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './search-bar.component.html',
   styleUrl: './search-bar.component.scss'
 })
 export class SearchBarComponent {
 
   private router = inject(Router);
-  isFilterModalOpen = false;
-  isGeoModalOpen = false;
+
+  // OUTPUT per dire alla Homepage di aprire i modali
+  @Output() toggleFilterModal = new EventEmitter<void>();
+  @Output() toggleGeoModal = new EventEmitter<void>();
+
   dropdownVisibleMap = false;
   geoService = inject(GeoService);
   searchService = inject(SearchBackendService);
@@ -111,18 +114,16 @@ export class SearchBarComponent {
   }
 
   openFilters() {
-    console.log('Apro il modal');
-    this.isFilterModalOpen = true;
+    // Emettiamo l'evento invece di settare una variabile locale
+    this.toggleFilterModal.emit();
   }
 
-  closeFilters() {
-    this.isFilterModalOpen = false;
-  }
+  // closeFilters non serve più qui
 
   handleApplyFilters(filters: any) {
-    console.log('Filtri ricevuti dal modal:', filters);
-    this.closeFilters();
-
+    // Questa funzione viene chiamata dalla Homepage quando il filtro è applicato
+    console.log('Filtri applicati');
+    // Qui puoi gestire logiche aggiuntive se necessario
   }
 
   hideDropdownWithDelay() {
@@ -132,14 +133,12 @@ export class SearchBarComponent {
   }
 
   onMapSearchClick() {
-    console.log('Apertura mappa interattiva...');
     this.dropdownVisibleMap = false;
-    this.isGeoModalOpen = true;
+    // Emettiamo l'evento per la mappa
+    this.toggleGeoModal.emit();
   }
 
-  closeMap() {
-    this.isGeoModalOpen = false;
-  }
+  // closeMap non serve più qui
 
   getPropertyTypes(){
 

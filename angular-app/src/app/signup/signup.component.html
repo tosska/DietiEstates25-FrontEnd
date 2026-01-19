@@ -1,158 +1,152 @@
-<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-gray-100 dark:bg-gray-900">
+<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-olive-50">
 
-  <!-- Contenitore del form -->
-  <div class="w-full flex flex-col justify-center items-center px-6 py-6 lg:px-8 max-w-md mx-auto">
+  <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-md bg-white p-8 rounded-2xl shadow-xl border border-olive-100">
+    
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <h2
-        class="text-center text-3xl font-extrabold leading-tight tracking-wide text-[#1A1A1A] dark:text-[#E6E6E6] mb-6">
+      <h2 class="text-center text-3xl font-extrabold leading-tight tracking-wide text-olive-900 mb-6">
         Crea un account
       </h2>
 
-      <app-google-social-button (socialUserEvent)="importDataFromGoogle($event)"
-      [mode]="'signup'">
-      </app-google-social-button>
+      <div class="flex flex-col gap-6">
+          <app-google-social-button (socialUserEvent)="importDataFromGoogle($event)" [mode]="'signup'"></app-google-social-button>
 
-      <app-facebook-social-button (socialUserEvent)="importDataFromFacebook($event)"
-      [mode]="'signup'">
-      </app-facebook-social-button>
+          <app-facebook-social-button (socialUserEvent)="importDataFromFacebook($event)" [mode]="'signup'"></app-facebook-social-button>
+      </div>
 
 
-      <div class="relative py-4">
+      <div class="relative py-6">
         <div class="absolute inset-0 flex items-center">
-          <span class="w-full border-t border-gray-300 dark:border-gray-700"></span>
+          <span class="w-full border-t border-olive-200"></span>
         </div>
         <div class="relative flex justify-center text-xs uppercase">
-          <span class="bg-gray-50 dark:bg-gray-900 px-2 text-gray-500 dark:text-gray-400">
+          <span class="bg-white px-2 text-olive-900/60 font-medium">
             oppure
           </span>
         </div>
       </div>
 
-      <form class="space-y-6" [formGroup]="signupForm" (ngSubmit)="handleSignup()">
+      <form class="space-y-5" [formGroup]="signupForm" (ngSubmit)="handleSignup()">
         <div>
-          <label for="name" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#E6E6E6]">Nome</label>
+          <label for="name" class="block text-sm font-semibold text-olive-900">Nome</label>
           <div class="mt-2">
             <input id="name" type="text" formControlName="name" placeholder="Il tuo nome"
-              class="block w-full rounded-md border-0 py-2 bg-gray-50/70 dark:bg-[#202538] text-[#1A1A1A] dark:text-[#E6E6E6] shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#42A5F5] dark:focus:ring-[#64B5F6] sm:text-sm sm:leading-6 transition-colors duration-200">
+              class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
             @if(submitted && signupForm.controls.name.errors){
-            @if(signupForm.controls.name.errors['required']){
-            <p class="form-error mt-1 text-xs text-red-500 dark:text-red-400">Il nome è richiesto.</p>
-            }
+              @if(signupForm.controls.name.errors['required']){
+                <p class="form-error mt-1 text-xs text-red-600 font-medium">Il nome è richiesto.</p>
+              }
             }
           </div>
         </div>
 
         <div>
-          <label for="surname" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#E6E6E6]">Cognome</label>
+          <label for="surname" class="block text-sm font-semibold text-olive-900">Cognome</label>
           <div class="mt-2">
             <input id="surname" type="text" formControlName="surname" placeholder="Il tuo cognome"
-              class="block w-full rounded-md border-0 py-2 bg-gray-50/70 dark:bg-[#202538] text-[#1A1A1A] dark:text-[#E6E6E6] shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#42A5F5] dark:focus:ring-[#64B5F6] sm:text-sm sm:leading-6 transition-colors duration-200">
+              class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
             @if(submitted && signupForm.controls.surname.errors){
-            @if(signupForm.controls.surname.errors['required']){
-            <p class="form-error mt-1 text-xs text-red-500 dark:text-red-400">Il cognome è richiesto.</p>
-            }
+              @if(signupForm.controls.surname.errors['required']){
+                <p class="form-error mt-1 text-xs text-red-600 font-medium">Il cognome è richiesto.</p>
+              }
             }
           </div>
         </div>
 
         <div>
-          <label for="phone" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#E6E6E6]">Telefono</label>
+          <label for="phone" class="block text-sm font-semibold text-olive-900">Telefono</label>
           <div class="mt-2">
             <input id="phone" type="tel" formControlName="phone" placeholder="+39 123 456 7890"
-              class="block w-full rounded-md border-0 py-2 bg-gray-50/70 dark:bg-[#202538] text-[#1A1A1A] dark:text-[#E6E6E6] shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#42A5F5] dark:focus:ring-[#64B5F6] sm:text-sm sm:leading-6 transition-colors duration-200">
+              class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
             @if(submitted && signupForm.controls.phone.errors){
-            @if(signupForm.controls.phone.errors['required']){
-            <p class="form-error mt-1 text-xs text-red-500 dark:text-red-400">Il numero di telefono è richiesto.</p>
-            }
+              @if(signupForm.controls.phone.errors['required']){
+                <p class="form-error mt-1 text-xs text-red-600 font-medium">Il numero di telefono è richiesto.</p>
+              }
             }
           </div>
         </div>
 
         <div>
-          <label for="user" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#E6E6E6]">Email</label>
+          <label for="user" class="block text-sm font-semibold text-olive-900">Email</label>
           <div class="mt-2">
             <input type="text" formControlName="user" id="user" placeholder="tua@email.com"
-              class="block w-full rounded-md border-0 py-2 text-[#1A1A1A] dark:text-[#E6E6E6] bg-gray-50/70 dark:bg-[#202538] shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#42A5F5] dark:focus:ring-[#64B5F6] sm:text-sm sm:leading-6 transition-colors duration-200">
+              class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
             @if(submitted && signupForm.controls.user.errors){
-            @if(signupForm.controls.user.errors['required']){
-            <p class="form-error mt-1 text-xs text-red-500 dark:text-red-400">L'email è richiesta.</p>
-            }
+              @if(signupForm.controls.user.errors['required']){
+                <p class="form-error mt-1 text-xs text-red-600 font-medium">L'email è richiesta.</p>
+              }
             }
           </div>
         </div>
 
         <div>
-          <label for="password" class="block text-sm font-medium text-[#1A1A1A] dark:text-[#E6E6E6]">Password</label>
+          <label for="password" class="block text-sm font-semibold text-olive-900">Password</label>
           <div class="mt-2">
             <input type="password" formControlName="pass" id="pass" placeholder="••••••••"
-              class="block w-full rounded-md border-0 py-2 text-[#1A1A1A] dark:text-[#E6E6E6] bg-gray-50/70 dark:bg-[#202538] shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-600 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-[#42A5F5] dark:focus:ring-[#64B5F6] sm:text-sm sm:leading-6 transition-colors duration-200">
+              class="block w-full rounded-md border-0 py-2 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm sm:leading-6 transition-colors duration-200 focus:bg-white">
             @if(submitted && signupForm.controls.pass.errors){
-            @if(signupForm.controls.pass.errors['required']){
-            <p class="form-error mt-1 text-xs text-red-500 dark:text-red-400">La password è richiesta.</p>
-            }
-            @if(signupForm.controls.pass.errors['minlength']){
-            <p class="form-error mt-1 text-xs text-red-500 dark:text-red-400">La password deve contenere almeno 4
-              caratteri.</p>
-            }
+              @if(signupForm.controls.pass.errors['required']){
+                <p class="form-error mt-1 text-xs text-red-600 font-medium">La password è richiesta.</p>
+              }
+              @if(signupForm.controls.pass.errors['minlength']){
+                <p class="form-error mt-1 text-xs text-red-600 font-medium">La password deve contenere almeno 4 caratteri.</p>
+              }
             }
           </div>
         </div>
 
         <div>
           <button type="submit"
-            class="flex w-full justify-center rounded-md bg-[#4CAF50] dark:bg-[#66BB6A] px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-[#2E7D32] dark:hover:bg-[#388E3C] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2E7D32] dark:focus-visible:outline-[#388E3C] transition-colors duration-200">
+            class="flex w-full justify-center rounded-md bg-olive-500 px-3 py-2 text-sm font-bold leading-6 text-white shadow-md hover:bg-olive-400 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive-500 transition-all duration-200 ease-in-out transform active:scale-95">
             Registrati
           </button>
         </div>
       </form>
 
-      <p class="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+      <p class="mt-6 text-center text-sm text-olive-900/70">
         Hai già un account?
         <a routerLink="/login"
-          class="font-bold text-[#4CAF50] dark:text-[#66BB6A] hover:text-[#2E7D32] dark:hover:text-[#388E3C] transition-colors duration-200">Accedi</a>
+          class="font-bold text-olive-500 hover:text-olive-400 hover:underline transition-colors duration-200">Accedi</a>
       </p>
     </div>
   </div>
 </div>
 
 
-
 @if (showPhoneModal) {
-<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-  <div class="bg-white dark:bg-[#1A1C2E] w-full max-w-sm rounded-xl shadow-2xl p-6 transform transition-all">
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-olive-900/60 backdrop-blur-sm">
+  <div class="bg-white w-full max-w-sm rounded-xl shadow-2xl p-6 transform transition-all border border-olive-100">
 
     <div class="text-center">
       <div
-        class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 dark:bg-green-900/30 mb-4">
-        <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-olive-100 mb-4">
+        <svg class="h-6 w-6 text-olive-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
         </svg>
       </div>
-      <h3 class="text-xl font-bold text-gray-900 dark:text-white">Ultimo passaggio!</h3>
-      <p class="text-sm text-gray-500 dark:text-gray-400 mt-2">
+      <h3 class="text-xl font-bold text-olive-900">Ultimo passaggio!</h3>
+      <p class="text-sm text-olive-900/70 mt-2">
         Ciao {{ socialUserToSignup?.name }}, abbiamo quasi finito. Inserisci il tuo numero di telefono per completare la
         registrazione.
       </p>
     </div>
 
     <form class="mt-6" [formGroup]="socialPhoneForm" (ngSubmit)="insertPhoneAndSocialSignup()">
-      <label for="modal-phone" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Telefono</label>
+      <label for="modal-phone" class="block text-sm font-semibold text-olive-900">Telefono</label>
       <input id="modal-phone" type="tel" formControlName="phone" placeholder="+39 333 1234567"
-        class="mt-2 block w-full rounded-md border-0 py-2.5 bg-gray-50 dark:bg-[#252A41] text-gray-900 dark:text-white shadow-sm ring-1 ring-inset ring-gray-300 dark:ring-gray-700 focus:ring-2 focus:ring-green-500 sm:text-sm">
+        class="mt-2 block w-full rounded-md border-0 py-2.5 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 focus:ring-2 focus:ring-olive-500 sm:text-sm focus:bg-white transition-colors">
 
       <div class="mt-8 flex flex-col gap-3">
         <button type="submit"
-          class="w-full inline-flex justify-center rounded-md bg-green-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-700 transition-colors">
+          class="w-full inline-flex justify-center rounded-md bg-olive-500 px-4 py-2.5 text-sm font-bold text-white shadow-sm hover:bg-olive-400 transition-colors">
           Completa Registrazione
         </button>
         <button (click)="showPhoneModal = false"
-          class="w-full inline-flex justify-center rounded-md bg-white dark:bg-transparent px-4 py-2.5 text-sm font-semibold text-gray-900 dark:text-gray-300 ring-1 ring-inset ring-gray-300 dark:ring-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
+          class="w-full inline-flex justify-center rounded-md bg-white px-4 py-2.5 text-sm font-bold text-olive-900 ring-1 ring-inset ring-olive-200 hover:bg-olive-50 transition-colors">
           Annulla
         </button>
       </div>
 
     </form>
-
 
   </div>
 </div>

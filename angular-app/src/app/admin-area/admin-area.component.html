@@ -1,76 +1,86 @@
-<div class="min-h-screen bg-gray-50 dark:bg-gray-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-olive-50 flex flex-col pt-20 pb-12 sm:px-6 lg:px-8">
+  
   <div class="sm:mx-auto sm:w-full sm:max-w-md">
-    <div class="mx-auto h-12 w-12 bg-[#4CAF50] rounded-xl flex items-center justify-center shadow-lg shadow-green-500/20">
+    <div class="mx-auto h-12 w-12 bg-olive-500 rounded-xl flex items-center justify-center shadow-lg shadow-olive-500/20">
       <svg class="h-8 w-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" />
       </svg>
     </div>
-    <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
+    
+    <h2 class="mt-4 text-center text-3xl font-extrabold text-olive-900">
       Nuovo Agente
     </h2>
-    <p class="mt-2 text-center text-sm text-gray-600 dark:text-gray-400">
+    <p class="mt-2 text-center text-sm text-olive-900/60 font-medium">
       Inserisci i dati per creare un nuovo profilo agente
     </p>
   </div>
 
   <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-xl">
-    <div class="bg-white dark:bg-gray-800 py-8 px-4 shadow-2xl shadow-gray-200/50 dark:shadow-none sm:rounded-2xl sm:px-10 border border-gray-100 dark:border-gray-700">
+    <div class="bg-white py-8 px-4 shadow-xl border border-olive-100 sm:rounded-2xl sm:px-10">
       
       <form [formGroup]="agentForm" (ngSubmit)="handleCreateAgent()" class="space-y-6">
         
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div>
-            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Nome</label>
+            <label class="block text-sm font-semibold text-olive-900 mb-1">Nome</label>
             <div class="relative">
-              <input formControlName="name" type="text" placeholder="Mario" class="input-modern">
+              <input formControlName="name" type="text" placeholder="Mario" 
+                     class="block w-full rounded-md border-0 py-2.5 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm focus:bg-white transition-colors duration-200">
             </div>
           </div>
 
           <div>
-            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Cognome</label>
-            <input formControlName="surname" type="text" placeholder="Rossi" class="input-modern">
+            <label class="block text-sm font-semibold text-olive-900 mb-1">Cognome</label>
+            <input formControlName="surname" type="text" placeholder="Rossi" 
+                   class="block w-full rounded-md border-0 py-2.5 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm focus:bg-white transition-colors duration-200">
           </div>
         </div>
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div>
-            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Telefono</label>
+            <label class="block text-sm font-semibold text-olive-900 mb-1">Telefono</label>
             <div class="relative">
-              <input formControlName="phone" type="text" placeholder="+39 ..." class="input-modern pl-10">
+              <input formControlName="phone" type="text" placeholder="+39 ..." 
+                     class="block w-full rounded-md border-0 py-2.5 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm focus:bg-white transition-colors duration-200">
             </div>
           </div>
 
           <div>
-            <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Email</label>
+            <label class="block text-sm font-semibold text-olive-900 mb-1">Email</label>
             <div class="relative">
-              <input formControlName="email" type="email" placeholder="mario@agenzia.it" class="input-modern pl-10">
+              <input formControlName="email" type="email" placeholder="mario@agenzia.it" 
+                     class="block w-full rounded-md border-0 py-2.5 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm focus:bg-white transition-colors duration-200">
             </div>
           </div>
         </div>
 
         <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
             <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Partita IVA</label>
-              <input formControlName="vatNumber" type="text" placeholder="IT..." class="input-modern">
-              <div *ngIf="agentForm.get('vatNumber')?.invalid && agentForm.get('vatNumber')?.touched" class="text-red-500 text-xs mt-1">
+              <label class="block text-sm font-semibold text-olive-900 mb-1">Partita IVA</label>
+              <input formControlName="vatNumber" type="text" placeholder="IT..." 
+                     class="block w-full rounded-md border-0 py-2.5 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm focus:bg-white transition-colors duration-200">
+              <div *ngIf="agentForm.get('vatNumber')?.invalid && agentForm.get('vatNumber')?.touched" class="text-red-600 text-xs mt-1 font-medium">
                 Campo obbligatorio
               </div>
             </div>
   
             <div>
-              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Anni Esperienza</label>
-              <input formControlName="yearsExperience" type="number" placeholder="0" class="input-modern">
+              <label class="block text-sm font-semibold text-olive-900 mb-1">Anni Esperienza</label>
+              <input formControlName="yearsExperience" type="number" placeholder="0" 
+                     class="block w-full rounded-md border-0 py-2.5 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm focus:bg-white transition-colors duration-200">
             </div>
         </div>
+
         <div>
-          <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Password Temporanea</label>
-          <input formControlName="password" type="password" placeholder="••••••••" class="input-modern">
-          <p class="mt-1 text-xs text-gray-500">L'agente potrà cambiare la password al primo accesso.</p>
+          <label class="block text-sm font-semibold text-olive-900 mb-1">Password Temporanea</label>
+          <input formControlName="password" type="password" placeholder="••••••••" 
+                 class="block w-full rounded-md border-0 py-2.5 bg-olive-50 text-olive-900 shadow-sm ring-1 ring-inset ring-olive-200 placeholder:text-olive-900/40 focus:ring-2 focus:ring-inset focus:ring-olive-500 sm:text-sm focus:bg-white transition-colors duration-200">
+          <p class="mt-2 text-xs text-olive-900/60 font-medium">L'agente potrà cambiare la password al primo accesso.</p>
         </div>
 
         <div class="pt-4">
           <button type="submit" [disabled]="agentForm.invalid || isLoading"
-                  class="btn-primary w-full py-3 text-base shadow-lg shadow-green-500/30 flex justify-center items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                  class="w-full flex justify-center items-center space-x-2 rounded-md bg-olive-500 px-4 py-3 text-sm font-bold text-white shadow-md hover:bg-olive-400 hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-olive-500 transition-all duration-200 ease-in-out transform active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed">
             <svg *ngIf="!isLoading" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span *ngIf="!isLoading">Crea Profilo Agente</span>
             <span *ngIf="isLoading">Creazione in corso...</span>

@@ -1,35 +1,40 @@
-/* You can add global styles to this file, and also import other style files */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @import 'ngx-toastr/toastr';
 
-.toast-success {
-  @apply bg-teal-500;
-}
-.toast-error {
-  background-color: #BD362F;
-}
-.toast-info {
-  background-color: #2F96B4;
-}
-.toast-warning {
-  background-color: #F89406;
-}
-
-a.link {
-  @apply underline text-teal-600 dark:text-teal-400 hover:text-teal-700 visited:text-teal-800 dark:visited:text-amber-400
-}
-
-.form-error{
-  @apply text-red-600 dark:text-red-400 text-sm pt-2;
+/* --- NUOVA PALETTE PERSONALIZZATA --- */
+:root {
+  /* Background: #F2F3EE */
+  --color-olive-50: #F2F3EE;
+  
+  /* Tinte intermedie per input/bordi/hover generate per armonia */
+  --color-olive-100: #E6E8E1;  /* Input bg */
+  --color-olive-200: #C8D1BE;  /* Bordi */
+  --color-olive-300: #9EB58E;  /* Focus rings */
+  --color-olive-400: #719C75;  /* Hover bottoni */
+  
+  /* Buttons: #58C187 */
+  --color-olive-500: #58C187; 
+  
+  /* Text: #2D4014 (Usiamo la gradazione 900 per il testo scuro) */
+  --color-olive-900: #2D4014;
 }
 
+/* Classi globali */
+.text-primary { color: var(--color-olive-900); } /* Testo scuro */
+.bg-primary { background-color: var(--color-olive-500); } /* Bottoni verdi */
 
-@layer utilities {
-  .shadow-white {
-    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.5);
-  }
-}
+/* Stili Toast */
+.toast-success { @apply bg-teal-500; }
+.toast-error { background-color: #BD362F; }
+.toast-info { background-color: #2F96B4; }
+.toast-warning { background-color: #F89406; }
 
+/* Link: Usano il colore del testo principale o del bottone per enfasi? 
+   Uso il verde scuro per leggibilità o il verde brillante per link attivi. 
+   Qui metto il verde scuro per eleganza. */
+a.link { @apply underline text-olive-900 hover:text-olive-500 transition-colors; }
+
+.form-error { @apply text-red-600 text-sm pt-2; }

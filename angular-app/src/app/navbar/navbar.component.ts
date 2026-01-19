@@ -1,7 +1,6 @@
 import { Component, effect, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CommonModule } from '@angular/common'; 
-import { DarkModeToggleComponent } from './dark-mode-toggle/dark-mode-toggle.component';
 import { AuthService } from '../_services/auth/auth.service';
 import { AgencyBackendService } from '../_services/agency-backend/agency-backend.service';
 import { CustomerBackendService } from '../_services/customer-backend/customer-backend.service';
@@ -12,7 +11,7 @@ import { UserDropdownComponent } from './user-dropdown/user-dropdown.component';
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, DarkModeToggleComponent, UserDropdownComponent],
+  imports: [CommonModule, RouterLink, RouterLinkActive, UserDropdownComponent],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
