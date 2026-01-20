@@ -7,6 +7,12 @@ module.exports = {
   ],
   theme: {
     extend: {
+      // --- AGGIUNTA FONT ---
+      fontFamily: {
+        // Impostando 'sans', Tailwind userà questo font di default per tutto il sito
+        sans: ['Montserrat', 'sans-serif'], 
+      },
+      // ---------------------
       colors: {
         olive: {
           50: 'var(--color-olive-50)',   // Sfondo #F2F3EE
