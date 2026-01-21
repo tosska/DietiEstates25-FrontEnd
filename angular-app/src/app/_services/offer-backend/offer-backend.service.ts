@@ -42,4 +42,15 @@ export class OfferBackendService {
   getOfferHistoryForListingByCustomer(listingId: number) {
     return this.http.get<Offer[]>(`${this.url}/customer/offers/history/listing/${listingId}`);
   }
+
+  getLatestOfferReadStatus(listingIds: number[]) {
+    return this.http.post<Offer[]>(`${this.url}/offers/read-status`, {listingIds: listingIds});
+
+  }
+
+  markOfferAsRead(offerId: number) {
+    return this.http.put(`${this.url}/offers/${offerId}/read`, {});
+  }
+
+  
 }

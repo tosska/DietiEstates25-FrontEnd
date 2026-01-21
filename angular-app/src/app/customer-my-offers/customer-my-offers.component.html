@@ -10,17 +10,41 @@
     </p>
   </div>
 
-  @if (offeredListings && offeredListings.length > 0) {
+  <div class="flex p-1.5 bg-olive-100/50 rounded-2xl w-full lg:w-auto border border-olive-100 mb-8 max-w-md">
+    <button (click)="setFilter('active')"
+      [class]="activeFilter === 'active' ? 'bg-white text-olive-500 shadow-sm ring-1 ring-olive-100' : 'text-olive-900/60 hover:text-olive-900'"
+      class="flex-1 px-6 py-2.5 text-sm font-bold rounded-xl transition-all duration-300">
+      Attive
+    </button>
+    
+    <button (click)="setFilter('closed')"
+      [class]="activeFilter === 'closed' ? 'bg-white text-red-600 shadow-sm ring-1 ring-red-100' : 'text-olive-900/60 hover:text-red-600'"
+      class="flex-1 px-6 py-2.5 text-sm font-bold rounded-xl transition-all duration-300">
+      Chiuse / Concluse
+    </button>
+  </div>
+  @if (listingsToShow && listingsToShow.length > 0) {
     
     <div class="space-y-6">
       
-      @for (listing of offeredListings; track listing.id) {
-        
-        <app-listing-card 
-          [listing]="listing"
-          [buttonText]="'Vedi Offerte'"
-          (cardClick)="openTracking(listing.id)"> 
-        </app-listing-card>
+      @for (listing of listingsToShow; track listing.id) {
+
+        @if(listing.isRead === false) {
+          <app-listing-card 
+            [listing]="listing"
+            [buttonText]="'Vedi Offerte'"
+            [extraMessage]="'Hai ricevuto una nuova risposta!'"
+            (cardClick)="openTracking(listing.id)"> 
+          </app-listing-card>
+
+        } @else {
+          <app-listing-card 
+            [listing]="listing"
+            [buttonText]="'Vedi Offerte'"
+            (cardClick)="openTracking(listing.id)"> 
+          </app-listing-card> 
+        }
+      
       }
 
     </div>
@@ -38,17 +62,23 @@
         Nessuna offerta trovata
       </h3>
       <p class="mt-2 text-olive-900/60 font-medium">
-        Non hai ancora fatto un'offerta per nessun annuncio.
+        @if (activeFilter === 'active') {
+            Non hai offerte attive al momento.
+        } @else {
+            Non hai trattative chiuse o concluse.
+        }
       </p>
       
-      <div class="mt-8">
-        <a routerLink="/homepage" 
-           class="inline-flex items-center bg-olive-500 text-white font-bold 
-                  py-3 px-6 rounded-2xl shadow-lg shadow-olive-200 hover:bg-olive-400 
-                  transition-all duration-200 transform active:scale-95 hover:-translate-y-0.5">
-          Cerca annunci
-        </a>
-      </div>
+      @if (activeFilter === 'active') {
+        <div class="mt-8">
+            <a routerLink="/homepage" 
+            class="inline-flex items-center bg-olive-500 text-white font-bold 
+                    py-3 px-6 rounded-2xl shadow-lg shadow-olive-200 hover:bg-olive-400 
+                    transition-all duration-200 transform active:scale-95 hover:-translate-y-0.5">
+            Cerca annunci
+            </a>
+        </div>
+      }
     </div>
   }
 

@@ -112,6 +112,7 @@ export class OfferModalComponent {
       this.offerService.createOffer(offerData).subscribe({
         next: (offerId) => {
           this.toastr.success(`Offerta effettuata con successo!`, 'Successo!');
+          this.submitted.emit();
           this.closeModal();
         },
         error: (error) => {

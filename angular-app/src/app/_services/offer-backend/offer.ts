@@ -13,4 +13,5 @@ export interface Offer {
   agent_id: number;
   listing_id: number;
   customer?: Customer;
+  isRead: boolean;
 }

@@ -27,6 +27,7 @@ export class CustomerListingTrackingComponent {
 
   canRespond: boolean = false;
   canCreateNewOffer: boolean = false;
+  offerAccepted: boolean = false
 
   @ViewChild('chatContainer') private chatContainer!: ElementRef;
 
@@ -48,6 +49,8 @@ export class CustomerListingTrackingComponent {
         this.setScrollToBottom();
         this.checkCanRespond();
         this.checkCanCreateNewOffer();
+        this.checkAcceptedOffer();
+        this.readOffer();
       },
       error: (error) => {
         console.error('Errore nel caricamento della cronologia delle offerte:', error);
@@ -65,21 +68,43 @@ setScrollToBottom(): void {
 }
 
 
-  checkCanRespond() {
+checkCanRespond() {
+    // Resettiamo sempre prima di calcolare
+    this.canRespond = false; 
 
     if (this.offersHistory.length != 0 && this.latestOffer) {
-      this.canRespond = this.latestOffer.status === 'Pending' && this.latestOffer.counteroffer;
+      // Puoi rispondere solo se è Pending E se è una controfferta (quindi tocca a te)
+      this.canRespond = this.latestOffer.status === 'Pending' && this.latestOffer.counteroffer === true;
     }
   }
 
   checkCanCreateNewOffer(){
-    if (this.offersHistory.length != 0 && this.latestOffer) {
-  
-      if(this.latestOffer.status === 'Rejected'){this.canCreateNewOffer = true;}
-      
+    // Caso 0: Nessuna offerta nello storico -> DEVI poter fare la prima offerta
+    if (this.offersHistory.length === 0) {
+      this.canCreateNewOffer = true;
+      return;
+    }
+
+    if (this.latestOffer) {
+      // Se c'è uno storico:
+      // Puoi creare una nuova offerta SOLO se l'ultima è stata Rifiutata (Rejected).
+      // Se è Pending (in attesa) o Accepted (accettata), NON puoi farne una nuova.
+      this.canCreateNewOffer = this.latestOffer.status === 'Rejected';
+    } else {
+      // Fallback di sicurezza
+      this.canCreateNewOffer = false;
     }
   }
 
+  checkAcceptedOffer(){
+    this.offerAccepted = false; // Reset
+
+    if (this.offersHistory.length != 0 && this.latestOffer) {
+      if(this.latestOffer.status === 'Accepted'){
+        this.offerAccepted = true;
+      }
+    }
+  }
 
 
   openOfferModal(): void {
@@ -115,5 +140,27 @@ setScrollToBottom(): void {
     if(this.canRespond){
       this.rejectOffer();
     }
+
+    this.loadOffersHistory(this.listingId!);
   }
+
+
+// Metodo chiamato al click sulla card o sul bottone
+  readOffer(): void {
+
+    // 1. Controlla se c'è un'offerta non letta e se abbiamo il suo ID
+
+      
+      this.offerService.markOfferAsRead(this!.latestOffer!.id).subscribe({
+        next: (response) => {
+          console.log('Offerta segnata come letta:', response);
+        },
+        error: (err) => {
+          console.error('Errore nel segnare l\'offerta come letta:', err);
+          // Consiglio: Naviga comunque alla pagina di dettaglio anche se la chiamata fallisce
+          // this.router.navigate(['/listings', listing.id]);
+        }
+      });
+    }
+
 }

@@ -17,6 +17,7 @@ export class ListingCardComponent {
   @Input() listing!: Listing;
   @Input() buttonText: string = 'Dettagli';
   @Input() IsWithoutButton: boolean = false;
+  @Input() extraMessage: string = "";
 
 
   @Output() cardClick = new EventEmitter<void>();

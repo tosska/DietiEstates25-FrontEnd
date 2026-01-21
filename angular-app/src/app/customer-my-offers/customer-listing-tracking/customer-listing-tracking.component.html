@@ -162,13 +162,20 @@
         </div>
       } 
       
-      @else {
+      @else if (offerAccepted) {
+        <div class="flex items-center justify-center py-4 bg-olive-50 rounded-2xl border border-dashed border-olive-200">
+          <span class="text-sm font-bold text-olive-900/40 italic flex items-center gap-2">
+            L'offerta è stata accettata dall'agente. Tra pochi istanti verrai contattato.
+          </span>
+        </div>
+      } @else {
         <div class="flex items-center justify-center py-4 bg-olive-50 rounded-2xl border border-dashed border-olive-200">
           <span class="text-sm font-bold text-olive-900/40 italic flex items-center gap-2">
             <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path></svg>
             In attesa di risposta dall'agente...
           </span>
         </div>
+
       }
     </footer>
   </main>
