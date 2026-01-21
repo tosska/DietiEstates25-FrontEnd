@@ -3,43 +3,43 @@
   <div class="flex flex-col sm:flex-row sm:items-center gap-4 mb-8">
     
     <button (click)="goHome()" 
-            class="group flex items-center gap-2 px-4 py-2 text-sm font-semibold text-gray-600 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 hover:border-[#4e8c22] hover:text-[#4e8c22] transition-all duration-200 shadow-sm w-fit">
+            class="group flex items-center gap-2 px-4 py-2 text-sm font-semibold text-olive-900 bg-white border border-olive-200 rounded-xl hover:bg-olive-50 hover:border-olive-500 hover:text-olive-500 transition-all duration-200 shadow-sm w-fit">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform group-hover:-translate-x-1 transition-transform duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
       </svg>
       Torna indietro
     </button>
 
-    <h1 class="text-3xl font-bold text-[#4e8c22]">Annunci Immobiliari</h1>
+    <h1 class="text-3xl font-bold text-olive-900">Annunci Immobiliari</h1>
   </div>
 
   @if (isLoading) {
     <div class="flex flex-col items-center justify-center h-[60vh] space-y-4 animate-fade-in">
       <div class="relative">
-        <div class="w-16 h-16 border-4 border-gray-200 rounded-full"></div>
-        <div class="w-16 h-16 border-4 border-t-[#4e8c22] border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin absolute top-0 left-0"></div>
+        <div class="w-16 h-16 border-4 border-olive-200 rounded-full"></div>
+        <div class="w-16 h-16 border-4 border-t-olive-500 border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin absolute top-0 left-0"></div>
       </div>
-      <p class="text-gray-500 font-medium text-lg">Ricerca in corso...</p>
+      <p class="text-olive-900 font-medium text-lg">Ricerca in corso...</p>
     </div>
   }
 
   @else if (zeroResult) {
     <div class="flex flex-col items-center justify-center h-[60vh] text-center space-y-8 animate-fade-in">
-      <div class="bg-gray-100 p-8 rounded-full shadow-inner">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div class="bg-olive-100 p-8 rounded-full shadow-inner">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 text-olive-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
         </svg>
       </div>
       
       <div class="space-y-2">
-        <h3 class="text-2xl font-bold text-gray-800">Nessun risultato trovato</h3>
-        <p class="text-gray-500 max-w-md mx-auto">
+        <h3 class="text-2xl font-bold text-olive-900">Nessun risultato trovato</h3>
+        <p class="text-olive-900/80 max-w-md mx-auto">
           Non abbiamo trovato immobili che corrispondano ai tuoi filtri.
         </p>
       </div>
 
       <button (click)="goHome()" 
-              class="px-8 py-3 bg-[#4e8c22] text-white font-bold rounded-full shadow-lg hover:bg-[#3d6f1b] hover:shadow-xl transform active:scale-95 transition-all duration-200 flex items-center gap-2">
+              class="px-8 py-3 bg-olive-500 text-white font-bold rounded-full shadow-lg hover:bg-olive-400 hover:shadow-xl transform active:scale-95 transition-all duration-200 flex items-center gap-2">
         Torna alla ricerca
       </button>
     </div>
@@ -58,7 +58,7 @@
       </div>
 
       <div class="hidden lg:block lg:flex-1 lg:sticky lg:top-6 lg:self-start lg:w-1/3">
-        <div class="bg-gray-200 rounded-2xl shadow-lg w-full h-[70vh] overflow-hidden sticky top-6">
+        <div class="bg-olive-200 rounded-2xl shadow-lg w-full h-[70vh] overflow-hidden sticky top-6">
           <app-geo-map
             [isResearch]="false"
             [focusOn]="listingFocused"
