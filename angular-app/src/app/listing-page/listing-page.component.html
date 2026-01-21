@@ -30,6 +30,13 @@
         
         <section class="space-y-4">
           <div class="relative aspect-video bg-gray-100 rounded-3xl overflow-hidden shadow-2xl">
+            <div class="absolute top-6 left-6 z-30">
+              <span [class]="currentListing.listingType === 'Sale' ? 'bg-olive-900' : 'bg-olive-500'" 
+                    class="px-6 py-2 rounded-2xl text-white text-sm font-bold shadow-xl uppercase tracking-widest">
+                {{ currentListing.listingType === 'Sale' ? 'In Vendita' : 'In Affitto' }}
+              </span>
+            </div>
+
             @if (currentListing.Photos && currentListing.Photos.length > 0) {
               <img 
                 [src]="listingService.craftListingImageUrl(selectedPhoto || currentListing.Photos[0].url)"
@@ -55,7 +62,11 @@
           }
         </section>
 
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 py-8 border-y border-gray-100">
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-6 py-8 border-y border-gray-100">
+          <div class="text-center sm:text-left">
+            <p class="text-xs text-gray-400 font-bold uppercase mb-1">Contratto</p>
+            <p class="text-xl font-bold text-olive-600">{{ currentListing.listingType === 'Sale' ? 'Vendita' : 'Affitto' }}</p>
+          </div>
           <div class="text-center sm:text-left">
             <p class="text-xs text-gray-400 font-bold uppercase mb-1">Superficie</p>
             <p class="text-xl font-bold text-gray-900">{{ currentListing.area }} m²</p>
@@ -96,41 +107,37 @@
 
       <aside class="lg:col-span-4">
         <div class="sticky top-8 space-y-6">
-<div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 space-y-6">
-      
-      <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-2xl">
-        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 shrink-0 shadow-sm border border-green-200">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-          </svg>
-        </div>
+          <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8 space-y-6">
+            
+            <div class="flex items-start space-x-4 p-4 bg-gray-50 rounded-2xl">
+              <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600 shrink-0 shadow-sm border border-green-200">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
 
-        <div class="flex-1 min-w-0">
-          <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">Inserzionista</p>
-          
-          <h4 class="text-sm font-bold text-gray-900 truncate">
-            {{ creatorAgentName }}
-          </h4>
-          
-          <p class="text-xs text-gray-500 mb-2 truncate">
-
-            {{ agencyName }}
-          </p>
-
-          <a [routerLink]="['/agency', currentListing.agentId]" 
-             class="text-[11px] font-bold text-green-700 hover:text-green-800 flex items-center transition-colors group">
-            Vedi profilo agenzia
-            <svg class="w-3 h-3 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
-            </svg>
-          </a>
-        </div>
-      </div>
+              <div class="flex-1 min-w-0">
+                <p class="text-[10px] text-gray-400 font-bold uppercase tracking-widest mb-1">Inserzionista</p>
+                <h4 class="text-sm font-bold text-gray-900 truncate">
+                  {{ creatorAgentName }}
+                </h4>
+                <p class="text-xs text-gray-500 mb-2 truncate">
+                  {{ agencyName }}
+                </p>
+                <a [routerLink]="['/agency', currentListing.agentId]" 
+                   class="text-[11px] font-bold text-green-700 hover:text-green-800 flex items-center transition-colors group">
+                  Vedi profilo agenzia
+                  <svg class="w-3 h-3 ml-1 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                  </svg>
+                </a>
+              </div>
+            </div>
 
             <div class="space-y-3">
               <h3 class="text-xl font-bold text-gray-900">Ti interessa l'immobile?</h3>
               <p class="text-sm text-gray-500 leading-relaxed">
-                Inviando un'offerta, inizierai una trattativa diretta con l'agente incaricato della vendita.
+                Inviando un'offerta, inizierai una trattativa diretta con l'agente incaricato della {{ currentListing.listingType === 'Sale' ? 'vendita' : 'locazione' }}.
               </p>
             </div>
 
@@ -177,77 +184,4 @@
     </div>
   }
 
-  @if(isOfferModalVisible){
-    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[5000] p-4">
-      <div class="w-full max-w-2xl">
-        <app-offer-modal (close)="closeOfferModal()" 
-          [initialAmount]="currentListing!.price" 
-          [listingId]="currentListing!.id"
-          [userTarget]="currentListing!.agentId"
-          [modalMessage]="'Inserisci la tua offerta e un messaggio per l’inserzionista.'">
-        </app-offer-modal>
-      </div>
-    </div>
-  }
-
-  @if(isWithOutAuthModalVisible) {
-    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[5000] p-4">
-      <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full animate-in fade-in zoom-in duration-300">
-        <h2 class="text-2xl font-extrabold text-gray-900 mb-2">Accesso richiesto</h2>
-        <p class="text-gray-500 mb-8">
-          Devi essere loggato come cliente per fare un'offerta. Per favore, accedi o registrati.
-        </p>
-        <div class="flex flex-col gap-3">
-          <a routerLink="/login" class="w-full py-4 bg-green-600 text-white rounded-2xl font-bold text-center hover:bg-green-700 transition">
-            Vai al Login
-          </a>
-          <button (click)="isWithOutAuthModalVisible = false" class="w-full py-4 bg-gray-100 text-gray-700 rounded-2xl font-bold hover:bg-gray-200 transition">
-            Annulla
-          </button>
-        </div>
-      </div>
-    </div>
-  }
-
-@if (isDeleteModalVisible) {
-  <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-[5000] p-4">
-    <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full animate-in fade-in zoom-in duration-300 relative overflow-hidden">
-      
-      <div class="absolute top-0 left-0 w-full h-2 bg-red-500"></div>
-
-      <div class="flex flex-col items-center text-center">
-        
-        <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mb-6">
-          <svg class="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
-          </svg>
-        </div>
-
-        <h2 class="text-2xl font-extrabold text-gray-900 mb-2">Elimina annuncio</h2>
-        
-        <p class="text-gray-500 mb-8 leading-relaxed">
-          Sei sicuro di voler eliminare questo annuncio? <br>
-          <span class="text-red-500 font-medium">Questa azione è irreversibile</span> e tutti i dati associati andranno persi.
-        </p>
-
-        <div class="flex flex-col gap-3 w-full">
-          <button 
-            (click)="onConfirmDelete()" 
-            class="w-full py-4 bg-red-600 text-white rounded-2xl font-bold hover:bg-red-700 active:scale-[0.98] transition-all duration-200 shadow-lg shadow-red-200"
-          >
-            Sì, elimina definitivamente
-          </button>
-          
-          <button 
-            (click)="isDeleteModalVisible = false" 
-            class="w-full py-4 bg-gray-100 text-gray-700 rounded-2xl font-bold hover:bg-gray-200 active:scale-[0.98] transition-all duration-200"
-          >
-            Annulla
-          </button>
-        </div>
-
-      </div>
-    </div>
   </div>
-}
-</div>
