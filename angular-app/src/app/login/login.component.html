@@ -9,9 +9,9 @@
     
     <div class="flex flex-col gap-6">
         
-        <app-google-social-button (socialUserEvent)="loginWithGoogle($event)" [mode]="'login'"></app-google-social-button>
+        <app-google-social-button (socialUserEventFromGoogle)="loginWithGoogle($event)" [mode]="'login'"></app-google-social-button>
 
-        <app-facebook-social-button [mode]="'login'" (socialUserEvent)="loginWithFacebook($event)"></app-facebook-social-button>
+        <app-facebook-social-button [mode]="'login'" (socialUserEventFromFacebook)="loginWithFacebook($event)"></app-facebook-social-button>
       
     </div>
 

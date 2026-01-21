@@ -12,20 +12,20 @@ export class FacebookSocialButtonComponent {
 
   private authService = inject(SocialAuthService);
 
-  @Output() socialUserEvent = new EventEmitter<SocialUser>();
+  @Output() socialUserEventFromFacebook = new EventEmitter<SocialUser>();
   @Input() mode: 'signup' | 'login' = 'signup';
 
-  ngOnInit() {
-    this.authService.authState.subscribe((user: SocialUser) => {
-      // Verifichiamo che l'utente provenga da Facebook
-      if (user && user.provider === FacebookLoginProvider.PROVIDER_ID) {
-        this.socialUserEvent.emit(user);
-      }
-    });
-  }
 
   signInWithFB(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    // Chiami il login e aspetti la risposta DIRETTA di questa azione
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID)
+      .then((user) => {
+        console.log("Login Facebook effettuato con successo:", user);
+        this.socialUserEventFromFacebook.emit(user);
+      })
+      .catch((err) => {
+        console.error("Errore o login annullato:", err);
+      });
   }
 
 }

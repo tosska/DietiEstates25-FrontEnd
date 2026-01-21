@@ -93,16 +93,23 @@ export class LoginComponent {
         this.toastr.success(`Succesfully logged in`, `Welcome ${user.name}!`);
         this.router.navigate(['/homepage']);
       },
-      error: (err) => {
-        console.error('Errore login:', err);
+      error: (error) => {
+        console.log("SONO UN ERRORE: ", error);
+        if(error.status == 404) {
+          this.toastr.error("L'account Google inserito non esiste nel sistema. Registrati", "Oops! Could not login");
+        }
+        else {
+        console.error('Errore login:', error);
         this.toastr.error("There was an error during the login process", "Oops! Could not login");
         this.router.navigate(['/logout']);
+        }
       }
     });
   }
 
   loginWithFacebook(user: SocialUser): void {
     console.log("Login con Facebook:", user);
+    if(!user) return;
     this.restService.loginWithSocial({
       usr: user.email,
       providerToken: user.authToken,

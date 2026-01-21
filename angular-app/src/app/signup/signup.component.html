@@ -8,9 +8,9 @@
       </h2>
 
       <div class="flex flex-col gap-6">
-          <app-google-social-button (socialUserEvent)="importDataFromGoogle($event)" [mode]="'signup'"></app-google-social-button>
+          <app-google-social-button (socialUserEventFromGoogle)="importDataFromGoogle($event)" [mode]="'signup'"></app-google-social-button>
 
-          <app-facebook-social-button (socialUserEvent)="importDataFromFacebook($event)" [mode]="'signup'"></app-facebook-social-button>
+          <app-facebook-social-button (socialUserEventFromFacebook)="importDataFromFacebook($event)" [mode]="'signup'"></app-facebook-social-button>
       </div>
 
 

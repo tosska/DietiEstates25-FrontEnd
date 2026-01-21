@@ -71,7 +71,12 @@
             },
             "development": {
               "buildTarget": "angular-app:build:development"
+            },
+            "options": {
+            "headers": {
+              "Cross-Origin-Opener-Policy": "same-origin-allow-popups"
             }
+        }
           },
           "defaultConfiguration": "development"
         },

@@ -20,12 +20,11 @@ export class LogoutComponent {
 
   ngOnInit() {
     if(! this.authService.isAuthenticated()){
-      this.toastr.warning("You are not currently logged in!");
       this.router.navigateByUrl("/"); //go to homepage
     } else {
       this.toastr.info(`Arrivederci! See you soon!`);
       this.authService.logout();
-      this.socialAuthService.signOut().catch(() => {});
+      this.socialAuthService.signOut(true);
       this.router.navigateByUrl("/"); //go to homepage
     }
   }

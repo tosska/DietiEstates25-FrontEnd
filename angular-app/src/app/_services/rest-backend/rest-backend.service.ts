@@ -95,7 +95,7 @@ export class RestBackendService {
       }),
       catchError((error) => {
         console.error('Errore login:', error);
-        return throwError(() => new Error(error.message || 'Errore nella richiesta di login'));
+        return throwError(() => error)
       })
     );
   }

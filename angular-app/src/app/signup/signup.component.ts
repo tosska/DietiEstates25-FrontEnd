@@ -7,6 +7,7 @@ import { FacebookLoginProvider, GoogleLoginProvider, SocialAuthService, SocialUs
 import { GoogleSocialButtonComponent } from '../social-button/google-social-button/google-social-button.component';
 import { SignupRequest } from '../_services/rest-backend/signup-request.type';
 import { FacebookSocialButtonComponent } from "../social-button/facebook-social-button/facebook-social-button.component";
+import { AuthService } from '../_services/auth/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -20,6 +21,7 @@ export class SignupComponent {
   router = inject(Router);
   socialAuthService = inject(SocialAuthService);
   restService = inject(RestBackendService);
+  authService = inject(AuthService);
   submitted = false;
 
   socialUserToSignup: SignupRequest | null = null;
@@ -88,9 +90,10 @@ export class SignupComponent {
 
     console.log("Dati importati per la registrazione:", this.socialUserToSignup);
 
-    this.showPhoneModal = true;
+    this.checkUser();
 
-    
+
+
   }
 
   importDataFromFacebook(user: SocialUser): void {
@@ -105,7 +108,9 @@ export class SignupComponent {
 
     console.log("Dati importati per la registrazione:", this.socialUserToSignup);
 
-    this.showPhoneModal = true;
+    this.checkUser();
+
+
   }
 
   insertPhoneAndSocialSignup(): void {
@@ -127,6 +132,33 @@ export class SignupComponent {
         );
          this.showPhoneModal = false;
         this.router.navigateByUrl("/login");
+      }
+    });
+
+  }
+
+  async checkUser() {
+    const usr = this.socialUserToSignup?.email;
+    const providerToken = this.socialUserToSignup?.providerToken;
+    const providerName = this.socialUserToSignup?.providerName;
+
+    console.log(usr)
+
+    this.restService.loginWithSocial({
+      usr: usr || "",
+      providerToken: providerToken,
+      providerName: providerName
+
+
+    }).subscribe({
+      next: (token: string) => {
+        console.log('Token ricevuto:', token);
+        this.authService.updateToken(token);
+        this.toastr.success(`Succesfully logged in`, `Welcome ${this.socialUserToSignup!.name}!`);
+        this.router.navigate(['/homepage']);
+      },
+      error: () => {
+          this.showPhoneModal = true;
       }
     });
 

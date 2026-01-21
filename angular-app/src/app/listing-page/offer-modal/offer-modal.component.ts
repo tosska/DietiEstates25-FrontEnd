@@ -76,9 +76,7 @@ export class OfferModalComponent {
     if(this.offerForm.valid){
       console.log("Form valido, procedo con l'invio");
       let dataForm = this.offerForm.value;
-
       if(this.listingId) {
-
         const offerData: OfferRequest = {
           amount: dataForm.amount ?? 0, // or handle as needed if 0 is not valid
           message: dataForm.message ?? '',
@@ -94,7 +92,7 @@ export class OfferModalComponent {
       }
 
 
-      this.submitted.emit();
+      
 
       
       
@@ -113,7 +111,7 @@ export class OfferModalComponent {
 
       this.offerService.createOffer(offerData).subscribe({
         next: (offerId) => {
-          this.toastr.success(`Offerta effettuata con successo! con codice ${offerId}`, 'Successo!');
+          this.toastr.success(`Offerta effettuata con successo!`, 'Successo!');
           this.closeModal();
         },
         error: (error) => {
@@ -137,7 +135,8 @@ export class OfferModalComponent {
       
       this.offerService.createCounterOffer(this.offerId, offerData).subscribe({
         next: (offerId) => {
-          this.toastr.success(`Offerta effettuata con successo! con codice ${offerId}`, 'Successo!');
+          this.submitted.emit();
+          this.toastr.success(`Offerta effettuata con successo!`, 'Successo!');
           this.closeModal();
         },
         error: (error) => {
