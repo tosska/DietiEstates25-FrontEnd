@@ -77,6 +77,14 @@ export class OffersReceivedComponent {
     this.router.navigate(['/dashboard-agent/offers-received/listing', listingId]);
   }
 
+    getMainPhotoForListingCard(listing: Listing) {
+    if(listing.Photos) {
+      return this.listingService.craftListingImageUrl(listing.Photos[0].url); 
+    }
+    
+    return `https://placehold.co/600x400/e2e8f0/64748b?text=Foto+non+disponibile`;
+  }
+
 
 }
 

@@ -13,7 +13,7 @@ export interface Listing {
   description: string;
   area: number;
   numberRooms: number;
-  propertyType: PropertyType | string;
+  propertyType: any;
   constructionYear: number;
   energyClass?: string;
   agencyId: number;
